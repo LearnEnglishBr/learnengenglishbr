@@ -62,6 +62,8 @@ export function Footer() {
               <li><Link href="/termos" className="hover:text-primary transition-colors">Termos de Uso</Link></li>
               <li><Link href="/privacidade" className="hover:text-primary transition-colors">Política de Privacidade</Link></li>
               <li><Link href="/cookies" className="hover:text-primary transition-colors">Política de Cookies</Link></li>
+              <li><Link href="/lgpd" className="hover:text-primary transition-colors">Conformidade LGPD</Link></li>
+              <li><Link href="/reembolso" className="hover:text-primary transition-colors">Reembolso e Cancelamento</Link></li>
             </ul>
           </div>
         </div>
