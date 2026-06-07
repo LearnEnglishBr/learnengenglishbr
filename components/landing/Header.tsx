@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Globe, Menu, X } from 'lucide-react'
 
@@ -58,10 +59,15 @@ export function Header() {
         }`}
       >
         <div className="container mx-auto px-5 sm:px-6 lg:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-lg">
-              L
-            </div>
+          <Link href="/" className="flex items-center gap-2.5">
+            <Image 
+              src="/images/logo.png" 
+              alt="LearningEnglishBR Logo" 
+              width={36} 
+              height={36} 
+              className="w-9 h-9 object-contain"
+              priority
+            />
             <span className="font-bold text-lg sm:text-xl tracking-tight">LearningEnglishBR</span>
           </Link>
 
