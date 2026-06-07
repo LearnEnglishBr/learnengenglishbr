@@ -20,7 +20,7 @@ export default async function AdminBlogPage() {
 
       {/* Painel Gerador */}
       <div className="bg-card p-6 rounded-xl border border-border shadow-sm mb-8">
-        <form action={generateBlogPostAction} className="flex gap-4 items-end">
+        <form action={generateBlogPostAction as any} className="flex gap-4 items-end">
           <div className="flex-1">
             <label htmlFor="keyword" className="block text-sm font-medium mb-2">Tópico ou Palavra-Chave</label>
             <input 
