@@ -68,7 +68,11 @@ export function Header() {
               className="w-9 h-9 object-contain"
               priority
             />
-            <span className="font-bold text-lg sm:text-xl tracking-tight">LearningEnglishBR</span>
+            <span className="font-bold text-lg sm:text-xl tracking-tight">
+              <span className="text-red-600">Learneng</span>
+              <span className="text-[#0d1e3e]">English</span>
+              <span className="text-red-600">BR</span>
+            </span>
           </Link>
 
           {/* Desktop Nav */}

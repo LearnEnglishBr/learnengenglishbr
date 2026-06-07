@@ -15,7 +15,11 @@ export function Footer() {
                 height={36} 
                 className="w-9 h-9 object-contain"
               />
-              <span className="font-bold text-xl tracking-tight">LearningEnglishBR</span>
+              <span className="font-bold text-xl tracking-tight">
+                <span className="text-red-600">Learneng</span>
+                <span className="text-[#0d1e3e]">English</span>
+                <span className="text-red-600">BR</span>
+              </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6">
               A plataforma definitiva para você dominar o inglês e transformar sua carreira com certificação internacional.
