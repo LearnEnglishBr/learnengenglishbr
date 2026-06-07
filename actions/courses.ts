@@ -15,7 +15,7 @@ async function checkAdmin() {
 }
 
 // 1. Criar Curso
-export async function createCourseAction(formData: FormData) {
+export async function createCourseAction(prevState: any, formData: FormData) {
   try {
     const supabase = await checkAdmin()
     
@@ -45,7 +45,7 @@ export async function createCourseAction(formData: FormData) {
 }
 
 // 2. Adicionar Módulo
-export async function createModuleAction(formData: FormData) {
+export async function createModuleAction(prevState: any, formData: FormData) {
   try {
     const supabase = await checkAdmin()
     const course_id = formData.get('courseId') as string
@@ -68,7 +68,7 @@ export async function createModuleAction(formData: FormData) {
 }
 
 // 3. Adicionar Aula
-export async function createLessonAction(formData: FormData) {
+export async function createLessonAction(prevState: any, formData: FormData) {
   try {
     const supabase = await checkAdmin()
     const module_id = formData.get('moduleId') as string
