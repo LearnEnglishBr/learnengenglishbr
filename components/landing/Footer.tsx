@@ -67,9 +67,21 @@ export function Footer() {
         </div>
 
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} LearningEnglishBR. Todos os direitos reservados.</p>
-          <div className="flex items-center gap-2">
-             Desenvolvido com padrão Enterprise
+          <p>© {new Date().getFullYear()} Learneng English BR. Todos os direitos reservados.</p>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
+            <span>Desenvolvido com padrão Enterprise</span>
+            <span className="hidden sm:inline text-muted-foreground/30">|</span>
+            <span>
+              Orgulhosamente desenvolvido por{' '}
+              <a 
+                href="https://www.voltris.com.br" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="font-semibold text-foreground hover:text-primary transition-colors duration-200"
+              >
+                Voltris
+              </a>
+            </span>
           </div>
         </div>
       </div>
