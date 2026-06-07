@@ -1,14 +1,22 @@
+'use client'
+
 import { forgotPasswordAction } from '@/actions/auth'
 import Link from 'next/link'
+import { useActionState } from 'react'
 
 export default function ForgotPasswordPage() {
+  const [state, formAction] = useActionState(forgotPasswordAction, null)
+
   return (
     <div className="flex min-h-screen items-center justify-center p-4 bg-muted/30">
       <div className="w-full max-w-md bg-card p-8 rounded-xl shadow-sm border border-border">
         <h1 className="text-2xl font-bold mb-2">Recuperar Senha</h1>
         <p className="text-muted-foreground mb-6">Enviaremos um link para redefinir sua senha.</p>
 
-        <form action={forgotPasswordAction} className="space-y-4">
+        {state?.error && <div className="p-3 bg-red-100 text-red-700 rounded-md mb-4 text-sm">{state.error}</div>}
+        {state?.success && <div className="p-3 bg-green-100 text-green-700 rounded-md mb-4 text-sm">{state.success}</div>}
+
+        <form action={formAction} className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm font-medium">E-mail</label>
             <input 

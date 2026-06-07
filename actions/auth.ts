@@ -92,7 +92,7 @@ export async function googleOAuthAction() {
   redirect(data.url)
 }
 
-export async function forgotPasswordAction(formData: FormData) {
+export async function forgotPasswordAction(prevState: any, formData: FormData) {
   const email = formData.get('email') as string
 
   if (!email || !email.includes('@')) {
