@@ -58,8 +58,8 @@ export function Header() {
             : 'py-4 sm:py-6 bg-transparent'
         }`}
       >
-        <div className="container mx-auto px-5 sm:px-6 lg:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5">
+        <div className="container mx-auto px-5 sm:px-6 lg:px-12 flex items-center justify-between relative">
+          <Link href="/" className="flex items-center gap-2.5 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <Image 
               src="/images/logo.png" 
               alt="LearningEnglishBR Logo" 
@@ -68,9 +68,9 @@ export function Header() {
               className="w-9 h-9 object-contain"
               priority
             />
-            <span className="font-bold text-lg sm:text-xl tracking-tight">
-              <span className="text-red-600">Learneng</span>
-              <span className="text-[#0d1e3e]">English</span>
+            <span className="font-bold text-lg sm:text-xl tracking-tight whitespace-nowrap">
+              <span className="text-red-600">Learneng</span>{' '}
+              <span className="text-[#0d1e3e]">English</span>{' '}
               <span className="text-red-600">BR</span>
             </span>
           </Link>
