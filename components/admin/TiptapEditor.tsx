@@ -7,7 +7,7 @@ import Link from '@tiptap/extension-link'
 import Youtube from '@tiptap/extension-youtube'
 import {
   Bold, Italic, Strikethrough, Heading2, Heading3,
-  Quote, List, ListOrdered, Image as ImageIcon, Link as LinkIcon, Youtube as YoutubeIcon, Sparkles
+  Quote, List, ListOrdered, Image as ImageIcon, Link as LinkIcon, Film as YoutubeIcon, Sparkles
 } from 'lucide-react'
 
 interface TiptapEditorProps {
