@@ -80,6 +80,7 @@ export default function RootLayout({
     <html lang="pt-BR" className={`${inter.variable} antialiased`} suppressHydrationWarning>
       <head>
         <meta name="google-site-verification" content="A19VMZYsKpEu7Vnvw_K2LE3qjn43DHqRzxPGvRaRkTg" />
+        <meta name="msvalidate.01" content="9D3452AA350626EE2953B6A5C98064E7" />
         {/* Google Analytics 4 */}
         <Script
           strategy="afterInteractive"
