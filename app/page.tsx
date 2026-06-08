@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { Header } from '@/components/landing/Header'
 import { Hero } from '@/components/landing/Hero'
-import { SocialProof } from '@/components/landing/SocialProof'
 import { AboutTeacher } from '@/components/landing/AboutTeacher'
 import { Courses } from '@/components/landing/Courses'
 import { Results } from '@/components/landing/Results'
@@ -67,7 +66,6 @@ export default async function LandingPage() {
       <Header />
       <main>
         <Hero />
-        <SocialProof />
         <AboutTeacher />
         <Courses courses={courses || []} />
         <Results />

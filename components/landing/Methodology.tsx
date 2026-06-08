@@ -43,10 +43,18 @@ export function Methodology() {
           transition={{ duration: 0.6 }}
           className="text-center mb-24 max-w-3xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">A Metodologia do Sucesso</h2>
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            Um processo de 4 passos simples, validado cientificamente para te levar do zero à fluência no menor tempo possível.
-          </p>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">Metodologia Moderna e Estratégica</h2>
+          <div className="text-lg text-muted-foreground leading-relaxed space-y-4">
+            <p>
+              Uma metodologia baseada na linguística aplicada crítica para quem busca fluência real e alto desempenho em inglês.
+            </p>
+            <p>
+              Desenvolvido a partir de raízes do pós-método, o método do Learn English BR adapta o ensino às suas necessidades, integrando prática de fala, compreensão do inglês real, uso de mídias e explicações claras de gramática.
+            </p>
+            <p className="font-semibold text-foreground">
+              Mais do que aprender, você desenvolve confiança para usar o idioma com naturalidade.
+            </p>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 relative">
