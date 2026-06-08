@@ -8,12 +8,23 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const { data: sessionData, error } = await supabase.auth.exchangeCodeForSession(code)
     
-    if (!error) {
-      // Cria registro de log usando trigger ou chamando rpc se necessário
-      // Redireciona em caso de sucesso
-      return NextResponse.redirect(`${origin}${next}`)
+    if (!error && sessionData?.user) {
+      // Verifica a role do usuário no banco
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', sessionData.user.id)
+        .single()
+
+      // Se não houver parâmetro `next` customizado, decide a rota pelo perfil
+      let finalRedirect = next
+      if (next === '/dashboard' && profile?.role === 'ADMIN') {
+        finalRedirect = '/admin'
+      }
+
+      return NextResponse.redirect(`${origin}${finalRedirect}`)
     }
   }
 
