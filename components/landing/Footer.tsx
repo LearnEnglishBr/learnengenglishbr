@@ -50,8 +50,8 @@ export function Footer() {
           <div>
             <h4 className="font-bold mb-6 text-foreground">Suporte</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
-              <li><Link href="/faq" className="hover:text-primary transition-colors">Central de Ajuda</Link></li>
-              <li><Link href="/contato" className="hover:text-primary transition-colors">Fale Conosco</Link></li>
+              <li><Link href="/ajuda" className="hover:text-primary transition-colors">Central de Ajuda</Link></li>
+              <li><Link href="/ajuda" className="hover:text-primary transition-colors">Fale Conosco</Link></li>
               <li><Link href="/blog" className="hover:text-primary transition-colors">Blog</Link></li>
             </ul>
           </div>
