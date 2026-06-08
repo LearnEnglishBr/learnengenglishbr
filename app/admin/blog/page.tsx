@@ -1,71 +1,95 @@
 import { createClient } from '@/lib/supabase/server'
-import { generateBlogPostAction } from '@/actions/ai'
-import { Sparkles, FileText } from 'lucide-react'
+import { FileText, Plus, BarChart2 } from 'lucide-react'
+import Link from 'next/link'
 
 export default async function AdminBlogPage() {
   const supabase = await createClient()
 
-  // Buscar posts gerados
+  // Buscar posts com os novos campos de SEO
   const { data: posts } = await supabase
     .from('blog_posts')
-    .select('id, title, slug, created_at, published')
+    .select('id, title, slug, created_at, published, seo_score, focus_keyword, categories')
     .order('created_at', { ascending: false })
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Blog AI Engine (AEO)</h1>
-        <p className="text-muted-foreground">Gere artigos otimizados para SEO usando o GPT-4o em segundos.</p>
+    <div className="max-w-[1400px] mx-auto p-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Painel do Blog</h1>
+          <p className="text-muted-foreground">Gerencie seus artigos e acompanhe a otimização SEO.</p>
+        </div>
+        <Link 
+          href="/admin/blog/novo"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 whitespace-nowrap"
+        >
+          <Plus className="w-4 h-4" /> Novo Artigo (IA/Manual)
+        </Link>
       </div>
 
-      {/* Painel Gerador */}
-      <div className="bg-card p-6 rounded-xl border border-border shadow-sm mb-8">
-        <form action={generateBlogPostAction as any} className="flex gap-4 items-end">
-          <div className="flex-1">
-            <label htmlFor="keyword" className="block text-sm font-medium mb-2">Tópico ou Palavra-Chave</label>
-            <input 
-              type="text" 
-              name="keyword" 
-              id="keyword" 
-              placeholder="Ex: Como pensar em inglês sem traduzir..." 
-              required
-              className="w-full flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            />
-          </div>
-          <button type="submit" className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 min-w-[180px]">
-            <Sparkles className="w-4 h-4" /> Gerar Artigo
-          </button>
-        </form>
-      </div>
-
-      {/* Lista de Artigos */}
-      <h2 className="text-xl font-bold mb-4 flex items-center gap-2"><FileText className="w-5 h-5"/> Artigos Publicados</h2>
       <div className="rounded-xl border border-border bg-card overflow-hidden shadow-sm">
         <div className="w-full overflow-auto">
           <table className="w-full caption-bottom text-sm">
-            <thead className="[&_tr]:border-b">
+            <thead className="[&_tr]:border-b bg-muted/50">
               <tr className="border-b transition-colors hover:bg-muted/50">
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Título</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Slug (URL)</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Data</th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Artigo</th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Palavra-chave Foco</th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Categorias</th>
+                <th className="h-12 px-4 text-center align-middle font-medium text-muted-foreground"><div className="flex items-center justify-center gap-1"><BarChart2 className="w-4 h-4"/> SEO Score</div></th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Ações</th>
               </tr>
             </thead>
             <tbody className="[&_tr:last-child]:border-0">
               {!posts || posts.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="p-4 text-center text-muted-foreground h-24">Nenhum artigo gerado ainda.</td>
+                  <td colSpan={6} className="p-8 text-center text-muted-foreground">
+                    <div className="flex flex-col items-center gap-2">
+                      <FileText className="w-8 h-8 text-muted-foreground/50" />
+                      <p>Nenhum artigo encontrado.</p>
+                      <Link href="/admin/blog/novo" className="text-primary hover:underline mt-2">Crie seu primeiro artigo</Link>
+                    </div>
+                  </td>
                 </tr>
               ) : (
                 posts.map(post => (
                   <tr key={post.id} className="border-b transition-colors hover:bg-muted/50">
-                    <td className="p-4 align-middle font-medium max-w-[300px] truncate">{post.title}</td>
-                    <td className="p-4 align-middle text-muted-foreground">/blog/{post.slug}</td>
-                    <td className="p-4 align-middle">{new Date(post.created_at).toLocaleDateString('pt-BR')}</td>
                     <td className="p-4 align-middle">
-                      <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-green-100 text-green-800">
+                      <p className="font-medium max-w-[250px] truncate">{post.title}</p>
+                      <p className="text-xs text-muted-foreground mt-1 truncate max-w-[250px]">/{post.slug}</p>
+                    </td>
+                    <td className="p-4 align-middle text-muted-foreground">
+                      {post.focus_keyword ? (
+                        <span className="inline-flex items-center rounded-md bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground ring-1 ring-inset ring-secondary-foreground/10">
+                          {post.focus_keyword}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground/50 text-xs">Não definida</span>
+                      )}
+                    </td>
+                    <td className="p-4 align-middle text-muted-foreground text-xs">
+                      {post.categories && post.categories.length > 0 ? post.categories.join(', ') : '-'}
+                    </td>
+                    <td className="p-4 align-middle text-center">
+                      {post.seo_score !== null && post.seo_score !== undefined ? (
+                        <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold ${
+                          post.seo_score >= 80 ? 'bg-green-100 text-green-800' : 
+                          post.seo_score >= 50 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'
+                        }`}>
+                          {post.seo_score}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground/50">-</span>
+                      )}
+                    </td>
+                    <td className="p-4 align-middle">
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${post.published ? 'bg-green-100 text-green-800' : 'bg-secondary text-secondary-foreground'}`}>
                         {post.published ? 'Publicado' : 'Rascunho'}
                       </span>
+                    </td>
+                    <td className="p-4 align-middle">
+                      <Link href={`/admin/blog/editar/${post.id}`} className="text-primary hover:underline text-sm font-medium">
+                        Editar
+                      </Link>
                     </td>
                   </tr>
                 ))
