@@ -4,6 +4,7 @@ import { Header } from '@/components/landing/Header'
 import { Footer } from '@/components/landing/Footer'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs'
+import { getSiteContent } from '@/lib/site-content'
 import Link from 'next/link'
 import { ArrowLeft, Clock } from 'lucide-react'
 
@@ -53,6 +54,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     notFound()
   }
 
+  const siteContent = await getSiteContent()
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.learnenglishbr.com.br"
 
   // Schema.org E-E-A-T Avançado
@@ -81,7 +83,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Header
+        navigation={siteContent.header.navigation}
+        social_links={siteContent.header.social_links}
+        logo_text={siteContent.header.logo_text}
+      />
       <main className="flex-1 bg-background pt-32 pb-24">
         <article className="container mx-auto px-4 max-w-3xl">
           <SchemaMarkup schema={jsonLd} />
@@ -139,7 +145,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         </article>
       </main>
-      <Footer />
+      <Footer
+        description={siteContent.footer.description}
+        copyright_text={siteContent.footer.copyright_text}
+        columns={siteContent.footer.columns}
+        social_links={siteContent.footer.social_links}
+      />
     </div>
   )
 }

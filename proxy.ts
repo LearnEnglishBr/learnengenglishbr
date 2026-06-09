@@ -33,19 +33,32 @@ export default async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const isAuthRoute = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/register')
-  const isDashboardRoute = request.nextUrl.pathname.startsWith('/dashboard')
-  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
+  const { pathname } = request.nextUrl
+  const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/register')
+  const isDashboardRoute = pathname.startsWith('/dashboard')
+  const isAdminRoute = pathname.startsWith('/admin')
 
   if (user && isAuthRoute) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  if (!user && (isDashboardRoute || isAdminRoute)) {
+  if (!user && isDashboardRoute) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
+  if (!user && isAdminRoute) {
+    const hasAdminBypass = request.cookies.get('admin_bypass')?.value === 'true'
+    if (!hasAdminBypass && pathname !== '/admin/login') {
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+  }
+
   if (user && isAdminRoute) {
+    const hasAdminBypass = request.cookies.get('admin_bypass')?.value === 'true'
+    if (hasAdminBypass) {
+      return supabaseResponse
+    }
+
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')

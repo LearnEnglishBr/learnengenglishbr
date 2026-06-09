@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LayoutDashboard, Users, BookOpen, PenTool, Settings, LogOut } from 'lucide-react'
+import { LayoutDashboard, Users, BookOpen, PenTool, Settings, FileText, LogOut } from 'lucide-react'
 import { logoutAction } from '@/actions/auth'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -18,11 +18,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/cursos" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
             <BookOpen className="w-4 h-4" /> Cursos
           </Link>
-          <Link href="/admin/alunos" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
+          <Link href="/admin/usuarios" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
             <Users className="w-4 h-4" /> Alunos
           </Link>
           <Link href="/admin/blog" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
             <PenTool className="w-4 h-4" /> Blog AI
+          </Link>
+          <Link href="/admin/produtos" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
+            <FileText className="w-4 h-4" /> Produtos Digitais
           </Link>
           <Link href="/admin/configuracoes" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
             <Settings className="w-4 h-4" /> Configurações

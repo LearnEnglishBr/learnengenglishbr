@@ -3,34 +3,28 @@
 import { motion } from 'framer-motion'
 import { BookOpen, Target, MessagesSquare, Award } from 'lucide-react'
 
-export function Methodology() {
-  const steps = [
-    { 
-      num: '01', 
-      title: 'Aprenda', 
-      desc: 'Aulas teóricas de alta qualidade direto ao ponto, com foco na vida real.',
-      icon: <BookOpen className="w-8 h-8 text-primary" />
-    },
-    { 
-      num: '02', 
-      title: 'Pratique', 
-      desc: 'Exercícios focados e gamificados para retenção extrema e memória de longo prazo.',
-      icon: <Target className="w-8 h-8 text-blue-500" />
-    },
-    { 
-      num: '03', 
-      title: 'Converse', 
-      desc: 'Sessões de conversação nativa ao vivo para destravar o seu speaking.',
-      icon: <MessagesSquare className="w-8 h-8 text-emerald-500" />
-    },
-    { 
-      num: '04', 
-      title: 'Fluência', 
-      desc: 'Atingimento e certificação de capacidade técnica com reconhecimento internacional.',
-      icon: <Award className="w-8 h-8 text-amber-500" />
-    },
-  ]
+const iconMap: Record<string, React.ReactNode> = {
+  BookOpen: <BookOpen className="w-8 h-8 text-primary" />,
+  Target: <Target className="w-8 h-8 text-blue-500" />,
+  MessagesSquare: <MessagesSquare className="w-8 h-8 text-emerald-500" />,
+  Award: <Award className="w-8 h-8 text-amber-500" />,
+}
 
+interface MethodologyProps {
+  title: string
+  paragraph_1: string
+  paragraph_2: string
+  paragraph_3: string
+  steps: Array<{
+    step_number: string
+    title: string
+    description: string
+    icon_name: string
+    icon_color: string
+  }>
+}
+
+export function Methodology({ title, paragraph_1, paragraph_2, paragraph_3, steps }: MethodologyProps) {
   return (
     <section id="metodologia" className="py-32 bg-background relative overflow-hidden">
       <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
@@ -43,22 +37,15 @@ export function Methodology() {
           transition={{ duration: 0.6 }}
           className="text-center mb-24 max-w-3xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">Metodologia Moderna e Estratégica</h2>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">{title}</h2>
           <div className="text-lg text-muted-foreground leading-relaxed space-y-4">
-            <p>
-              Uma metodologia baseada na linguística aplicada crítica para quem busca fluência real e alto desempenho em inglês.
-            </p>
-            <p>
-              Desenvolvido a partir de raízes do pós-método, o método do Learn English BR adapta o ensino às suas necessidades, integrando prática de fala, compreensão do inglês real, uso de mídias e explicações claras de gramática.
-            </p>
-            <p className="font-semibold text-foreground">
-              Mais do que aprender, você desenvolve confiança para usar o idioma com naturalidade.
-            </p>
+            {paragraph_1 && <p>{paragraph_1}</p>}
+            {paragraph_2 && <p>{paragraph_2}</p>}
+            {paragraph_3 && <p className="font-semibold text-foreground">{paragraph_3}</p>}
           </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 relative">
-          {/* Connecting Line for Desktop */}
           <div className="hidden lg:block absolute top-[4.5rem] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-primary/10 via-primary/30 to-primary/10 -z-10" />
           
           {steps.map((step, idx) => (
@@ -74,16 +61,15 @@ export function Methodology() {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
               
               <div className="relative w-24 h-24 rounded-2xl bg-background border border-border shadow-md flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
-                {/* Glowing subtle ring */}
                 <div className="absolute inset-0 rounded-2xl border border-primary/20 opacity-0 group-hover:opacity-100 scale-110 group-hover:scale-125 transition-all duration-500" />
-                {step.icon}
+                {iconMap[step.icon_name] || <BookOpen className="w-8 h-8 text-primary" />}
                 <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shadow-lg">
-                  {step.num}
+                  {step.step_number}
                 </div>
               </div>
               
               <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">{step.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{step.desc}</p>
+              <p className="text-muted-foreground leading-relaxed">{step.description}</p>
             </motion.div>
           ))}
         </div>

@@ -34,36 +34,60 @@ export async function updateSession(request: NextRequest) {
 
   const { pathname } = request.nextUrl
   const isAdminRoute = pathname.startsWith('/admin')
-  const isDashboardRoute = pathname.startsWith('/dashboard') || pathname.startsWith('/aluno')
+  const isDashboardRoute = pathname.startsWith('/dashboard') || pathname.startsWith('/aluno') || pathname.startsWith('/onboarding')
   const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/register')
 
-  // Se não tem user e tenta acessar rota privada -> Login
-  if (!user && (isAdminRoute || isDashboardRoute)) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
-  }
-
-  // Se tem user e tenta acessar Auth pages -> Dashboard
+  // Validação explícita para rotas protegidas (Admin ou Dashboard)
   if (user && isAuthRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
     return NextResponse.redirect(url)
   }
 
-  // Validação explícita para rotas /admin
-  if (user && isAdminRoute) {
+  if (user && (isAdminRoute || isDashboardRoute)) {
     const { data: profile } = await supabase
       .from('profiles')
-      .select('role')
+      .select('role, cpf')
       .eq('id', user.id)
       .single()
 
-    if (!profile || profile.role !== 'ADMIN') {
+    // Se o usuário não tem CPF, significa que não completou o onboarding
+    if (!profile?.cpf && pathname !== '/onboarding') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/onboarding'
+      return NextResponse.redirect(url)
+    }
+
+    // Se já tem CPF e tenta acessar onboarding, manda pro dashboard
+    if (profile?.cpf && pathname === '/onboarding') {
       const url = request.nextUrl.clone()
       url.pathname = '/dashboard'
       return NextResponse.redirect(url)
     }
+
+    // Validação de Admin (ignorada se tiver cookie de admin fixo)
+    const hasAdminBypass = request.cookies.get('admin_bypass')?.value === 'true'
+    if (isAdminRoute && !hasAdminBypass && (!profile || profile.role !== 'ADMIN')) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/dashboard'
+      return NextResponse.redirect(url)
+    }
+  }
+
+  // Se não tem usuário, mas tenta acessar Admin, verifica se tem o cookie admin_bypass
+  if (!user && isAdminRoute) {
+    const hasAdminBypass = request.cookies.get('admin_bypass')?.value === 'true'
+    if (hasAdminBypass) {
+      // Ignora o redirect para login
+    } else if (pathname !== '/admin/login') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/admin/login'
+      return NextResponse.redirect(url)
+    }
+  } else if (!user && isDashboardRoute) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    return NextResponse.redirect(url)
   }
 
   // Headers de Segurança

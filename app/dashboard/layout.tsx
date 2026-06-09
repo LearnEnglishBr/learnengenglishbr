@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BookOpen, History, User, Settings, LogOut } from 'lucide-react'
+import { BookOpen, Download, History, User, Settings, LogOut } from 'lucide-react'
 import { logoutAction } from '@/actions/auth'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -17,6 +17,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </Link>
           <Link href="/dashboard/history" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
             <History className="w-4 h-4" /> Histórico
+          </Link>
+          <Link href="/dashboard/downloads" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
+            <Download className="w-4 h-4" /> Meus Downloads
           </Link>
           <Link href="/dashboard/profile" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
             <User className="w-4 h-4" /> Perfil

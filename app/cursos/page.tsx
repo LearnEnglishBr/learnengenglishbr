@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+import { getSiteContent } from '@/lib/site-content'
 import { Header } from '@/components/landing/Header'
 import { Footer } from '@/components/landing/Footer'
 import Link from 'next/link'
 import { ArrowRight, BookOpen, Clock, Star } from 'lucide-react'
+import { createCheckoutSessionAction } from '@/actions/stripe'
 
 export const metadata: Metadata = {
   title: 'Cursos de Inglês Online',
@@ -18,6 +20,7 @@ export const metadata: Metadata = {
 
 export default async function PublicCoursesPage() {
   const supabase = await createClient()
+  const content = await getSiteContent()
 
   // Busca todos os cursos publicados
   const { data: courses } = await supabase
@@ -28,7 +31,7 @@ export default async function PublicCoursesPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <Header />
+      <Header navigation={content.header.navigation} social_links={content.header.social_links} logo_text={content.header.logo_text} />
       
       <main className="flex-1">
         {/* Banner */}
@@ -80,15 +83,11 @@ export default async function PublicCoursesPage() {
                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(course.price)}
                       </div>
                       
-                      {/* O botão de comprar chama a API do Stripe que já existe no Hero ou redireciona pro login/checkout */}
-                      {/* Como não temos a página de checkout direto conectada ao ID do curso ainda, vamos mandar o cliente contatar ou ir pra Home. */}
-                      <Link 
-                        href="/login" 
-                        className="p-3 bg-primary/10 text-primary rounded-full hover:bg-primary hover:text-white transition-colors"
-                        title="Comprar Agora"
-                      >
-                        <ArrowRight className="w-5 h-5" />
-                      </Link>
+                      <form action={createCheckoutSessionAction.bind(null, course.id, course.title, Number(course.price))}>
+                        <button type="submit" className="p-3 bg-primary/10 text-primary rounded-full hover:bg-primary hover:text-white transition-colors" title="Comprar Agora">
+                          <ArrowRight className="w-5 h-5" />
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -98,7 +97,7 @@ export default async function PublicCoursesPage() {
         </section>
       </main>
 
-      <Footer />
+      <Footer description={content.footer.description} copyright_text={content.footer.copyright_text} columns={content.footer.columns} social_links={content.footer.social_links} />
     </div>
   )
 }
