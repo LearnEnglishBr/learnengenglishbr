@@ -31,7 +31,7 @@ export function WhyChoose() {
     <section id="por-que" className="py-20 bg-gradient-to-br from-primary/5 to-blue-500/5">
       <div className="container mx-auto px-6 lg:px-12">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          Por que escolher a <span className="text-primary">LearningEnglishBR</span>?
+          Por que escolher a <span className="text-red-600">Learneng</span>{' '}<span className="text-[#0d1e3e]">English</span>{' '}<span className="text-red-600">BR</span>?
         </h2>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {items.map((item, i) => (

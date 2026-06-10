@@ -79,15 +79,13 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
           <Link href="/" className="flex items-center gap-2.5 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <Image 
               src="/images/logo.png" 
-              alt="LearningEnglishBR Logo" 
+              alt="Learneng English BR Logo" 
               width={36} 
               height={36} 
               className="w-9 h-9 object-contain"
               priority
             />
-            <span className="font-bold text-lg sm:text-xl tracking-tight whitespace-nowrap">
-              {logo_text || 'Learneng English BR'}
-            </span>
+<span className="font-bold text-lg sm:text-xl tracking-tight whitespace-nowrap"><span className="text-red-600">Learneng</span>{' '}<span className="text-[#0d1e3e]">English</span>{' '}<span className="text-red-600">BR</span></span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
