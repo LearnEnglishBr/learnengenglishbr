@@ -171,6 +171,14 @@ const en: Record<string, string> = {
   'Senha': 'Password',
   'e a': 'and the',
   'Estamos preparando um conteúdo incrível para você.': "We're preparing amazing content for you.",
+  'Maria Silva': 'Maria Silva',
+  'João Santos': 'João Santos',
+  'Ana Oliveira': 'Ana Oliveira',
+  'Aluna': 'Student',
+  'Aluno': 'Student',
+  'Método incrível! Consegui finalmente destravar meu inglês.': 'Amazing method! I finally unlocked my English.',
+  'As aulas ao vivo fizeram toda a diferença no meu aprendizado.': 'The live classes made all the difference in my learning.',
+  'Professor extremamente capacitado. Recomendo demais!': 'Extremely capable teacher. Highly recommend!',
 }
 
 interface LanguageContextType {
