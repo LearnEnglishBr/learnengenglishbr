@@ -80,7 +80,7 @@ export default async function LandingPage() {
           main_image={content.hero.main_image}
            benefits={content.hero.benefits}
          />
-        <WhyChoose />
+        <WhyChoose title={content.why_choose.title} items={content.why_choose.items} />
         <AboutTeacher
           title={content.about_teacher.title}
           name={content.about_teacher.name}
@@ -107,7 +107,7 @@ export default async function LandingPage() {
         />
         <Results stats={content.results.stats} />
         <Testimonials title={content.testimonials.title} subtitle={content.testimonials.subtitle} items={content.testimonials.items} />
-        <Methodology title={content.methodology.title} paragraph_1={content.methodology.paragraph_1} paragraph_2={content.methodology.paragraph_2} paragraph_3={content.methodology.paragraph_3} steps={content.methodology.steps} />
+        <Methodology title={content.methodology.title} section_subtitle={content.methodology.section_subtitle} paragraph_1={content.methodology.paragraph_1} paragraph_2={content.methodology.paragraph_2} paragraph_3={content.methodology.paragraph_3} steps={content.methodology.steps} />
         <BlogPreview title={content.blog_preview.title} subtitle={content.blog_preview.subtitle} view_all_text={content.blog_preview.view_all_text} view_all_href={content.blog_preview.view_all_href} posts={blogPosts || []} />
         <SocialProof paragraph_1={content.social_proof.paragraph_1} paragraph_2={content.social_proof.paragraph_2} />
         <CtaFinal title={content.cta.title} subtitle={content.cta.subtitle} button_text={content.cta.button_text} button_href={content.cta.button_href} />

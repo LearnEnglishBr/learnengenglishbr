@@ -13,6 +13,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 interface MethodologyProps {
   title: string
+  section_subtitle: string
   paragraph_1: string
   paragraph_2: string
   paragraph_3: string
@@ -25,7 +26,7 @@ interface MethodologyProps {
   }>
 }
 
-export function Methodology({ title, paragraph_1, paragraph_2, paragraph_3, steps }: MethodologyProps) {
+export function Methodology({ title, section_subtitle, paragraph_1, paragraph_2, paragraph_3, steps }: MethodologyProps) {
   const { t } = useLanguage()
   return (
     <section id="metodologia" className="py-32 bg-background relative overflow-hidden">
@@ -40,6 +41,7 @@ export function Methodology({ title, paragraph_1, paragraph_2, paragraph_3, step
           className="text-center mb-24 max-w-3xl mx-auto"
         >
           <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">{t(title)}</h2>
+          {section_subtitle && <p className="text-primary font-semibold mb-6">{t(section_subtitle)}</p>}
           <div className="text-lg text-muted-foreground leading-relaxed space-y-4">
             {paragraph_1 && <p>{t(paragraph_1)}</p>}
             {paragraph_2 && <p>{t(paragraph_2)}</p>}

@@ -110,6 +110,10 @@ export interface SiteContent {
     theme_secondary_color: string
     theme_accent_color: string
   }
+  why_choose: {
+    title: string
+    items: Array<{ icon_name: string; title: string; description: string }>
+  }
 }
 
 export async function getSiteContent(): Promise<SiteContent> {
@@ -127,6 +131,7 @@ export async function getSiteContent(): Promise<SiteContent> {
     footerColumnsRes,
     footerLinksRes,
     settingsRes,
+    whyChooseItemsRes,
   ] = await Promise.all([
     supabase.from('site_content').select('*'),
     supabase.from('navigation_links').select('*').order('sort_order'),
@@ -138,6 +143,7 @@ export async function getSiteContent(): Promise<SiteContent> {
     supabase.from('footer_columns').select('*').order('sort_order'),
     supabase.from('footer_links').select('*').order('sort_order'),
     supabase.from('settings').select('*').single(),
+    supabase.from('why_choose_items').select('*').order('sort_order'),
   ])
 
   const contentMap: Record<string, Record<string, any>> = {}
@@ -189,6 +195,13 @@ export async function getSiteContent(): Promise<SiteContent> {
     { id: 'default-3', name: 'Ana Oliveira', role: 'Aluna', content: 'Professor extremamente capacitado. Recomendo demais!', image_url: '', rating: 5, sort_order: 3 },
   ]
 
+  const whyChooseItems = whyChooseItemsRes.data?.length ? whyChooseItemsRes.data : [
+    { id: 'default-1', icon_name: 'Brain', title: 'Método baseado em neurociência', description: 'Estruturado para otimizar a retenção e acelerar a fluência.', sort_order: 1 },
+    { id: 'default-2', icon_name: 'MessageSquare', title: 'Prática real de conversação', description: 'Aulas ao vivo com feedback imediato para melhorar a fala.', sort_order: 2 },
+    { id: 'default-3', icon_name: 'Globe', title: 'Acesso global', description: 'Estude a qualquer hora, em qualquer lugar, no seu ritmo.', sort_order: 3 },
+    { id: 'default-4', icon_name: 'UserCheck', title: 'Acompanhamento personalizado', description: 'Monitoramento de progresso e ajustes contínuos ao seu plano.', sort_order: 4 },
+  ]
+
   // Build footer
   const footerColumnsData = footerColumnsRes.data || []
   const footerLinksData = footerLinksRes.data || []
@@ -235,6 +248,7 @@ export async function getSiteContent(): Promise<SiteContent> {
   const bp = contentMap.blog_preview || {}
   const ct = contentMap.cta || {}
   const sp = contentMap.social_proof || {}
+  const wc = contentMap.why_choose || {}
 
   const galleryImages: string[] = a.gallery_images || [
     '/images/1b633f1d-8a11-46fa-bb35-67a57ceb0820.jpg',
@@ -357,6 +371,10 @@ export async function getSiteContent(): Promise<SiteContent> {
       theme_primary_color: settings.theme_primary_color || '#B62C27',
       theme_secondary_color: settings.theme_secondary_color || '#FDB62F',
       theme_accent_color: settings.theme_accent_color || '#FDB62F',
+    },
+    why_choose: {
+      title: wc.title || 'Por que escolher a Learneng English BR?',
+      items: whyChooseItems.map(w => ({ icon_name: w.icon_name, title: w.title, description: w.description })),
     },
   }
 }

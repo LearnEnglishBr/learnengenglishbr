@@ -247,3 +247,20 @@ export async function saveGalleryImagesAction(formData: FormData) {
 
   revalidatePath('/', 'layout')
 }
+
+// === WHY CHOOSE ITEMS ===
+
+export async function saveWhyChooseItemsAction(formData: FormData) {
+  const supabase = await checkAdmin()
+  const items = JSON.parse(formData.get('items') as string) as Array<{
+    icon_name: string; title: string; description: string
+  }>
+
+  await supabase.from('why_choose_items').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+  const { error } = await supabase.from('why_choose_items').insert(
+    items.map((s, i) => ({ ...s, sort_order: i + 1 }))
+  )
+
+  if (error) throw error
+  revalidatePath('/', 'layout')
+}

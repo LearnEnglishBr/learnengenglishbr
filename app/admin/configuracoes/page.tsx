@@ -13,6 +13,7 @@ import { CTASectionForm } from './CTASectionForm'
 import { ResultsForm } from './ResultsForm'
 import { SocialProofForm } from './SocialProofForm'
 import { GalleryForm } from './GalleryForm'
+import { WhyChooseForm } from './WhyChooseForm'
 
 export default async function AdminConfiguracoesPage() {
   const supabase = await createClient()
@@ -29,6 +30,7 @@ export default async function AdminConfiguracoesPage() {
     testimonialsRes,
     footerColumnsRes,
     footerLinksRes,
+    whyChooseItemsRes,
   ] = await Promise.all([
     getSiteContent(),
     supabase.from('settings').select('*').single(),
@@ -41,6 +43,7 @@ export default async function AdminConfiguracoesPage() {
     supabase.from('testimonials').select('*').order('sort_order'),
     supabase.from('footer_columns').select('*').order('sort_order'),
     supabase.from('footer_links').select('*').order('sort_order'),
+    supabase.from('why_choose_items').select('*').order('sort_order'),
   ])
 
   const settings = settingsRes.data || defaultContent.branding
@@ -53,6 +56,7 @@ export default async function AdminConfiguracoesPage() {
   const testimonials = testimonialsRes.data || []
   const footerColumns = footerColumnsRes.data || []
   const footerLinks = footerLinksRes.data || []
+  const whyChooseItems = whyChooseItemsRes.data || []
 
   const contentMap: Record<string, Record<string, any>> = {}
   for (const item of siteContentArray) {
@@ -95,6 +99,7 @@ export default async function AdminConfiguracoesPage() {
     { id: 'header', label: 'Header & Nav', content: <HeaderForm navLinks={navLinks.length > 0 ? navLinks : defaultContent.header.navigation} socialLinks={socialLinks.length > 0 ? socialLinks : defaultContent.header.social_links} /> },
     { id: 'hero', label: 'Hero', content: <HeroForm content={contentMap.hero} benefits={benefits.length > 0 ? benefits : defaultContent.hero.benefits} /> },
     { id: 'methodology', label: 'Metodologia', content: <MethodologyForm content={contentMap.methodology} steps={steps.length > 0 ? steps : defaultContent.methodology.steps} /> },
+    { id: 'why-choose', label: 'Por que escolher', content: <WhyChooseForm content={contentMap.why_choose || {}} items={whyChooseItems.length > 0 ? whyChooseItems : defaultContent.why_choose.items} /> },
     { id: 'courses', label: 'Cursos', content: <CoursesForm content={contentMap.courses} /> },
     { id: 'results', label: 'Resultados', content: <ResultsForm stats={stats.length > 0 ? stats : defaultContent.results.stats} /> },
     { id: 'testimonials', label: 'Depoimentos', content: <TestimonialsForm testimonials={testimonials.length > 0 ? testimonials : defaultContent.testimonials.items} /> },

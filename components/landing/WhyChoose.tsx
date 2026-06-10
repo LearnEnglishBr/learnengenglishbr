@@ -1,39 +1,31 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Brain, MessageSquare, Globe, UserCheck } from 'lucide-react'
+import { Brain, MessageSquare, Globe, UserCheck, BookOpen } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
 
-export function WhyChoose() {
+const iconMap: Record<string, React.ReactNode> = {
+  Brain: <Brain className="w-8 h-8 text-primary" />,
+  MessageSquare: <MessageSquare className="w-8 h-8 text-blue-500" />,
+  Globe: <Globe className="w-8 h-8 text-emerald-500" />,
+  UserCheck: <UserCheck className="w-8 h-8 text-amber-500" />,
+}
+
+interface WhyChooseProps {
+  title: string
+  items: Array<{ icon_name: string; title: string; description: string }>
+}
+
+export function WhyChoose({ title, items }: WhyChooseProps) {
   const { t } = useLanguage()
-  const items = [
-    {
-      icon: <Brain className="w-8 h-8 text-primary" />, 
-      title: 'Método baseado em neurociência',
-      description: 'Estruturado para otimizar a retenção e acelerar a fluência.',
-    },
-    {
-      icon: <MessageSquare className="w-8 h-8 text-primary" />, 
-      title: 'Prática real de conversação',
-      description: 'Aulas ao vivo com feedback imediato para melhorar a fala.',
-    },
-    {
-      icon: <Globe className="w-8 h-8 text-primary" />, 
-      title: 'Acesso global',
-      description: 'Estude a qualquer hora, em qualquer lugar, no seu ritmo.',
-    },
-    {
-      icon: <UserCheck className="w-8 h-8 text-primary" />, 
-      title: 'Acompanhamento personalizado',
-      description: 'Monitoramento de progresso e ajustes contínuos ao seu plano.',
-    },
-  ]
+
+  if (items.length === 0) return null
 
   return (
     <section id="por-que" className="py-20 bg-gradient-to-br from-primary/5 to-blue-500/5">
       <div className="container mx-auto px-6 lg:px-12">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          {t('Por que escolher a')} <span className="text-red-600">Learneng</span>{' '}<span className="text-[#0d1e3e]">English</span>{' '}<span className="text-red-600">BR</span>?
+          {t(title)}
         </h2>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {items.map((item, i) => (
@@ -45,7 +37,7 @@ export function WhyChoose() {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              {item.icon}
+              {iconMap[item.icon_name] || <BookOpen className="w-8 h-8 text-primary" />}
               <h3 className="mt-4 text-xl font-semibold">{t(item.title)}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{t(item.description)}</p>
             </motion.div>
