@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Star, Clock, Award } from 'lucide-react'
 import Link from 'next/link'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface CoursesSectionProps {
   title: string
@@ -23,6 +24,7 @@ interface CoursesSectionProps {
 }
 
 export function Courses({ title, subtitle, badge_text, feature_1, feature_2, feature_3, button_text, courses }: CoursesSectionProps) {
+  const { t, locale } = useLanguage()
   return (
     <section id="cursos" className="py-24 bg-muted/20 border-t border-border">
       <div className="container mx-auto px-6 lg:px-12">
@@ -34,8 +36,8 @@ export function Courses({ title, subtitle, badge_text, feature_1, feature_2, fea
         {courses.length === 0 ? (
           <div className="text-center py-20 bg-card border border-border rounded-2xl">
             <Award className="w-12 h-12 text-muted-foreground mx-auto mb-4 opacity-50" />
-            <h3 className="text-2xl font-bold mb-2">Novos cursos em breve</h3>
-            <p className="text-muted-foreground">Estamos preparando conteúdo incrível para você.</p>
+            <h3 className="text-2xl font-bold mb-2">{t('Novos cursos em breve')}</h3>
+            <p className="text-muted-foreground">{t('Estamos preparando conteúdo incrível para você.')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -69,7 +71,7 @@ export function Courses({ title, subtitle, badge_text, feature_1, feature_2, fea
                   
                   <h2 className="text-xl font-bold mb-2 line-clamp-2">{course.title}</h2>
                   <p className="text-muted-foreground text-sm mb-6 line-clamp-3 flex-1">
-                    {course.description || "Aprenda com o melhor método do mercado."}
+                    {course.description || t('Aprenda com o melhor método do mercado.')}
                   </p>
                   
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -80,7 +82,7 @@ export function Courses({ title, subtitle, badge_text, feature_1, feature_2, fea
                   
                   <div className="mt-auto border-t border-border pt-4 flex items-center justify-between">
                     <div className="font-bold text-2xl text-primary">
-                      {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(course.price)}
+                      {new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'pt-BR', { style: 'currency', currency: 'BRL' }).format(course.price)}
                     </div>
                     <Link 
                       href="/login" 

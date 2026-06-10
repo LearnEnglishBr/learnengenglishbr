@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface FooterProps {
   description: string | null
@@ -43,6 +46,7 @@ const socialIcons: Record<string, React.ReactNode> = {
 }
 
 export function Footer({ description, copyright_text, columns, social_links }: FooterProps) {
+  const { t } = useLanguage()
   return (
     <footer className="bg-background pt-24 pb-12 border-t border-border">
       <div className="container mx-auto px-6 lg:px-12">
@@ -82,11 +86,11 @@ export function Footer({ description, copyright_text, columns, social_links }: F
           
           {columns.map(col => (
             <div key={col.title}>
-              <h4 className="font-bold mb-6 text-foreground">{col.title}</h4>
+              <h4 className="font-bold mb-6 text-foreground">{t(col.title)}</h4>
               <ul className="space-y-4 text-sm text-muted-foreground">
                 {col.links.map(link => (
                   <li key={`${link.href}-${link.label}`}>
-                    <Link href={link.href} className="hover:text-primary transition-colors">{link.label}</Link>
+                    <Link href={link.href} className="hover:text-primary transition-colors">{t(link.label)}</Link>
                   </li>
                 ))}
               </ul>
@@ -97,17 +101,17 @@ export function Footer({ description, copyright_text, columns, social_links }: F
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} {copyright_text || 'Learneng English BR. Todos os direitos reservados.'}</p>
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
-            <span>Desenvolvido com padrão Enterprise</span>
+            <span>{t('Desenvolvido com padrão Enterprise')}</span>
             <span className="hidden sm:inline text-muted-foreground/30">|</span>
             <span>
-              Orgulhosamente desenvolvido por{' '}
+              {t('Orgulhosamente desenvolvido por')}{' '}
               <a 
                 href="https://www.voltris.com.br" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="font-semibold text-foreground hover:text-primary transition-colors duration-200"
               >
-                Voltris
+                {t('Voltris')}
               </a>
             </span>
           </div>

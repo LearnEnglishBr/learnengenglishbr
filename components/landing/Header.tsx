@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Globe, Menu, X } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface HeaderProps {
   navigation: Array<{ label: string; href: string }>
@@ -46,6 +47,7 @@ const socialIcons: Record<string, React.ReactNode> = {
 export function Header({ navigation, social_links, logo_text }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { t, locale, setLocale } = useLanguage()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -96,7 +98,7 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             {navigation.map(link => (
               <Link key={link.href} href={link.href} className="hover:text-foreground transition-colors">
-                {link.label}
+                {t(link.label)}
               </Link>
             ))}
           </nav>
@@ -114,15 +116,15 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
               ))}
               <div className="h-4 w-px bg-border ml-2"></div>
             </div>
-            <button className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              <Globe className="w-4 h-4" /> PT
+            <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              <Globe className="w-4 h-4" /> {t('PT')}
             </button>
             <div className="h-4 w-px bg-border hidden sm:block"></div>
             <Link href="/login" className="hidden sm:block text-sm font-medium hover:text-primary transition-colors">
-              Login
+              {t('Login')}
             </Link>
             <Link href="/register" className="hidden sm:inline-flex h-9 items-center justify-center rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-transform hover:scale-105 active:scale-95 shadow-lg shadow-black/10">
-              Criar Conta
+              {t('Criar Conta')}
             </Link>
 
             <button 
@@ -164,7 +166,7 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
                     onClick={() => setMobileMenuOpen(false)}
                     className="text-2xl font-semibold text-foreground hover:text-primary transition-colors"
                   >
-                    {link.label}
+                    {t(link.label)}
                   </Link>
                 </motion.div>
               ))}
@@ -175,14 +177,14 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
                   onClick={() => setMobileMenuOpen(false)}
                   className="inline-flex h-12 items-center justify-center rounded-full bg-card border border-border px-8 text-base font-semibold text-foreground transition-all hover:bg-accent active:scale-95 w-full"
                 >
-                  Login
+                  {t('Login')}
                 </Link>
                 <Link 
                   href="/register" 
                   onClick={() => setMobileMenuOpen(false)}
                   className="inline-flex h-12 items-center justify-center rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground transition-all hover:bg-primary/90 active:scale-95 shadow-xl shadow-primary/25 w-full"
                 >
-                  Criar Conta
+                  {t('Criar Conta')}
                 </Link>
               </div>
             </motion.nav>

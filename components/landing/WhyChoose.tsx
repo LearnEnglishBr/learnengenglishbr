@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { Brain, MessageSquare, Globe, UserCheck } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function WhyChoose() {
+  const { t } = useLanguage()
   const items = [
     {
       icon: <Brain className="w-8 h-8 text-primary" />, 
@@ -31,7 +33,7 @@ export function WhyChoose() {
     <section id="por-que" className="py-20 bg-gradient-to-br from-primary/5 to-blue-500/5">
       <div className="container mx-auto px-6 lg:px-12">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          Por que escolher a <span className="text-red-600">Learneng</span>{' '}<span className="text-[#0d1e3e]">English</span>{' '}<span className="text-red-600">BR</span>?
+          {t('Por que escolher a')} <span className="text-red-600">Learneng</span>{' '}<span className="text-[#0d1e3e]">English</span>{' '}<span className="text-red-600">BR</span>?
         </h2>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {items.map((item, i) => (
@@ -44,8 +46,8 @@ export function WhyChoose() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
               {item.icon}
-              <h3 className="mt-4 text-xl font-semibold">{item.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
+              <h3 className="mt-4 text-xl font-semibold">{t(item.title)}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{t(item.description)}</p>
             </motion.div>
           ))}
         </div>

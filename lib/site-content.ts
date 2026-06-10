@@ -172,16 +172,16 @@ export async function getSiteContent(): Promise<SiteContent> {
     { id: 'default-4', label: 'Avaliação Média', value_prefix: '', value_suffix: '/5', value_type: 'decimal', sort_order: 4 },
   ]
   const steps = stepsRes.data?.length ? stepsRes.data : [
-    { id: 'default-1', step_number: '01', title: 'Aprenda', description: 'Aulas teóricas de alta qualidade direto ao ponto, com foco na vida real.', icon_name: 'BookOpen', icon_color: 'text-primary', sort_order: 1 },
-    { id: 'default-2', step_number: '02', title: 'Pratique', description: 'Exercícios focados e gamificados para retenção extrema e memória de longo prazo.', icon_name: 'Target', icon_color: 'text-blue-500', sort_order: 2 },
-    { id: 'default-3', step_number: '03', title: 'Converse', description: 'Sessões de conversação ao vivo para destravar o seu speaking.', icon_name: 'MessagesSquare', icon_color: 'text-emerald-500', sort_order: 3 },
-    { id: 'default-4', step_number: '04', title: 'Fluência', description: 'Domínio avançado do inglês, reconhecido globalmente.', icon_name: 'Award', icon_color: 'text-amber-500', sort_order: 4 },
+    { id: 'default-1', step_number: '01', title: 'Learn', description: 'High-quality straight-to-the-point theoretical lessons focused on real life.', icon_name: 'BookOpen', icon_color: 'text-primary', sort_order: 1 },
+    { id: 'default-2', step_number: '02', title: 'Practice', description: 'Focused gamified exercises for extreme retention and long-term memory.', icon_name: 'Target', icon_color: 'text-blue-500', sort_order: 2 },
+    { id: 'default-3', step_number: '03', title: 'Speak', description: 'Sessões de conversação ao vivo para destravar o seu speaking.', icon_name: 'MessagesSquare', icon_color: 'text-emerald-500', sort_order: 3 },
+    { id: 'default-4', step_number: '04', title: 'Fluency', description: 'Domínio avançado do inglês, reconhecido globalmente.', icon_name: 'Award', icon_color: 'text-amber-500', sort_order: 4 },
   ]
   const benefits = benefitsRes.data?.length ? benefitsRes.data : [
-    { id: 'default-1', text: 'Aulas ao vivo', sort_order: 1 },
-    { id: 'default-2', text: 'Suporte individual', sort_order: 2 },
-    { id: 'default-3', text: 'Acompanhamento de progresso', sort_order: 3 },
-    { id: 'default-4', text: 'Acesso vitalício', sort_order: 4 },
+    { id: 'default-1', text: 'Live classes', sort_order: 1 },
+    { id: 'default-2', text: 'One-on-one support', sort_order: 2 },
+    { id: 'default-3', text: 'Progress tracking', sort_order: 3 },
+    { id: 'default-4', text: 'Lifetime access', sort_order: 4 },
   ]
   const testimonials = testimonialsRes.data?.length ? testimonialsRes.data : [
     { id: 'default-1', name: 'Maria Silva', role: 'Aluna', content: 'Método incrível! Consegui finalmente destravar meu inglês.', image_url: '', rating: 5, is_active: true, sort_order: 1 },

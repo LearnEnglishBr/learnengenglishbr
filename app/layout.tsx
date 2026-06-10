@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { CookieConsent } from "@/components/ui/CookieConsent";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -109,7 +110,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="min-h-screen bg-background text-foreground">
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
         <CookieConsent />
       </body>
     </html>
