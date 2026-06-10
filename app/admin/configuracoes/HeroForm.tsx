@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { updateSiteContentAction, updateSiteContentBilingualAction, saveHeroBenefitsAction } from '@/actions/site-content'
 import { UploadButton } from './UploadButton'
-import { pt, en } from '@/lib/site-content'
+import { pt, en } from '@/lib/bilingual'
 
 export function HeroForm({ content, benefits }: { content: Record<string, any>; benefits: Array<{ id: string; text: string }> }) {
   const [benefitList, setBenefitList] = useState(benefits.map(b => ({ text: b.text })))

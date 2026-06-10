@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { updateSiteContentBilingualAction, saveMethodologyStepsAction } from '@/actions/site-content'
-import { pt, en } from '@/lib/site-content'
+import { pt, en } from '@/lib/bilingual'
 
 export function MethodologyForm({ content, steps }: { content: Record<string, any>; steps: Array<{ id: string; step_number: string; title: string; description: string; icon_name: string; icon_color: string }> }) {
   const [stepList, setStepList] = useState(steps.map(s => ({ step_number: s.step_number, title: s.title, description: s.description, icon_name: s.icon_name, icon_color: s.icon_color })))

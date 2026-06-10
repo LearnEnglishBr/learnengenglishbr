@@ -1,7 +1,7 @@
 'use client'
 
 import { updateSiteContentBilingualAction } from '@/actions/site-content'
-import { pt, en } from '@/lib/site-content'
+import { pt, en } from '@/lib/bilingual'
 
 export function AboutTeacherForm({ content }: { content: Record<string, any> }) {
   const textFields = [

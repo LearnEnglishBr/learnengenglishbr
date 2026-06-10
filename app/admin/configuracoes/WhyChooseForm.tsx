@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { updateSiteContentBilingualAction, saveWhyChooseItemsAction } from '@/actions/site-content'
-import { pt, en } from '@/lib/site-content'
+import { pt, en } from '@/lib/bilingual'
 
 export function WhyChooseForm({ content, items }: { content: Record<string, any>; items: Array<{ id: string; icon_name: string; title: string; description: string }> }) {
   const [itemList, setItemList] = useState(items.map(s => ({ icon_name: s.icon_name, title: s.title, description: s.description })))
