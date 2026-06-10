@@ -4,35 +4,33 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { DollarSign, Users, BookOpen, TrendingUp, RefreshCcw, CreditCard, Award } from 'lucide-react'
 
-// Dados mocados temporários (Em prod, devem vir do Server Component)
-const revenueData = [
-  { name: 'Jan', total: 12000 },
-  { name: 'Fev', total: 15000 },
-  { name: 'Mar', total: 18000 },
-  { name: 'Abr', total: 22000 },
-  { name: 'Mai', total: 28000 },
-  { name: 'Jun', total: 32000 },
-]
-
-const studentsData = [
-  { name: 'Seg', users: 12 },
-  { name: 'Ter', users: 18 },
-  { name: 'Qua', users: 15 },
-  { name: 'Qui', users: 25 },
-  { name: 'Sex', users: 32 },
-  { name: 'Sab', users: 40 },
-  { name: 'Dom', users: 45 },
-]
-
-export default function DashboardCharts({ 
-  receitaDiaria, 
-  receitaMensal, 
-  receitaAnual, 
-  alunosCount, 
-  cursosVendidos, 
+export default function DashboardCharts({
+  receitaMensal,
+  receitaTotal,
+  alunosCount,
+  novosAlunosMes,
+  cursosVendidos,
   ticketMedio,
-  reembolsos 
-}: any) {
+  reembolsos,
+  revenueChartData,
+  studentsChartData,
+  completionRate,
+  revenueGrowth,
+}: {
+  receitaMensal: number
+  receitaTotal: number
+  alunosCount: number
+  novosAlunosMes: number
+  cursosVendidos: number
+  ticketMedio: number
+  reembolsos: number
+  revenueChartData: { name: string; total: number }[]
+  studentsChartData: { name: string; users: number }[]
+  completionRate: number
+  revenueGrowth: number
+}) {
+  const refundRate = receitaTotal > 0 ? ((reembolsos / (cursosVendidos || 1)) * 100).toFixed(1) : '0.0'
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -43,7 +41,9 @@ export default function DashboardCharts({
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(receitaMensal)}</div>
-            <p className="text-xs text-muted-foreground">+20.1% em relação ao mês anterior</p>
+            <p className={`text-xs ${revenueGrowth >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+              {revenueGrowth >= 0 ? '+' : ''}{revenueGrowth}% em relação ao mês anterior
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -53,7 +53,7 @@ export default function DashboardCharts({
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">+{alunosCount}</div>
-            <p className="text-xs text-muted-foreground">+180 novos este mês</p>
+            <p className="text-xs text-muted-foreground">+{novosAlunosMes} novos este mês</p>
           </CardContent>
         </Card>
         <Card>
@@ -63,7 +63,7 @@ export default function DashboardCharts({
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(ticketMedio)}</div>
-            <p className="text-xs text-muted-foreground">+19% de aumento (upsells)</p>
+            <p className="text-xs text-muted-foreground">Valor médio por compra</p>
           </CardContent>
         </Card>
         <Card>
@@ -73,7 +73,7 @@ export default function DashboardCharts({
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{reembolsos}</div>
-            <p className="text-xs text-muted-foreground">Taxa atual: 2.1% (Dentro da meta)</p>
+            <p className="text-xs text-muted-foreground">Taxa atual: {refundRate}%</p>
           </CardContent>
         </Card>
       </div>
@@ -86,7 +86,7 @@ export default function DashboardCharts({
           </CardHeader>
           <CardContent className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={revenueData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <AreaChart data={revenueChartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#2563eb" stopOpacity={0.8}/>
@@ -109,7 +109,7 @@ export default function DashboardCharts({
           </CardHeader>
           <CardContent className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={studentsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <LineChart data={studentsChartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
                 <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
@@ -124,11 +124,11 @@ export default function DashboardCharts({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="bg-primary text-primary-foreground">
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg">MRR (Receita Recorrente)</CardTitle>
-            <CardDescription className="text-primary-foreground/80">Plano Anual + Mensal</CardDescription>
+            <CardTitle className="text-lg">Receita Total</CardTitle>
+            <CardDescription className="text-primary-foreground/80">Todas as vendas realizadas</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-black mt-2">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(18500)}</div>
+            <div className="text-4xl font-black mt-2">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(receitaTotal)}</div>
           </CardContent>
         </Card>
 
@@ -140,7 +140,7 @@ export default function DashboardCharts({
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-black mt-2">{cursosVendidos}</div>
-            <p className="text-sm text-muted-foreground mt-1">+12% este mês</p>
+            <p className="text-sm text-muted-foreground mt-1">Total de compras concluídas</p>
           </CardContent>
         </Card>
 
@@ -151,8 +151,10 @@ export default function DashboardCharts({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-black mt-2">68%</div>
-            <p className="text-sm text-muted-foreground mt-1">Acima da média da indústria</p>
+            <div className="text-4xl font-black mt-2">{completionRate}%</div>
+            <p className="text-sm text-muted-foreground mt-1">
+              {completionRate >= 50 ? 'Acima da média da indústria' : 'Abaixo da média da indústria (68%)'}
+            </p>
           </CardContent>
         </Card>
       </div>

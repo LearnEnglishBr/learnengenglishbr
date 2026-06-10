@@ -10,6 +10,7 @@ import { Testimonials } from '@/components/landing/Testimonials'
 import { Methodology } from '@/components/landing/Methodology'
 import { BlogPreview } from '@/components/landing/BlogPreview'
 import { CtaFinal } from '@/components/landing/CtaFinal'
+import { WhyChoose } from '@/components/landing/WhyChoose'
 import { Footer } from '@/components/landing/Footer'
 import { JsonLd } from '@/components/seo/JsonLd'
 
@@ -77,8 +78,9 @@ export default async function LandingPage() {
           cta_secondary_href={content.hero.cta_secondary_href}
           social_proof_text={content.hero.social_proof_text}
           main_image={content.hero.main_image}
-          benefits={content.hero.benefits}
-        />
+           benefits={content.hero.benefits}
+         />
+        <WhyChoose />
         <AboutTeacher
           title={content.about_teacher.title}
           name={content.about_teacher.name}

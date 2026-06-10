@@ -4,18 +4,30 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+
+function adminClient() {
+  return createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { persistSession: false } }
+  )
+}
 
 async function checkAdmin() {
-  const supabase = await createClient()
   const cookieStore = await cookies()
   const hasAdminBypass = cookieStore.get('admin_bypass')?.value === 'true'
-  if (!hasAdminBypass) {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) redirect('/login')
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-    if (!profile || profile.role !== 'ADMIN') throw new Error('Sem permissão')
-  }
-  return supabase
+
+  if (hasAdminBypass) return adminClient()
+
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  if (!profile || profile.role !== 'ADMIN') throw new Error('Sem permissão')
+
+  return adminClient()
 }
 
 // === SITE CONTENT (key-value) ===

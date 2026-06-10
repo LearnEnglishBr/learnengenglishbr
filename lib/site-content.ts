@@ -162,6 +162,7 @@ export async function getSiteContent(): Promise<SiteContent> {
     { id: 'default-1', platform: 'instagram', url: 'https://www.instagram.com/prof_vitor1' },
     { id: 'default-2', platform: 'youtube', url: 'https://youtube.com/@teachervitor-learnenglishbr' },
     { id: 'default-3', platform: 'tiktok', url: 'https://www.tiktok.com/@learnenglishbr' },
+    { id: 'default-4', platform: 'whatsapp', url: 'https://chat.whatsapp.com/CDDXQNIUxNWIsRlqAV8Sct' },
   ]
   const stats = statsRes.data?.length ? statsRes.data : [
     { id: 'default-1', label: 'Alunos Formados', value_prefix: '+', value_suffix: '', value_type: 'number', sort_order: 1 },
@@ -172,13 +173,13 @@ export async function getSiteContent(): Promise<SiteContent> {
   const steps = stepsRes.data?.length ? stepsRes.data : [
     { id: 'default-1', step_number: '01', title: 'Aprenda', description: 'Aulas teóricas de alta qualidade direto ao ponto, com foco na vida real.', icon_name: 'BookOpen', icon_color: 'text-primary', sort_order: 1 },
     { id: 'default-2', step_number: '02', title: 'Pratique', description: 'Exercícios focados e gamificados para retenção extrema e memória de longo prazo.', icon_name: 'Target', icon_color: 'text-blue-500', sort_order: 2 },
-    { id: 'default-3', step_number: '03', title: 'Converse', description: 'Sessões de conversação nativa ao vivo para destravar o seu speaking.', icon_name: 'MessagesSquare', icon_color: 'text-emerald-500', sort_order: 3 },
-    { id: 'default-4', step_number: '04', title: 'Fluência', description: 'Atingimento e certificação de capacidade técnica com reconhecimento internacional.', icon_name: 'Award', icon_color: 'text-amber-500', sort_order: 4 },
+    { id: 'default-3', step_number: '03', title: 'Converse', description: 'Sessões de conversação ao vivo para destravar o seu speaking.', icon_name: 'MessagesSquare', icon_color: 'text-emerald-500', sort_order: 3 },
+    { id: 'default-4', step_number: '04', title: 'Fluência', description: 'Domínio avançado do inglês, reconhecido globalmente.', icon_name: 'Award', icon_color: 'text-amber-500', sort_order: 4 },
   ]
   const benefits = benefitsRes.data?.length ? benefitsRes.data : [
     { id: 'default-1', text: 'Aulas ao vivo', sort_order: 1 },
     { id: 'default-2', text: 'Suporte individual', sort_order: 2 },
-    { id: 'default-3', text: 'Certificação reconhecida', sort_order: 3 },
+    { id: 'default-3', text: 'Acompanhamento de progresso', sort_order: 3 },
     { id: 'default-4', text: 'Acesso vitalício', sort_order: 4 },
   ]
   const testimonials = testimonialsRes.data?.length ? testimonialsRes.data : [
