@@ -163,6 +163,7 @@ export async function getSiteContent(): Promise<SiteContent> {
     { id: 'default-2', platform: 'youtube', url: 'https://youtube.com/@teachervitor-learnenglishbr' },
     { id: 'default-3', platform: 'tiktok', url: 'https://www.tiktok.com/@learnenglishbr' },
     { id: 'default-4', platform: 'whatsapp', url: 'https://chat.whatsapp.com/CDDXQNIUxNWIsRlqAV8Sct' },
+    { id: 'default-5', platform: 'discord', url: 'https://discord.gg/N2XYFMXC2' },
   ]
   const stats = statsRes.data?.length ? statsRes.data : [
     { id: 'default-1', label: 'Alunos Formados', value_prefix: '+', value_suffix: '', value_type: 'number', sort_order: 1 },
