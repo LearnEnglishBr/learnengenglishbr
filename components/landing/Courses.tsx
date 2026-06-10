@@ -29,8 +29,8 @@ export function Courses({ title, subtitle, badge_text, feature_1, feature_2, fea
     <section id="cursos" className="py-24 bg-muted/20 border-t border-border">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">{title}</h2>
-          {subtitle && <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{subtitle}</p>}
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">{t(title)}</h2>
+          {subtitle && <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t(subtitle)}</p>}
         </div>
 
         {courses.length === 0 ? (
@@ -52,12 +52,12 @@ export function Courses({ title, subtitle, badge_text, feature_1, feature_2, fea
               >
                 <div className="aspect-video bg-muted relative overflow-hidden">
                   {course.thumbnail ? (
-                    <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={course.thumbnail} alt={t(course.title)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-blue-500/20 group-hover:scale-105 transition-transform duration-500"></div>
                   )}
                   <div className="absolute top-3 right-3 bg-primary text-primary-foreground text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">
-                    {badge_text}
+                    {t(badge_text)}
                   </div>
                 </div>
                 
@@ -66,18 +66,18 @@ export function Courses({ title, subtitle, badge_text, feature_1, feature_2, fea
                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" /> 
                     <span className="font-medium text-foreground">5.0</span>
                     <span>•</span>
-                    <Clock className="w-4 h-4" /> {feature_1}
+                    <Clock className="w-4 h-4" /> {t(feature_1)}
                   </div>
                   
-                  <h2 className="text-xl font-bold mb-2 line-clamp-2">{course.title}</h2>
+                  <h2 className="text-xl font-bold mb-2 line-clamp-2">{t(course.title)}</h2>
                   <p className="text-muted-foreground text-sm mb-6 line-clamp-3 flex-1">
-                    {course.description || t('Aprenda com o melhor método do mercado.')}
+                    {course.description ? t(course.description) : t('Aprenda com o melhor método do mercado.')}
                   </p>
                   
                   <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="bg-muted text-muted-foreground text-xs px-2.5 py-1 rounded-full">{feature_1}</span>
-                    <span className="bg-muted text-muted-foreground text-xs px-2.5 py-1 rounded-full">{feature_2}</span>
-                    <span className="bg-muted text-muted-foreground text-xs px-2.5 py-1 rounded-full">{feature_3}</span>
+                    <span className="bg-muted text-muted-foreground text-xs px-2.5 py-1 rounded-full">{t(feature_1)}</span>
+                    <span className="bg-muted text-muted-foreground text-xs px-2.5 py-1 rounded-full">{t(feature_2)}</span>
+                    <span className="bg-muted text-muted-foreground text-xs px-2.5 py-1 rounded-full">{t(feature_3)}</span>
                   </div>
                   
                   <div className="mt-auto border-t border-border pt-4 flex items-center justify-between">
@@ -87,7 +87,7 @@ export function Courses({ title, subtitle, badge_text, feature_1, feature_2, fea
                     <Link 
                       href="/login" 
                       className="p-3 bg-primary/10 text-primary rounded-full hover:bg-primary hover:text-white transition-colors"
-                      title={button_text}
+                      title={t(button_text)}
                     >
                       <ArrowRight className="w-5 h-5" />
                     </Link>

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { BookOpen, Target, MessagesSquare, Award } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
 
 const iconMap: Record<string, React.ReactNode> = {
   BookOpen: <BookOpen className="w-8 h-8 text-primary" />,
@@ -25,6 +26,7 @@ interface MethodologyProps {
 }
 
 export function Methodology({ title, paragraph_1, paragraph_2, paragraph_3, steps }: MethodologyProps) {
+  const { t } = useLanguage()
   return (
     <section id="metodologia" className="py-32 bg-background relative overflow-hidden">
       <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
@@ -37,11 +39,11 @@ export function Methodology({ title, paragraph_1, paragraph_2, paragraph_3, step
           transition={{ duration: 0.6 }}
           className="text-center mb-24 max-w-3xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">{title}</h2>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">{t(title)}</h2>
           <div className="text-lg text-muted-foreground leading-relaxed space-y-4">
-            {paragraph_1 && <p>{paragraph_1}</p>}
-            {paragraph_2 && <p>{paragraph_2}</p>}
-            {paragraph_3 && <p className="font-semibold text-foreground">{paragraph_3}</p>}
+            {paragraph_1 && <p>{t(paragraph_1)}</p>}
+            {paragraph_2 && <p>{t(paragraph_2)}</p>}
+            {paragraph_3 && <p className="font-semibold text-foreground">{t(paragraph_3)}</p>}
           </div>
         </motion.div>
 
@@ -68,8 +70,8 @@ export function Methodology({ title, paragraph_1, paragraph_2, paragraph_3, step
                 </div>
               </div>
               
-              <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">{step.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+              <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">{t(step.title)}</h3>
+              <p className="text-muted-foreground leading-relaxed">{t(step.description)}</p>
             </motion.div>
           ))}
         </div>

@@ -110,8 +110,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="min-h-screen bg-background text-foreground">
-        <LanguageProvider>{children}</LanguageProvider>
-        <CookieConsent />
+        <LanguageProvider>{children}<CookieConsent /></LanguageProvider>
       </body>
     </html>
   );

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useLanguage } from "@/context/LanguageContext"
 
 declare global {
   interface Window {
@@ -11,6 +12,7 @@ declare global {
 }
 
 export function CookieConsent() {
+  const { t } = useLanguage()
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -62,10 +64,13 @@ export function CookieConsent() {
       <div className="container mx-auto max-w-5xl">
         <div className="bg-background/95 backdrop-blur-md border border-border rounded-xl shadow-2xl p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center justify-between pointer-events-auto">
           <div className="flex-1 space-y-2 text-center md:text-left">
-            <h3 className="font-semibold text-foreground text-lg">Respeitamos a sua Privacidade</h3>
+            <h3 className="font-semibold text-foreground text-lg">{t('Respeitamos a sua Privacidade')}</h3>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-3xl">
-              Utilizamos cookies essenciais para o funcionamento seguro da plataforma (como login via Google) e cookies de analytics/marketing para aprimorar sua experiência. 
-              Ao continuar, você concorda com o uso de cookies em conformidade com o <Link href="/cookies" className="text-primary hover:underline font-medium">Google Consent Mode v2</Link> e nossa <Link href="/privacidade" className="text-primary hover:underline font-medium">Política de Privacidade</Link>.
+              {t('Utilizamos cookies essenciais para o funcionamento seguro da plataforma (como login via Google) e cookies de analytics/marketing para aprimorar sua experiência.')}
+              {' '}{t('Ao continuar, você concorda com o uso de cookies em conformidade com o')}{' '}
+              <Link href="/cookies" className="text-primary hover:underline font-medium">Google Consent Mode v2</Link>{' '}
+              {t('e nossa')}{' '}
+              <Link href="/privacidade" className="text-primary hover:underline font-medium">{t('Política de Privacidade')}</Link>.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 min-w-[280px] justify-center md:justify-end mt-4 md:mt-0">
@@ -73,13 +78,13 @@ export function CookieConsent() {
               onClick={handleDecline}
               className="px-6 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground bg-muted hover:bg-muted/80 rounded-lg transition-colors border border-border"
             >
-              Recusar não essenciais
+              {t('Recusar não essenciais')}
             </button>
             <button
               onClick={handleAccept}
               className="px-6 py-2.5 text-sm font-semibold text-primary-foreground bg-primary hover:bg-primary/90 rounded-lg transition-colors shadow-sm"
             >
-              Aceitar e Continuar
+              {t('Aceitar e Continuar')}
             </button>
           </div>
         </div>

@@ -1,8 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function YouTubePlayer({ url, onComplete }: { url: string, onComplete?: () => void }) {
+  const { t } = useLanguage()
   const [videoId, setVideoId] = useState<string | null>(null)
 
   useEffect(() => {
@@ -19,7 +21,7 @@ export function YouTubePlayer({ url, onComplete }: { url: string, onComplete?: (
   if (!videoId) {
     return (
       <div className="w-full aspect-video bg-black/90 flex flex-col items-center justify-center text-white rounded-xl overflow-hidden shadow-2xl">
-        <p className="text-muted-foreground">Vídeo indisponível ou URL inválida.</p>
+        <p className="text-muted-foreground">{t('Vídeo indisponível ou URL inválida.')}</p>
       </div>
     )
   }

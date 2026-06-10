@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion'
+import { useLanguage } from '@/context/LanguageContext'
 
 function Counter({ from, to, duration = 2, suffix = '', prefix = '' }: { from: number, to: number, duration?: number, suffix?: string, prefix?: string }) {
   const nodeRef = useRef<HTMLSpanElement>(null)
@@ -36,6 +37,7 @@ interface ResultsProps {
 }
 
 export function Results({ stats }: ResultsProps) {
+  const { t } = useLanguage()
   return (
     <section id="resultados" className="py-24 relative overflow-hidden bg-[#0a1120] text-white">
       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 2px, transparent 0)', backgroundSize: '32px 32px' }}></div>
@@ -57,7 +59,7 @@ export function Results({ stats }: ResultsProps) {
                 <Counter from={0} to={Number(stat.value)} prefix={stat.value_prefix} suffix={stat.value_suffix} />
               </div>
               <span className="text-xs sm:text-sm md:text-base font-bold opacity-70 uppercase tracking-widest text-blue-200">
-                {stat.label}
+                {t(stat.label)}
               </span>
             </motion.div>
           ))}

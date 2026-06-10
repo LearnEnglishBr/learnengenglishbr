@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface Testimonial {
   id: string
@@ -21,6 +22,7 @@ interface TestimonialsProps {
 }
 
 export function Testimonials({ title, subtitle, items }: TestimonialsProps) {
+  const { t } = useLanguage()
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center' }, [Autoplay({ delay: 5000, stopOnInteraction: true })])
   const [canScrollPrev, setCanScrollPrev] = useState(false)
   const [canScrollNext, setCanScrollNext] = useState(true)
@@ -50,8 +52,8 @@ export function Testimonials({ title, subtitle, items }: TestimonialsProps) {
     return (
       <section id="depoimentos" className="py-32 bg-muted/30 overflow-hidden relative">
         <div className="container mx-auto px-6 lg:px-12 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">{title}</h2>
-          <p className="text-muted-foreground">Em breve novos depoimentos serão adicionados.</p>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">{t(title)}</h2>
+          <p className="text-muted-foreground">{t('Em breve novos depoimentos serão adicionados.')}</p>
         </div>
       </section>
     )
@@ -62,8 +64,8 @@ export function Testimonials({ title, subtitle, items }: TestimonialsProps) {
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
       
       <div className="container mx-auto px-6 lg:px-12 mb-16 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">{title}</h2>
-        {subtitle && <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{subtitle}</p>}
+        <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">{t(title)}</h2>
+        {subtitle && <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t(subtitle)}</p>}
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
@@ -78,14 +80,14 @@ export function Testimonials({ title, subtitle, items }: TestimonialsProps) {
                   <div>
                     <Quote className="w-10 h-10 text-primary/20 mb-6" />
                     <p className="text-lg md:text-xl text-foreground font-medium mb-8 leading-relaxed">
-                      "{testimonial.content}"
+                      "{t(testimonial.content)}"
                     </p>
                   </div>
                   <div className="flex items-center gap-4 border-t border-border/50 pt-6">
-                    <img src={testimonial.image_url || `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`} alt={testimonial.name} className="w-14 h-14 rounded-full object-cover border-2 border-background shadow-md" />
+                    <img src={testimonial.image_url || `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`} alt={t(testimonial.name)} className="w-14 h-14 rounded-full object-cover border-2 border-background shadow-md" />
                     <div>
-                      <h4 className="font-bold text-foreground">{testimonial.name}</h4>
-                      <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                      <h4 className="font-bold text-foreground">{t(testimonial.name)}</h4>
+                      <p className="text-sm text-muted-foreground">{t(testimonial.role)}</p>
                       <div className="flex items-center gap-0.5 text-yellow-500 mt-1">
                         {Array.from({ length: testimonial.rating }).map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
                       </div>
@@ -101,7 +103,7 @@ export function Testimonials({ title, subtitle, items }: TestimonialsProps) {
           <button 
             onClick={scrollPrev} 
             disabled={!canScrollPrev}
-            aria-label="Depoimento anterior" 
+            aria-label={t('Depoimento anterior')} 
             className="p-4 rounded-full bg-background border border-border shadow-sm hover:bg-accent hover:text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -109,7 +111,7 @@ export function Testimonials({ title, subtitle, items }: TestimonialsProps) {
           <button 
             onClick={scrollNext} 
             disabled={!canScrollNext}
-            aria-label="Próximo depoimento" 
+            aria-label={t('Próximo depoimento')} 
             className="p-4 rounded-full bg-background border border-border shadow-sm hover:bg-accent hover:text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronRight className="w-6 h-6" />

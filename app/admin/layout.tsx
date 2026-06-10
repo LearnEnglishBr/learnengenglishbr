@@ -1,8 +1,12 @@
+'use client'
+
 import Link from 'next/link'
-import { LayoutDashboard, Users, BookOpen, PenTool, Settings, FileText, LogOut } from 'lucide-react'
+import { LayoutDashboard, Users, BookOpen, PenTool, Settings, FileText, LogOut, Globe } from 'lucide-react'
 import { logoutAction } from '@/actions/auth'
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const { t, locale, setLocale } = useLanguage()
   return (
     <div className="flex min-h-screen bg-muted/20">
       {/* Sidebar Admin */}
@@ -16,26 +20,29 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <LayoutDashboard className="w-4 h-4" /> Dashboard
           </Link>
           <Link href="/admin/cursos" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
-            <BookOpen className="w-4 h-4" /> Cursos
+            <BookOpen className="w-4 h-4" /> {t('Cursos')}
           </Link>
           <Link href="/admin/usuarios" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
-            <Users className="w-4 h-4" /> Alunos
+            <Users className="w-4 h-4" /> {t('Alunos')}
           </Link>
           <Link href="/admin/blog" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
-            <PenTool className="w-4 h-4" /> Blog AI
+            <PenTool className="w-4 h-4" /> {t('Blog AI')}
           </Link>
           <Link href="/admin/produtos" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
-            <FileText className="w-4 h-4" /> Produtos Digitais
+            <FileText className="w-4 h-4" /> {t('Produtos Digitais')}
           </Link>
           <Link href="/admin/configuracoes" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
-            <Settings className="w-4 h-4" /> Configurações
+            <Settings className="w-4 h-4" /> {t('Configurações')}
           </Link>
         </nav>
 
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border space-y-2">
+          <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="flex w-full items-center gap-3 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors">
+            <Globe className="w-4 h-4" /> {t('PT')}
+          </button>
           <form action={logoutAction}>
             <button type="submit" className="flex w-full items-center gap-3 px-3 py-2 text-sm font-medium text-destructive hover:bg-destructive/10 rounded-md transition-colors">
-              <LogOut className="w-4 h-4" /> Sair
+              <LogOut className="w-4 h-4" /> {t('Sair')}
             </button>
           </form>
         </div>

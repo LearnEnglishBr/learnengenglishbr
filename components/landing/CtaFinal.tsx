@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface CtaFinalProps {
   title: string
@@ -12,6 +13,7 @@ interface CtaFinalProps {
 }
 
 export function CtaFinal({ title, subtitle, button_text, button_href }: CtaFinalProps) {
+  const { t } = useLanguage()
   return (
     <section className="py-24 sm:py-32 relative overflow-hidden bg-background">
       <div className="container mx-auto px-5 sm:px-6 lg:px-12 relative z-10">
@@ -31,17 +33,17 @@ export function CtaFinal({ title, subtitle, button_text, button_href }: CtaFinal
             </div>
 
             <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 text-white leading-[1.1]">
-              {title}
+              {t(title)}
             </h2>
             
             {subtitle && (
               <p className="text-lg sm:text-xl md:text-2xl mb-10 sm:mb-12 text-blue-100/70 max-w-3xl mx-auto leading-relaxed">
-                {subtitle}
+                {t(subtitle)}
               </p>
             )}
             
             <Link href={button_href} className="group relative inline-flex h-14 sm:h-16 items-center justify-center rounded-full bg-white text-[#0a1120] px-8 sm:px-10 text-base sm:text-lg font-bold transition-all hover:scale-105 active:scale-95 shadow-xl hover:shadow-white/20">
-              <span className="mr-2">{button_text}</span>
+              <span className="mr-2">{t(button_text)}</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

@@ -3,6 +3,7 @@
 import { FadeIn } from './FadeIn'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface BlogPreviewProps {
   title: string
@@ -13,6 +14,7 @@ interface BlogPreviewProps {
 }
 
 export function BlogPreview({ title, subtitle, view_all_text, view_all_href, posts = [] }: BlogPreviewProps) {
+  const { t, locale } = useLanguage()
   const displayPosts = posts.length > 0 ? posts.slice(0, 3) : [
     { id: '1', title: 'Como acelerar seu Listening', slug: 'acelerar-listening', created_at: new Date().toISOString() },
     { id: '2', title: 'Vocabulário para Entrevistas', slug: 'vocabulario-entrevistas', created_at: new Date().toISOString() },
@@ -24,11 +26,11 @@ export function BlogPreview({ title, subtitle, view_all_text, view_all_href, pos
       <div className="container mx-auto px-6 lg:px-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">{title}</h2>
-            {subtitle && <p className="text-muted-foreground">{subtitle}</p>}
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">{t(title)}</h2>
+            {subtitle && <p className="text-muted-foreground">{t(subtitle)}</p>}
           </div>
           <Link href={view_all_href} className="inline-flex items-center gap-2 text-primary font-medium hover:underline">
-            {view_all_text} <ArrowRight className="w-4 h-4" />
+            {t(view_all_text)} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
@@ -41,11 +43,11 @@ export function BlogPreview({ title, subtitle, view_all_text, view_all_href, pos
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                    <span className="text-primary">Artigo</span>
+                    <span className="text-primary">{t('Artigo')}</span>
                     <span>•</span>
-                    <span>{post.created_at ? new Date(post.created_at).toLocaleDateString('pt-BR') : 'Recentemente'}</span>
+                    <span>{post.created_at ? new Date(post.created_at).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-BR') : t('Recentemente')}</span>
                   </div>
-                  <h3 className="text-xl font-bold group-hover:text-primary transition-colors">{post.title}</h3>
+                  <h3 className="text-xl font-bold group-hover:text-primary transition-colors">{t(post.title)}</h3>
                 </div>
               </Link>
             </FadeIn>

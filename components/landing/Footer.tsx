@@ -99,7 +99,7 @@ export function Footer({ description, copyright_text, columns, social_links }: F
         </div>
 
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} {copyright_text || 'Learneng English BR. Todos os direitos reservados.'}</p>
+          <p>© {new Date().getFullYear()} {t(copyright_text || 'Learneng English BR. Todos os direitos reservados.')}</p>
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
             <span>{t('Desenvolvido com padrão Enterprise')}</span>
             <span className="hidden sm:inline text-muted-foreground/30">|</span>

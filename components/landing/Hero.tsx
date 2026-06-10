@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { CheckCircle2, Star } from 'lucide-react'
 import Link from 'next/link'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface HeroProps {
   badge: string
@@ -18,6 +19,7 @@ interface HeroProps {
 }
 
 export function Hero({ badge, title, subtitle, cta_primary_text, cta_primary_href, cta_secondary_text, cta_secondary_href, social_proof_text, main_image, benefits }: HeroProps) {
+  const { t } = useLanguage()
   return (
     <section id="inicio" className="relative min-h-screen lg:h-screen pt-24 sm:pt-28 lg:pt-32 pb-8 overflow-hidden flex items-center">
       <div className="absolute inset-0 bg-background overflow-hidden -z-10">
@@ -38,7 +40,7 @@ export function Hero({ badge, title, subtitle, cta_primary_text, cta_primary_hre
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            {badge}
+            {t(badge)}
           </motion.div>
 
           <motion.h1 
@@ -49,8 +51,8 @@ export function Hero({ badge, title, subtitle, cta_primary_text, cta_primary_hre
           >
             {title.split('|').map((part, i) => (
               <span key={i}>
-                {i > 0 && <><br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">{part}</span></>}
-                {i === 0 && part}
+                {i > 0 && <><br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">{t(part)}</span></>}
+                {i === 0 && <span>{t(part)}</span>}
               </span>
             ))}
           </motion.h1>
@@ -62,7 +64,7 @@ export function Hero({ badge, title, subtitle, cta_primary_text, cta_primary_hre
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed mb-4 sm:mb-5"
             >
-              {subtitle}
+              {t(subtitle)}
             </motion.p>
           )}
 
@@ -75,7 +77,7 @@ export function Hero({ badge, title, subtitle, cta_primary_text, cta_primary_hre
             {benefits.map((b, i) => (
               <div key={i} className="flex items-center gap-1.5 sm:gap-2">
                 <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-primary flex-shrink-0" />
-                {b.text}
+                {t(b.text)}
               </div>
             ))}
           </motion.div>
@@ -87,10 +89,10 @@ export function Hero({ badge, title, subtitle, cta_primary_text, cta_primary_hre
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-5 sm:mb-6"
           >
             <Link href={cta_primary_href} className="inline-flex h-12 sm:h-14 items-center justify-center rounded-full bg-primary px-6 sm:px-8 text-sm sm:text-base font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 shadow-xl shadow-primary/25">
-              {cta_primary_text}
+              {t(cta_primary_text)}
             </Link>
             <Link href={cta_secondary_href} className="inline-flex h-12 sm:h-14 items-center justify-center rounded-full bg-card border border-border px-6 sm:px-8 text-sm sm:text-base font-semibold text-foreground transition-all hover:bg-accent hover:scale-105 active:scale-95">
-              {cta_secondary_text}
+              {t(cta_secondary_text)}
             </Link>
           </motion.div>
 
@@ -111,7 +113,7 @@ export function Hero({ badge, title, subtitle, cta_primary_text, cta_primary_hre
               <div className="flex items-center gap-0.5 sm:gap-1 text-yellow-500 mb-0.5">
                 {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />)}
               </div>
-              <p className="text-[10px] sm:text-xs font-medium text-muted-foreground">{social_proof_text}</p>
+              <p className="text-[10px] sm:text-xs font-medium text-muted-foreground">{t(social_proof_text)}</p>
             </div>
           </motion.div>
         </div>

@@ -3,15 +3,21 @@
 import { registerAction, googleOAuthAction } from '@/actions/auth'
 import Link from 'next/link'
 import { useActionState } from 'react'
+import { useLanguage } from '@/context/LanguageContext'
+import { Globe } from 'lucide-react'
 
 export default function RegisterPage() {
+  const { t, locale, setLocale } = useLanguage()
   const [state, action, isPending] = useActionState(registerAction, undefined)
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-muted/30">
+    <div className="flex min-h-screen items-center justify-center p-4 bg-muted/30 relative">
+      <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="absolute top-4 right-4 flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+        <Globe className="w-4 h-4" /> {t('PT')}
+      </button>
       <div className="w-full max-w-md bg-card p-8 rounded-xl shadow-sm border border-border">
-        <h1 className="text-2xl font-bold mb-2">Criar Conta</h1>
-        <p className="text-muted-foreground mb-6">Junte-se à English School Premium.</p>
+        <h1 className="text-2xl font-bold mb-2">{t('Criar Conta')}</h1>
+        <p className="text-muted-foreground mb-6">{t('Junte-se à English School Premium.')}</p>
 
         {state?.error && (
           <div className="bg-destructive/15 text-destructive text-sm p-3 rounded-md mb-6">
@@ -27,7 +33,7 @@ export default function RegisterPage() {
 
         <form action={action} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="fullName" className="text-sm font-medium">Nome Completo</label>
+            <label htmlFor="fullName" className="text-sm font-medium">{t('Nome Completo')}</label>
             <input 
               id="fullName" 
               name="fullName" 
@@ -38,7 +44,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium">E-mail</label>
+            <label htmlFor="email" className="text-sm font-medium">{t('E-mail')}</label>
             <input 
               id="email" 
               name="email" 
@@ -49,7 +55,7 @@ export default function RegisterPage() {
           </div>
           
           <div className="space-y-2">
-            <label htmlFor="password" className="text-sm font-medium">Senha</label>
+            <label htmlFor="password" className="text-sm font-medium">{t('Senha')}</label>
             <input 
               id="password" 
               name="password" 
@@ -64,7 +70,7 @@ export default function RegisterPage() {
             disabled={isPending}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
           >
-            {isPending ? 'Cadastrando...' : 'Cadastrar'}
+            {isPending ? t('Cadastrando...') : t('Cadastrar')}
           </button>
         </form>
 
@@ -73,7 +79,7 @@ export default function RegisterPage() {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted-foreground">Ou cadastre-se com</span>
+            <span className="bg-card px-2 text-muted-foreground">{t('Ou cadastre-se com')}</span>
           </div>
         </div>
 
@@ -87,7 +93,7 @@ export default function RegisterPage() {
         </form>
 
         <p className="mt-6 text-center text-sm text-muted-foreground">
-          Já tem uma conta? <Link href="/login" className="text-primary hover:underline font-medium">Faça login</Link>
+          {t('Já tem uma conta?')} <Link href="/login" className="text-primary hover:underline font-medium">{t('Faça login')}</Link>
         </p>
       </div>
     </div>
