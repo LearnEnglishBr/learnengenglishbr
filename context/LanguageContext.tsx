@@ -202,6 +202,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const setLocale = (l: Language) => {
     setLocaleState(l)
     localStorage.setItem('locale', l)
+    document.cookie = `locale=${l};path=/;max-age=31536000;SameSite=Lax`
   }
 
   const t = (key: string): string => {

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { getSiteContent } from '@/lib/site-content'
+import { cookies } from 'next/headers'
 import { Header } from '@/components/landing/Header'
 import { Hero } from '@/components/landing/Hero'
 import { SocialProof } from '@/components/landing/SocialProof'
@@ -17,8 +18,10 @@ import { JsonLd } from '@/components/seo/JsonLd'
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://learningenglishbr.com.br'
 
 export default async function LandingPage() {
+  const cookieStore = await cookies()
+  const lang = (cookieStore.get('locale')?.value === 'en' ? 'en' : 'pt') as 'pt' | 'en'
   const supabase = await createClient()
-  const content = await getSiteContent()
+  const content = await getSiteContent(lang)
 
   const { data: courses } = await supabase
     .from('courses')

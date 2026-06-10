@@ -264,3 +264,20 @@ export async function saveWhyChooseItemsAction(formData: FormData) {
   if (error) throw error
   revalidatePath('/', 'layout')
 }
+
+// === BILINGUAL SITE CONTENT (stores {pt, en} in value) ===
+
+export async function updateSiteContentBilingualAction(formData: FormData) {
+  const supabase = await checkAdmin()
+  const section = formData.get('section') as string
+  const key = formData.get('key') as string
+  const pt = formData.get('pt') as string || ''
+  const en = formData.get('en') as string || ''
+
+  const { error } = await supabase
+    .from('site_content')
+    .upsert({ section, key, value: { pt, en } }, { onConflict: 'section,key' })
+
+  if (error) throw error
+  revalidatePath('/', 'layout')
+}

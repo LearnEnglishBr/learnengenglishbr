@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { updateSiteContentAction, saveWhyChooseItemsAction } from '@/actions/site-content'
+import { updateSiteContentBilingualAction, saveWhyChooseItemsAction } from '@/actions/site-content'
+import { pt, en } from '@/lib/site-content'
 
 export function WhyChooseForm({ content, items }: { content: Record<string, any>; items: Array<{ id: string; icon_name: string; title: string; description: string }> }) {
   const [itemList, setItemList] = useState(items.map(s => ({ icon_name: s.icon_name, title: s.title, description: s.description })))
@@ -16,12 +17,21 @@ export function WhyChooseForm({ content, items }: { content: Record<string, any>
 
   return (
     <div className="space-y-6">
-      <form action={updateSiteContentAction} className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-4">
+      <form action={updateSiteContentBilingualAction} className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-4">
         <input type="hidden" name="section" value="why_choose" />
         <input type="hidden" name="key" value="title" />
         <div className="space-y-2">
-          <label className="text-sm font-medium">Título da Seção</label>
-          <textarea name="value" defaultValue={content.title || ''} className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+          <label className="text-sm font-medium">Título da Seção <span className="text-xs text-muted-foreground">(PT | EN)</span></label>
+          <div className="flex gap-3">
+            <div className="flex-1">
+              <span className="text-xs text-muted-foreground block mb-1">PT</span>
+              <textarea name="pt" defaultValue={pt(content.title)} className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+            </div>
+            <div className="flex-1">
+              <span className="text-xs text-muted-foreground block mb-1">EN</span>
+              <textarea name="en" defaultValue={en(content.title)} className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+            </div>
+          </div>
         </div>
         <button type="submit" className="text-xs text-primary hover:underline">Salvar título</button>
       </form>

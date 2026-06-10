@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { updateSiteContentAction, saveHeroBenefitsAction } from '@/actions/site-content'
+import { updateSiteContentAction, updateSiteContentBilingualAction, saveHeroBenefitsAction } from '@/actions/site-content'
 import { UploadButton } from './UploadButton'
+import { pt, en } from '@/lib/site-content'
 
 export function HeroForm({ content, benefits }: { content: Record<string, any>; benefits: Array<{ id: string; text: string }> }) {
   const [benefitList, setBenefitList] = useState(benefits.map(b => ({ text: b.text })))
@@ -16,33 +17,45 @@ export function HeroForm({ content, benefits }: { content: Record<string, any>; 
   }
 
   const fields = [
-    { key: 'badge', label: 'Badge (Ex: Mais de 2.500 alunos)', type: 'text' as const },
-    { key: 'title', label: 'Título Principal', type: 'text' as const },
-    { key: 'subtitle', label: 'Subtítulo', type: 'textarea' as const },
-    { key: 'cta_primary_text', label: 'Texto Botão Principal', type: 'text' as const },
-    { key: 'cta_primary_href', label: 'Link Botão Principal', type: 'text' as const },
-    { key: 'cta_secondary_text', label: 'Texto Botão Secundário', type: 'text' as const },
-    { key: 'cta_secondary_href', label: 'Link Botão Secundário', type: 'text' as const },
-    { key: 'social_proof_text', label: 'Texto Prova Social', type: 'text' as const },
+    { key: 'badge', label: 'Badge' },
+    { key: 'title', label: 'Título Principal' },
+    { key: 'subtitle', label: 'Subtítulo' },
+    { key: 'cta_primary_text', label: 'Texto Botão Principal' },
+    { key: 'cta_primary_href', label: 'Link Botão Principal' },
+    { key: 'cta_secondary_text', label: 'Texto Botão Secundário' },
+    { key: 'cta_secondary_href', label: 'Link Botão Secundário' },
+    { key: 'social_proof_text', label: 'Texto Prova Social' },
   ]
 
   return (
     <div className="space-y-6">
-      <form action={updateSiteContentAction} className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-4">
-        <input type="hidden" name="section" value="hero" />
+      <form className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-4">
+        <h3 className="font-semibold mb-2">Textos da Hero <span className="text-xs text-muted-foreground font-normal">(PT | EN)</span></h3>
         {fields.map(f => (
-          <div key={f.key}>
+          <form key={f.key} action={updateSiteContentBilingualAction} className="space-y-2 border-b border-border pb-4 last:border-0">
+            <input type="hidden" name="section" value="hero" />
             <input type="hidden" name="key" value={f.key} />
-            <div className="space-y-2">
-              <label className="text-sm font-medium">{f.label}</label>
-              {f.type === 'textarea' ? (
-                <textarea name="value" defaultValue={content[f.key] || ''} className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
-              ) : (
-                <input type="text" name="value" defaultValue={content[f.key] || ''} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
-              )}
+            <label className="text-sm font-medium">{f.label}</label>
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <span className="text-xs text-muted-foreground block mb-1">PT</span>
+                {f.key === 'subtitle' ? (
+                  <textarea name="pt" defaultValue={pt(content[f.key])} className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+                ) : (
+                  <input type="text" name="pt" defaultValue={pt(content[f.key])} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+                )}
+              </div>
+              <div className="flex-1">
+                <span className="text-xs text-muted-foreground block mb-1">EN</span>
+                {f.key === 'subtitle' ? (
+                  <textarea name="en" defaultValue={en(content[f.key])} className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+                ) : (
+                  <input type="text" name="en" defaultValue={en(content[f.key])} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+                )}
+              </div>
             </div>
-            <button type="submit" className="mt-2 text-xs text-primary hover:underline">Salvar campo</button>
-          </div>
+            <button type="submit" className="text-xs text-primary hover:underline">Salvar</button>
+          </form>
         ))}
       </form>
 

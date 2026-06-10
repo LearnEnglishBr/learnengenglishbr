@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { updateSiteContentAction, saveMethodologyStepsAction } from '@/actions/site-content'
+import { updateSiteContentBilingualAction, saveMethodologyStepsAction } from '@/actions/site-content'
+import { pt, en } from '@/lib/site-content'
 
 export function MethodologyForm({ content, steps }: { content: Record<string, any>; steps: Array<{ id: string; step_number: string; title: string; description: string; icon_name: string; icon_color: string }> }) {
   const [stepList, setStepList] = useState(steps.map(s => ({ step_number: s.step_number, title: s.title, description: s.description, icon_name: s.icon_name, icon_color: s.icon_color })))
@@ -25,13 +26,22 @@ export function MethodologyForm({ content, steps }: { content: Record<string, an
   return (
     <div className="space-y-6">
       <div className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-4">
-        <h3 className="font-semibold">Textos da Seção</h3>
+        <h3 className="font-semibold">Textos da Seção <span className="text-xs text-muted-foreground font-normal">(PT | EN)</span></h3>
         {textFields.map(f => (
-          <form key={f.key} action={updateSiteContentAction} className="space-y-2 border-b border-border pb-4 last:border-0">
+          <form key={f.key} action={updateSiteContentBilingualAction} className="space-y-2 border-b border-border pb-4 last:border-0">
             <input type="hidden" name="section" value="methodology" />
             <input type="hidden" name="key" value={f.key} />
             <label className="text-sm font-medium">{f.label}</label>
-            <textarea name="value" defaultValue={content[f.key] || ''} className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <span className="text-xs text-muted-foreground block mb-1">PT</span>
+                <textarea name="pt" defaultValue={pt(content[f.key])} className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+              </div>
+              <div className="flex-1">
+                <span className="text-xs text-muted-foreground block mb-1">EN</span>
+                <textarea name="en" defaultValue={en(content[f.key])} className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+              </div>
+            </div>
             <button type="submit" className="text-xs text-primary hover:underline">Salvar</button>
           </form>
         ))}

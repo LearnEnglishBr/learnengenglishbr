@@ -1,5 +1,27 @@
 import { createClient } from '@/lib/supabase/server'
 
+// Bilingual helpers: values are stored as {pt, en} or as plain string (backwards compat)
+export function pt(value: any): string {
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object') return value.pt ?? ''
+  return ''
+}
+
+export function en(value: any): string {
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object') return value.en ?? value.pt ?? ''
+  return ''
+}
+
+export function localeValue(value: any, locale: 'pt' | 'en'): string {
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object') {
+    if (locale === 'en' && value.en != null) return value.en
+    return value.pt ?? ''
+  }
+  return ''
+}
+
 export interface SiteContent {
   hero: {
     badge: string
@@ -116,7 +138,7 @@ export interface SiteContent {
   }
 }
 
-export async function getSiteContent(): Promise<SiteContent> {
+export async function getSiteContent(locale: 'pt' | 'en' = 'pt'): Promise<SiteContent> {
   const supabase = await createClient()
 
   // Fetch all data in parallel
@@ -267,23 +289,23 @@ export async function getSiteContent(): Promise<SiteContent> {
 
   return {
     hero: {
-      badge: h.badge || 'Mais de 2.500 alunos transformados',
-      title: h.title || 'Domine o Inglês. Transforme seu Futuro.',
-      subtitle: h.subtitle || '',
-      cta_primary_text: h.cta_primary_text || 'Começar Agora',
+      badge: localeValue(h.badge, locale) || (locale === 'en' ? '+2,500 satisfied students' : 'Mais de 2.500 alunos transformados'),
+      title: localeValue(h.title, locale) || (locale === 'en' ? 'Master English. Transform Your Future.' : 'Domine o Inglês. Transforme seu Futuro.'),
+      subtitle: localeValue(h.subtitle, locale) || '',
+      cta_primary_text: localeValue(h.cta_primary_text, locale) || (locale === 'en' ? 'Start Now' : 'Começar Agora'),
       cta_primary_href: h.cta_primary_href || '#cursos',
-      cta_secondary_text: h.cta_secondary_text || 'Ver Método',
+      cta_secondary_text: localeValue(h.cta_secondary_text, locale) || (locale === 'en' ? 'See Method' : 'Ver Método'),
       cta_secondary_href: h.cta_secondary_href || '#metodologia',
-      social_proof_text: h.social_proof_text || '+2.500 alunos satisfeitos',
+      social_proof_text: localeValue(h.social_proof_text, locale) || (locale === 'en' ? '+2,500 satisfied students' : '+2.500 alunos satisfeitos'),
       main_image: h.main_image || '/images/principal.jpg',
       benefits: benefits.map(b => ({ text: b.text })),
     },
     methodology: {
-      title: m.title || 'Metodologia Moderna e Estratégica',
-      paragraph_1: m.paragraph_1 || '',
-      paragraph_2: m.paragraph_2 || '',
-      paragraph_3: m.paragraph_3 || '',
-      section_subtitle: m.section_subtitle || '',
+      title: localeValue(m.title, locale) || (locale === 'en' ? 'Modern and Strategic Methodology' : 'Metodologia Moderna e Estratégica'),
+      paragraph_1: localeValue(m.paragraph_1, locale) || '',
+      paragraph_2: localeValue(m.paragraph_2, locale) || '',
+      paragraph_3: localeValue(m.paragraph_3, locale) || '',
+      section_subtitle: localeValue(m.section_subtitle, locale) || '',
       steps: steps.map(s => ({
         step_number: s.step_number,
         title: s.title,
@@ -293,17 +315,17 @@ export async function getSiteContent(): Promise<SiteContent> {
       })),
     },
     courses: {
-      title: c.title || 'Formações Completas',
-      subtitle: c.subtitle || '',
-      badge_text: c.badge_text || 'Premium',
-      feature_1: c.feature_1 || 'Vitalício',
-      feature_2: c.feature_2 || 'Certificado',
-      feature_3: c.feature_3 || 'Suporte VIP',
-      button_text: c.button_text || 'Matricular',
+      title: localeValue(c.title, locale) || (locale === 'en' ? 'Full Programs' : 'Formações Completas'),
+      subtitle: localeValue(c.subtitle, locale) || '',
+      badge_text: localeValue(c.badge_text, locale) || 'Premium',
+      feature_1: localeValue(c.feature_1, locale) || (locale === 'en' ? 'Lifetime' : 'Vitalício'),
+      feature_2: localeValue(c.feature_2, locale) || (locale === 'en' ? 'Certificate' : 'Certificado'),
+      feature_3: localeValue(c.feature_3, locale) || (locale === 'en' ? 'VIP Support' : 'Suporte VIP'),
+      button_text: localeValue(c.button_text, locale) || (locale === 'en' ? 'Enroll' : 'Matricular'),
     },
     testimonials: {
-      title: t.title || 'O Que Nossos Alunos Dizem',
-      subtitle: t.subtitle || '',
+      title: localeValue(t.title, locale) || (locale === 'en' ? 'What Our Students Say' : 'O Que Nossos Alunos Dizem'),
+      subtitle: localeValue(t.subtitle, locale) || '',
       items: testimonials.map(tm => ({
         id: tm.id,
         name: tm.name,
@@ -314,34 +336,34 @@ export async function getSiteContent(): Promise<SiteContent> {
       })),
     },
     about_teacher: {
-      title: a.title || 'Conheça o Professor',
-      name: a.name || 'Vitor Brandino',
-      bio_paragraph_1: a.bio_paragraph_1 || '',
-      bio_paragraph_2: a.bio_paragraph_2 || '',
-      bio_paragraph_3: a.bio_paragraph_3 || '',
-      info_box_1_title: a.info_box_1_title || 'Formação Acadêmica',
-      info_box_1_text: a.info_box_1_text || '',
-      info_box_2_title: a.info_box_2_title || 'Tradutor Profissional',
-      info_box_2_text: a.info_box_2_text || '',
-      info_box_3_title: a.info_box_3_title || 'Pesquisador em Ensino de Línguas',
-      info_box_3_text: a.info_box_3_text || '',
+      title: localeValue(a.title, locale) || (locale === 'en' ? 'Meet the Teacher' : 'Conheça o Professor'),
+      name: localeValue(a.name, locale) || 'Vitor Brandino',
+      bio_paragraph_1: localeValue(a.bio_paragraph_1, locale) || '',
+      bio_paragraph_2: localeValue(a.bio_paragraph_2, locale) || '',
+      bio_paragraph_3: localeValue(a.bio_paragraph_3, locale) || '',
+      info_box_1_title: localeValue(a.info_box_1_title, locale) || (locale === 'en' ? 'Academic Background' : 'Formação Acadêmica'),
+      info_box_1_text: localeValue(a.info_box_1_text, locale) || '',
+      info_box_2_title: localeValue(a.info_box_2_title, locale) || (locale === 'en' ? 'Professional Translator' : 'Tradutor Profissional'),
+      info_box_2_text: localeValue(a.info_box_2_text, locale) || '',
+      info_box_3_title: localeValue(a.info_box_3_title, locale) || (locale === 'en' ? 'Language Teaching Researcher' : 'Pesquisador em Ensino de Línguas'),
+      info_box_3_text: localeValue(a.info_box_3_text, locale) || '',
       gallery_images: galleryImages,
     },
     blog_preview: {
-      title: bp.title || 'Últimos Artigos',
-      subtitle: bp.subtitle || '',
-      view_all_text: bp.view_all_text || 'Ver todo o Blog',
+      title: localeValue(bp.title, locale) || (locale === 'en' ? 'Latest Articles' : 'Últimos Artigos'),
+      subtitle: localeValue(bp.subtitle, locale) || '',
+      view_all_text: localeValue(bp.view_all_text, locale) || (locale === 'en' ? 'View All Posts' : 'Ver todo o Blog'),
       view_all_href: bp.view_all_href || '/blog',
     },
     cta: {
-      title: ct.title || 'Comece sua jornada rumo à fluência hoje.',
-      subtitle: ct.subtitle || '',
-      button_text: ct.button_text || 'Quero Me Tornar Fluente',
+      title: localeValue(ct.title, locale) || (locale === 'en' ? 'Start your journey to fluency today.' : 'Comece sua jornada rumo à fluência hoje.'),
+      subtitle: localeValue(ct.subtitle, locale) || '',
+      button_text: localeValue(ct.button_text, locale) || (locale === 'en' ? 'I Want to Become Fluent' : 'Quero Me Tornar Fluente'),
       button_href: ct.button_href || '#cursos',
     },
     social_proof: {
-      paragraph_1: sp.paragraph_1 || '',
-      paragraph_2: sp.paragraph_2 || '',
+      paragraph_1: localeValue(sp.paragraph_1, locale) || '',
+      paragraph_2: localeValue(sp.paragraph_2, locale) || '',
     },
     results: {
       stats: stats.map(s => ({
@@ -373,7 +395,7 @@ export async function getSiteContent(): Promise<SiteContent> {
       theme_accent_color: settings.theme_accent_color || '#FDB62F',
     },
     why_choose: {
-      title: wc.title || 'Por que escolher a Learneng English BR?',
+      title: localeValue(wc.title, locale) || (locale === 'en' ? 'Why choose Learneng English BR?' : 'Por que escolher a Learneng English BR?'),
       items: whyChooseItems.map(w => ({ icon_name: w.icon_name, title: w.title, description: w.description })),
     },
   }
