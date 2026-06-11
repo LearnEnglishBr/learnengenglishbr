@@ -250,6 +250,31 @@ const en: Record<string, string> = {
   'Guia completo com estratégias comprovadas sobre como aprender inglês sozinho. Descubra métodos, recursos gratuitos e um plano de estudos para dominar o idioma.': 'A complete guide with proven strategies on how to learn English alone. Discover methods, free resources, and a study plan to master the language.',
   'Aprenda as 50 frases em inglês mais usadas no dia a dia. De saudações a emergências, domine as expressões essenciais para se comunicar com confiança.': 'Learn the 50 most used English phrases in daily life. From greetings to emergencies, master the essential expressions to communicate with confidence.',
   'Domine o inglês para viagem com 50 palavras e expressões essenciais. Do aeroporto ao restaurante, prepare-se para sua próxima viagem internacional.': 'Master English for travel with 50 essential words and phrases. From the airport to the restaurant, get ready for your next international trip.',
+  // New UI session translations
+  'Por que você quer aprender inglês?': 'Why do you want to learn English?',
+  'Selecione seu objetivo e descubra seu caminho personalizado para a fluência.': 'Select your goal and discover your personalized path to fluency.',
+  'Selecione uma das opções abaixo para continuar': 'Select one of the options below to continue',
+  'Objetivo selecionado': 'Selected goal',
+  'Nível mínimo recomendado': 'Recommended minimum level',
+  'Nível ideal': 'Ideal level',
+  'Tempo estimado': 'Estimated time',
+  'Competências necessárias': 'Required competencies',
+  'Chance de sucesso por nível': 'Success chance per level',
+  'Realizar Teste de Nivelamento': 'Take Level Test',
+  'Viajar': 'Travel',
+  'Trabalho Internacional': 'International Work',
+  'Conversação': 'Conversation',
+  'Entrevistas de Emprego': 'Job Interviews',
+  'Imigração': 'Immigration',
+  'Certificações': 'Certifications',
+  'Estudos': 'Studies',
+  'Trabalho Remoto': 'Remote Work',
+  // AIPlanner UI translations
+  'Transforme seu sonho em um plano real': 'Transform your dream into a real plan',
+  'Descubra como a IA pode montar o caminho perfeito para seu objetivo.': 'Discover how AI can build the perfect path for your goal.',
+  'Criar Meu Plano Gratuito': 'Create My Free Plan',
+  'Gerando…': 'Generating…',
+  'O que você deseja conquistar com o inglês?': 'What do you want to achieve with English?'
 }
 
 interface LanguageContextType {
@@ -268,6 +293,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (stored === 'en' || stored === 'pt') {
       setLocaleState(stored)
     }
+
+
+
+
+
+
   }, [])
 
   const setLocale = (l: Language) => {

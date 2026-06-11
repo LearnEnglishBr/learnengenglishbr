@@ -228,9 +228,9 @@ export const GoalDiscovery = () => {
             </ul>
             <p className="font-medium mt-3 mb-2">{t('Chance de sucesso por nível')}:</p>
             {renderSuccessBar(recommendations[selected].success)}
-<Link href="/teste-de-ingles" className="mt-4 inline-block mx-auto px-6 py-2 bg-primary text-white rounded-full hover:bg-primary/90 transition">
-                {t('Realizar Teste de Nivelamento')}
-              </Link>
+
+
+
           </div>
         )}
       </div>
