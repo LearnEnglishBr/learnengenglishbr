@@ -83,7 +83,7 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
         }`}
       >
         <div className="container mx-auto px-5 sm:px-6 lg:px-12 grid grid-cols-[1fr_auto_1fr] items-center relative">
-            <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors md:hidden justify-self-start">
+            <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="flex items-center gap-1.5 leading-none text-sm font-medium text-muted-foreground hover:text-foreground transition-colors md:hidden justify-self-start">
               <Globe className="w-4 h-4" /> {t('PT')}
             </button>
             <Link href="/" className="flex items-center gap-2.5 justify-self-center">
@@ -99,7 +99,7 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
             </Link>
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-foreground hover:bg-accent transition-colors justify-self-end"
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg leading-none text-foreground hover:bg-accent transition-colors justify-self-end"
               aria-label={mobileMenuOpen ? t('Fechar menu') : t('Abrir menu')}
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
