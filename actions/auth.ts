@@ -77,15 +77,17 @@ export async function logoutAction() {
 
 export async function googleOAuthAction() {
   const supabase = await createClient()
-  
+  const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      redirectTo: redirectUrl,
     },
   })
 
   if (error) {
+    console.error('[Google OAuth]', { redirectUrl, error: error.message })
     throw new Error(error.message)
   }
 
