@@ -18,12 +18,24 @@ const anthropic = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY || 'du
 
 // Função que resolve o provedor correto baseado na seleção do usuário
 function getModel(modelChoice: string) {
-  if (modelChoice === 'anthropic' && process.env.ANTHROPIC_API_KEY) {
+  // Anthropic requires an API key
+  if (modelChoice === 'anthropic') {
+    if (!process.env.ANTHROPIC_API_KEY) {
+      throw new Error('Chave ANTHROPIC_API_KEY não configurada')
+    }
     return anthropic('claude-3-5-sonnet-20240620')
-  } else if (modelChoice === 'google' && (process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY)) {
+  }
+  // Google Gemini requires a key (either GOOGLE_GENERATIVE_AI_API_KEY or GEMINI_API_KEY)
+  if (modelChoice === 'google') {
+    if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY && !process.env.GEMINI_API_KEY) {
+      throw new Error('Chave do Google Gemini não configurada')
+    }
     return google('models/gemini-1.5-pro-latest')
   }
-  // Fallback padrão para OpenAI
+  // OpenAI fallback – must have an API key
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('Chave OPENAI_API_KEY não configurada')
+  }
   return openai('gpt-4o')
 }
 
