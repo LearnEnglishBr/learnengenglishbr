@@ -242,9 +242,10 @@ export default function NewBlogPostPage() {
                   value={aiModel} onChange={e => setAiModel(e.target.value)}
                   className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 >
-                  <option value="openai">OpenAI (GPT-4o) - Padrão</option>
-                  <option value="anthropic">Anthropic (Claude 3.5 Sonnet) - Excelente para redação</option>
-                  <option value="google">Google (Gemini 1.5 Pro) - Melhor pesquisa técnica</option>
+<option value="openai">OpenAI (GPT-4o) - Padrão</option>
+                   <option value="anthropic">Anthropic (Claude 3.5 Sonnet) - Excelente para redação</option>
+                   <option value="google">Google (Gemini 1.5 Pro) - Melhor pesquisa técnica</option>
+                   <option value="nvidia">NVIDIA (NeMo) - Modelo avançado</option>
                 </select>
               </div>
             </div>

@@ -9,12 +9,92 @@ import { createAnthropic } from '@ai-sdk/anthropic'
 import { z } from 'zod'
 
 // Inicialização dos provedores
+// NVIDIA API (NeMo) – chave e ID do modelo (opcional, usar se quiser)
+const NVIDIA_API_KEY = process.env.NVIDIA_API_KEY || ''
+const NVIDIA_MODEL_ID = process.env.NVIDIA_MODEL_ID || ''
 const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY || 'dummy' })
 const google = createGoogleGenerativeAI({ apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY || 'dummy' })
 const anthropic = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY || 'dummy' })
 
 // Função que resolve o provedor correto baseado na seleção do usuário
 function getModel(modelChoice: string) {
+  if (modelChoice === 'anthropic' && process.env.ANTHROPIC_API_KEY) {
+    return anthropic('claude-3-5-sonnet-20240620')
+  } else if (modelChoice === 'google' && (process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY)) {
+    return google('models/gemini-1.5-pro-latest')
+  }
+  // Fallback padrão para OpenAI
+  return openai('gpt-4o')
+}
+
+// Helper para chamar a API da NVIDIA (NeMo)
+async function generateWithNvidia({ keyword, topic, audience, tone, wordCount }: any) {
+  const fullPrompt = `Você é um Especialista em SEO (AEO) e Copywriter de nível global, trabalhando para a escola de inglês premium LearningEnglishBR (Fundada pelo Prof. Vitor Brandino).
+  
+  Tópico Principal: ${topic || keyword}
+  Palavra-chave Foco: ${keyword}
+  Público-alvo: ${audience}
+  Tamanho aproximado: ${wordCount || '1000'} palavras.
+  Tom de voz: ${tone}
+  
+  REQUISITOS:
+  1. A estrutura deve ser impecável, com marcações HTML puras (apenas <h1>, <h2>, <h3>, <p>, <ul>, <li>, <strong>, <blockquote>).
+  2. A palavra-chave "${keyword}" deve aparecer na introdução, distribuída pelo texto (densidade de 1% a 2%) e em pelo menos um <h2>.
+  3. Crie uma seção de FAQ no final otimizada para "People Also Ask" do Google.
+  4. Conclua com um Call to Action forte convidando para os cursos da LearningEnglishBR.`
+
+  if (!NVIDIA_API_KEY) {
+    throw new Error('NVIDIA_API_KEY não está configurada')
+  }
+  if (!NVIDIA_MODEL_ID) {
+    throw new Error('NVIDIA_MODEL_ID não está configurado')
+  }
+
+  const endpoint = `https://integrate.api.nvcf.nvidia.com/v2/nvcf/exec/${NVIDIA_MODEL_ID}`
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${NVIDIA_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      prompt: fullPrompt,
+      temperature: 0.7,
+      max_output_tokens: 2048,
+    }),
+  })
+
+  if (!response.ok) {
+    const err = await response.text()
+    throw new Error(`Erro na API NVIDIA (${response.status}): ${err}`)
+  }
+
+  const result = await response.json()
+  // Tentativas de extrair a string JSON do retorno da NVIDIA
+  let jsonString: string | undefined
+  if (typeof result === 'string') {
+    jsonString = result
+  } else if (result?.output?.text) {
+    jsonString = result.output.text
+  } else if (result?.output) {
+    jsonString = typeof result.output === 'string' ? result.output : JSON.stringify(result.output)
+  } else if (result?.choices?.[0]?.text) {
+    jsonString = result.choices[0].text
+  }
+
+  if (!jsonString) {
+    throw new Error('Não foi possível extrair JSON da resposta NVIDIA')
+  }
+
+  // Caso a resposta contenha texto antes/depois do JSON, capturamos o bloco JSON
+  const match = jsonString.match(/\{[\s\S]*\}/)
+  const jsonContent = match ? match[0] : jsonString
+
+  return JSON.parse(jsonContent)
+}
+
+// Função que resolve o provedor correto baseado na seleção do usuário
   if (modelChoice === 'anthropic' && process.env.ANTHROPIC_API_KEY) {
     return anthropic('claude-3-5-sonnet-20240620')
   } else if (modelChoice === 'google' && (process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY)) {
