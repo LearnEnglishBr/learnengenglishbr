@@ -7,9 +7,14 @@ import { cookies } from 'next/headers'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 
 function adminClient() {
+  // Fallback to NEXT_PUBLIC_ variant for local dev convenience
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY
+  if (!serviceKey) {
+    console.error('[Supabase] Service role key is missing. Set SUPABASE_SERVICE_ROLE_KEY env variable.')
+  }
   return createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    serviceKey!,
     { auth: { persistSession: false } }
   )
 }
