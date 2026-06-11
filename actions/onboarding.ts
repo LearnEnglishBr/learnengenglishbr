@@ -1,82 +1,45 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { z } from 'zod'
 
-const onboardingSchema = z.object({
-  cpf: z.string().min(11, 'CPF inválido'),
-  phone: z.string().min(10, 'Telefone inválido'),
-  zip_code: z.string().min(8, 'CEP inválido'),
-  street: z.string().min(3, 'Rua inválida'),
-  number: z.string().min(1, 'Número é obrigatório'),
-  complement: z.string().optional(),
-  neighborhood: z.string().min(2, 'Bairro inválido'),
-  city: z.string().min(2, 'Cidade inválida'),
-  state: z.string().min(2, 'Estado inválido'),
-  country: z.string().min(2, 'País inválido'),
-})
+function adminClient() {
+  return createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { persistSession: false } }
+  )
+}
 
 export async function completeOnboardingAction(prevState: any, formData: FormData) {
   const supabase = await createClient()
-
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    redirect('/login')
+  if (!user) return { error: 'Usuário não autenticado' }
+
+  const fields: Record<string, any> = {
+    id: user.id,
+    email: user.email,
+    full_name: formData.get('full_name'),
+    phone: formData.get('phone'),
+    cpf: formData.get('cpf'),
+    zip_code: formData.get('zip_code'),
+    street: formData.get('street'),
+    number: formData.get('number'),
+    complement: formData.get('complement') || null,
+    neighborhood: formData.get('neighborhood'),
+    city: formData.get('city'),
+    state: formData.get('state'),
+    country: formData.get('country') || 'Brasil',
+    terms_accepted: formData.get('terms') === 'on',
+    privacy_accepted: formData.get('terms') === 'on',
+    accepted_at: new Date().toISOString(),
   }
 
-  const rawData = {
-    cpf: formData.get('cpf') as string,
-    phone: formData.get('phone') as string,
-    zip_code: formData.get('zip_code') as string,
-    street: formData.get('street') as string,
-    number: formData.get('number') as string,
-    complement: formData.get('complement') as string,
-    neighborhood: formData.get('neighborhood') as string,
-    city: formData.get('city') as string,
-    state: formData.get('state') as string,
-    country: formData.get('country') as string,
-  }
+  const { error } = await adminClient().from('profiles').upsert(fields, { onConflict: 'id' })
+  if (error) return { error: error.message }
 
-  const terms = formData.get('terms')
-
-  if (!terms) {
-    return { error: 'Você deve aceitar os Termos de Uso e Política de Privacidade.' }
-  }
-
-  const parsed = onboardingSchema.safeParse(rawData)
-  if (!parsed.success) {
-    return { error: parsed.error.issues[0].message }
-  }
-
-  const { error } = await supabase
-    .from('profiles')
-    .update({
-      cpf: rawData.cpf,
-      phone: rawData.phone,
-      zip_code: rawData.zip_code,
-      street: rawData.street,
-      number: rawData.number,
-      complement: rawData.complement,
-      neighborhood: rawData.neighborhood,
-      city: rawData.city,
-      state: rawData.state,
-      country: rawData.country,
-      terms_accepted: true,
-      privacy_accepted: true,
-      accepted_at: new Date().toISOString(),
-      status: 'ACTIVE'
-    })
-    .eq('id', user.id)
-
-  if (error) {
-    if (error.code === '23505' && error.message.includes('cpf')) {
-      return { error: 'Este CPF já está cadastrado.' }
-    }
-    return { error: 'Erro ao salvar os dados. Tente novamente.' }
-  }
-
-  revalidatePath('/', 'layout')
+  revalidatePath('/dashboard')
   redirect('/dashboard')
 }

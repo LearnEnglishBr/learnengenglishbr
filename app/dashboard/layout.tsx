@@ -1,12 +1,51 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { BookOpen, Download, History, User, Settings, LogOut, Globe, Menu, X } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
+import { BookOpen, Download, History, User, Settings, LogOut, Globe, Menu, X, Loader2 } from 'lucide-react'
 import { logoutAction } from '@/actions/auth'
 import { useLanguage } from '@/context/LanguageContext'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const [checkingProfile, setCheckingProfile] = useState(true)
+
+  useEffect(() => {
+    async function checkProfile() {
+      if (pathname === '/onboarding') {
+        setCheckingProfile(false)
+        return
+      }
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        router.replace('/login')
+        return
+      }
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('full_name, phone')
+        .eq('id', user.id)
+        .single()
+      if (!profile?.full_name || !profile?.phone) {
+        router.replace('/onboarding')
+        return
+      }
+      setCheckingProfile(false)
+    }
+    checkProfile()
+  }, [router, pathname])
+
+  if (checkingProfile) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    )
+  }
   const { t, locale, setLocale } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
