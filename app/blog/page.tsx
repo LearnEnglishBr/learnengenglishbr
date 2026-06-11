@@ -22,7 +22,7 @@ export default function BlogPage() {
         supabase.from('site_content').select('value').eq('key', 'footer').single(),
       ])
       setPosts(postsRes.data || [])
-      const headerVal = headerRes.data?.value || { logo_text: 'Learneng', navigation: [], social_links: [] }
+      const headerVal = headerRes.data?.value || { logo_text: 'Learn', navigation: [], social_links: [] }
       const footerVal = footerRes.data?.value || { description: '', copyright_text: '', columns: [], social_links: [] }
       setContent({ header: headerVal, footer: footerVal })
       setLoading(false)
@@ -38,7 +38,7 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header navigation={content.header.navigation || []} social_links={content.header.social_links || []} logo_text={content.header.logo_text || 'Learneng'} />
+      <Header navigation={content.header.navigation || []} social_links={content.header.social_links || []} logo_text={content.header.logo_text || 'Learn'} />
       <main className="flex-1 bg-background pt-32 pb-24">
         <div className="container px-4 md:px-6 mx-auto max-w-5xl">
           <div className="space-y-4 mb-12">

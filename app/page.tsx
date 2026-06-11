@@ -14,6 +14,7 @@ import { CtaFinal } from '@/components/landing/CtaFinal'
 import { WhyChoose } from '@/components/landing/WhyChoose'
 import { Footer } from '@/components/landing/Footer'
 import { JsonLd } from '@/components/seo/JsonLd'
+import LocaleRefresh from '@/components/LocaleRefresh'
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://learningenglishbr.com.br'
 
@@ -59,7 +60,7 @@ export default async function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background selection:bg-primary/30 selection:text-primary">
+    <div className="min-h-screen bg-background selection:bg-primary/30 selection:text-primary">\n        <LocaleRefresh />
       <JsonLd data={organizationJsonLd} />
       <JsonLd data={websiteJsonLd} />
       <Header navigation={content.header.navigation} social_links={content.header.social_links} logo_text={content.header.logo_text} />

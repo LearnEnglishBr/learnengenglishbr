@@ -24,9 +24,22 @@ export function WhyChoose({ title, items }: WhyChooseProps) {
   return (
     <section id="por-que" className="py-20 bg-gradient-to-br from-primary/5 to-blue-500/5">
       <div className="container mx-auto px-6 lg:px-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          {t(title)}
-        </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            {(() => {
+              const rawTitle = t(title);
+              const brandNameMarkup = (
+                <>
+                  <span className="text-red-600">Learn</span>{' '}
+                  <span className="text-[#0d1e3e]">English</span>{' '}
+                  <span className="text-red-600">BR</span>
+                </>
+              );
+              const parts = rawTitle.split('Learn English BR');
+              return (
+                <>{parts[0]}{brandNameMarkup}{parts[1] ?? ''}</>
+              );
+            })()}
+          </h2>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {items.map((item, i) => (
             <motion.div

@@ -55,13 +55,13 @@ export function Footer({ description, copyright_text, columns, social_links }: F
             <Link href="/" className="flex items-center justify-center md:justify-start gap-2.5 mb-6">
               <Image 
                 src="/images/logo-learnenglish-br.png" 
-                alt="Learneng English BR Logo" 
+                alt="Learn English BR Logo" 
                 width={36} 
                 height={36} 
                 className="w-9 h-9 object-contain"
               />
               <span className="font-bold text-xl tracking-tight whitespace-nowrap">
-                <span className="text-red-600">Learneng</span>{' '}
+                <span className="text-red-600">Learn</span>{' '}
                 <span className="text-[#0d1e3e]">English</span>{' '}
                 <span className="text-red-600">BR</span>
               </span>
@@ -99,7 +99,7 @@ export function Footer({ description, copyright_text, columns, social_links }: F
         </div>
 
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} {t(copyright_text || 'Learneng English BR. Todos os direitos reservados.')}</p>
+          <p>© {new Date().getFullYear()} {t(copyright_text || 'Learn English BR. Todos os direitos reservados.')}</p>
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
             <span>{t('Desenvolvido com padrão Enterprise')}</span>
             <span className="hidden sm:inline text-muted-foreground/30">|</span>

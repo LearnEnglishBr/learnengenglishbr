@@ -55,7 +55,7 @@ export default function TermsOfUsePage() {
         header: {
           navigation: navLinks,
           social_links: socialLinks,
-          logo_text: (settingsRes.data as any)?.header_logo_text || 'Learneng',
+          logo_text: (settingsRes.data as any)?.header_logo_text || 'Learn',
         },
         footer: footerRes.data?.value || { description: '', copyright_text: '', columns: [], social_links: [] },
       })
@@ -70,7 +70,7 @@ export default function TermsOfUsePage() {
 
   return (
     <div className="min-h-screen bg-background selection:bg-primary/30 selection:text-primary">
-      <Header navigation={siteContent.header.navigation || []} social_links={siteContent.header.social_links || []} logo_text={siteContent.header.logo_text || 'Learneng'} />
+      <Header navigation={siteContent.header.navigation || []} social_links={siteContent.header.social_links || []} logo_text={siteContent.header.logo_text || 'Learn'} />
       <main className="container mx-auto px-6 py-24 md:py-32 max-w-4xl">
         <div className="mb-12">
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">{c.title}</h1>

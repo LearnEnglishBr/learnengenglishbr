@@ -166,7 +166,7 @@ const en: Record<string, string> = {
    'Alunos': 'Students',
    'Blog AI': 'Blog AI',
    'Produtos Digitais': 'Digital Products',
-    'Learneng English BR. Todos os direitos reservados.': 'Learneng English BR. All rights reserved.',
+    'Learn English BR. Todos os direitos reservados.': 'Learn English BR. All rights reserved.',
   'E-mail': 'Email',
   'Senha': 'Password',
   'e a': 'and the',

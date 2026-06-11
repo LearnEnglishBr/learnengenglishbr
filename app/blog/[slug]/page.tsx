@@ -38,7 +38,7 @@ export default function BlogPostPage() {
       postRes.data.content = typeof bilingual === 'string' ? bilingual : (bilingual.pt ?? bilingual.en ?? '')
 
       setPost(postRes.data)
-      const headerVal = headerRes.data?.value || { logo_text: 'Learneng', navigation: [], social_links: [] }
+      const headerVal = headerRes.data?.value || { logo_text: 'Learn', navigation: [], social_links: [] }
       const footerVal = footerRes.data?.value || { description: '', copyright_text: '', columns: [], social_links: [] }
       setContent({ header: headerVal, footer: footerVal })
       setLoading(false)
@@ -67,7 +67,7 @@ export default function BlogPostPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header navigation={content.header.navigation || []} social_links={content.header.social_links || []} logo_text={content.header.logo_text || 'Learneng'} />
+      <Header navigation={content.header.navigation || []} social_links={content.header.social_links || []} logo_text={content.header.logo_text || 'Learn'} />
       <main className="flex-1 bg-background pt-32 pb-24">
         <article className="container mx-auto px-4 max-w-3xl">
           <div className="mb-8">

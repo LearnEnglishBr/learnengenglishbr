@@ -356,11 +356,11 @@ export async function getSiteContent(locale: 'pt' | 'en' = 'pt'): Promise<SiteCo
     header: {
       navigation: navLinks.map(l => ({ label: l.label, href: l.href })),
       social_links: socialLinks.map(l => ({ platform: l.platform, url: l.url })),
-      logo_text: settings.header_logo_text || 'Learneng English BR',
+      logo_text: settings.header_logo_text || 'Learn English BR',
     },
     footer: {
       description: settings.footer_description || '',
-      copyright_text: settings.copyright_text || 'Learneng English BR. Todos os direitos reservados.',
+      copyright_text: settings.copyright_text || 'Learn English BR. Todos os direitos reservados.',
       columns: footerColumns,
       social_links: socialLinks.map(l => ({ platform: l.platform, url: l.url })),
     },
@@ -374,7 +374,7 @@ export async function getSiteContent(locale: 'pt' | 'en' = 'pt'): Promise<SiteCo
       theme_accent_color: settings.theme_accent_color || '#FDB62F',
     },
     why_choose: {
-      title: localeValue(wc.title, locale) || (locale === 'en' ? 'Why choose Learneng English BR?' : 'Por que escolher a Learneng English BR?'),
+      title: localeValue(wc.title, locale) || (locale === 'en' ? 'Why choose Learn English BR?' : 'Por que escolher a Learn English BR?'),
       items: whyChooseItems.map(w => ({ icon_name: w.icon_name, title: w.title, description: w.description })),
     },
   }

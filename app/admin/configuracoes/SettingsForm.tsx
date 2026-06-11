@@ -25,7 +25,7 @@ export function SettingsForm({ settings }: { settings: any }) {
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Texto do Logo (Header)</label>
-            <input type="text" name="header_logo_text" defaultValue={settings?.header_logo_text || 'Learneng English BR'} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+            <input type="text" name="header_logo_text" defaultValue={settings?.header_logo_text || 'Learn English BR'} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Logo URL</label>
@@ -82,7 +82,7 @@ export function SettingsForm({ settings }: { settings: any }) {
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Texto de Copyright</label>
-            <input type="text" name="copyright_text" defaultValue={settings?.copyright_text || 'Learneng English BR. Todos os direitos reservados.'} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+            <input type="text" name="copyright_text" defaultValue={settings?.copyright_text || 'Learn English BR. Todos os direitos reservados.'} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
           </div>
         </div>
       </div>
