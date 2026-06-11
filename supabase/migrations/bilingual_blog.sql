@@ -2,6 +2,9 @@
 -- This script updates the 3 existing articles from plain text to JSON
 -- Can be rerun safely using ON CONFLICT or checking content type
 
+-- Grant service_role full access to profiles (needed for onboarding upsert)
+GRANT ALL ON profiles TO service_role;
+
 -- Update approach: set content as JSON with both PT and EN versions
 -- DO NOT use jsonb type for the column, just store JSON as text to avoid schema change
 
