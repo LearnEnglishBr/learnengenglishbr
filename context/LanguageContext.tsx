@@ -21,7 +21,7 @@ const en: Record<string, string> = {
   'Acompanhamento personalizado': 'Personalized monitoring',
   'Monitoramento de progresso e ajustes contínuos ao seu plano.': 'Progress tracking and continuous adjustments to your plan.',
   'Começar Agora': 'Start Now',
-  'Ver Método': 'See Method',
+  'Testar meu Inglês': 'Test my English',
   'Matricular': 'Enroll',
   'Aulas ao vivo': 'Live classes',
   'Suporte individual': 'One-on-one support',
