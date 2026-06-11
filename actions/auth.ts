@@ -1,9 +1,16 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
 import { z } from 'zod'
+
+function getBaseUrl(host?: string, proto?: string) {
+  if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL
+  const protocol = proto || (host?.includes('localhost') ? 'http' : 'https')
+  return `${protocol}://${host || 'localhost:3000'}`
+}
 
 const loginSchema = z.object({
   email: z.string().email('E-mail inválido'),
@@ -46,6 +53,9 @@ export async function registerAction(prevState: any, formData: FormData) {
 
   const supabase = await createClient()
 
+  const h = await headers()
+  const baseUrl = getBaseUrl(h.get('host') ?? undefined, h.get('x-forwarded-proto') ?? undefined)
+
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -53,7 +63,7 @@ export async function registerAction(prevState: any, formData: FormData) {
       data: {
         full_name: fullName,
       },
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      emailRedirectTo: `${baseUrl}/auth/callback`,
     },
   })
 
@@ -64,6 +74,28 @@ export async function registerAction(prevState: any, formData: FormData) {
   // Se o Supabase já retornar a sessão, significa que a confirmação de e-mail está desativada.
   if (data.session) {
     redirect('/dashboard')
+  }
+
+  // Auto-confirma o usuário usando a service role key (admin bypass)
+  if (data.user) {
+    const adminSupabase = await createAdminClient()
+    const { error: confirmError } = await adminSupabase.auth.admin.updateUserById(
+      data.user.id,
+      { email_confirm: true }
+    )
+
+    if (!confirmError) {
+      // Faz login automático após confirmar
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (!signInError) {
+        revalidatePath('/', 'layout')
+        redirect('/dashboard')
+      }
+    }
   }
 
   return { success: 'Verifique seu e-mail para confirmar o cadastro.' }
@@ -77,7 +109,10 @@ export async function logoutAction() {
 
 export async function googleOAuthAction() {
   const supabase = await createClient()
-  const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
+
+  const h = await headers()
+  const baseUrl = getBaseUrl(h.get('host') ?? undefined, h.get('x-forwarded-proto') ?? undefined)
+  const redirectUrl = `${baseUrl}/auth/callback`
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
@@ -103,8 +138,11 @@ export async function forgotPasswordAction(prevState: any, formData: FormData) {
 
   const supabase = await createClient()
 
+  const h = await headers()
+  const baseUrl = getBaseUrl(h.get('host') ?? undefined, h.get('x-forwarded-proto') ?? undefined)
+
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/update-password`,
+    redirectTo: `${baseUrl}/auth/callback?next=/update-password`,
   })
 
   if (error) {

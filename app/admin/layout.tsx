@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { LayoutDashboard, Users, BookOpen, PenTool, Settings, FileText, LogOut, Globe, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Users, BookOpen, PenTool, Settings, FileText, LogOut, Globe, Menu, X, ClipboardCheck } from 'lucide-react'
 import { logoutAction } from '@/actions/auth'
 import { useLanguage } from '@/context/LanguageContext'
 
@@ -31,6 +31,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </Link>
         <Link href="/admin/produtos" onClick={() => setSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
           <FileText className="w-4 h-4" /> {t('Produtos Digitais')}
+        </Link>
+        <Link href="/admin/teste-nivelamento" onClick={() => setSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
+          <ClipboardCheck className="w-4 h-4" /> {t('Teste de Nível')}
         </Link>
         <Link href="/admin/configuracoes" onClick={() => setSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
           <Settings className="w-4 h-4" /> {t('Configurações')}
@@ -80,6 +83,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
           <Link href="/admin/produtos" onClick={() => setSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
             <FileText className="w-4 h-4" /> {t('Produtos Digitais')}
+          </Link>
+          <Link href="/admin/teste-nivelamento" onClick={() => setSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
+            <ClipboardCheck className="w-4 h-4" /> {t('Teste de Nível')}
           </Link>
           <Link href="/admin/configuracoes" onClick={() => setSidebarOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
             <Settings className="w-4 h-4" /> {t('Configurações')}
