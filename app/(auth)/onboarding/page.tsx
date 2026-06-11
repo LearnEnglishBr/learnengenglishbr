@@ -62,19 +62,29 @@ export default function OnboardingPage() {
                   placeholder="000.000.000-00"
                   className="flex h-11 w-full rounded-xl border border-border bg-background px-4 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="phone" className="text-sm font-medium">{t('Telefone')}</label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    required
+                    placeholder="(00) 00000-0000"
+                    className="flex h-11 w-full rounded-xl border border-border bg-background px-4 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="birth_date" className="text-sm font-medium">{t('Data de Nascimento')}</label>
+                  <input
+                    id="birth_date"
+                    name="birth_date"
+                    type="date"
+                    required
+                    className="flex h-11 w-full rounded-xl border border-border bg-background px-4 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  />
+                </div>
               </div>
-              <div className="space-y-2">
-                <label htmlFor="phone" className="text-sm font-medium">{t('Telefone')}</label>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  required
-                  placeholder="(00) 00000-0000"
-                  className="flex h-11 w-full rounded-xl border border-border bg-background px-4 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                />
-              </div>
-            </div>
 
             <div className="space-y-2">
               <h3 className="text-lg font-semibold border-b border-border pb-2">{t('Endereço')}</h3>

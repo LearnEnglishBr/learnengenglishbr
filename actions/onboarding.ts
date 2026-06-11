@@ -32,6 +32,7 @@ export async function completeOnboardingAction(prevState: any, formData: FormDat
     city: formData.get('city'),
     state: formData.get('state'),
     country: formData.get('country') || 'Brasil',
+    birth_date: formData.get('birth_date'),
     terms_accepted: formData.get('terms') === 'on',
     privacy_accepted: formData.get('terms') === 'on',
     accepted_at: new Date().toISOString(),

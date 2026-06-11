@@ -1,7 +1,9 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.learnenglishbr.com.br'
+  // Use the public site URL if set; fallback to the production domain.
+  const rawBase = process.env.NEXT_PUBLIC_APP_URL ?? ''
+  const baseUrl = rawBase && !rawBase.includes('localhost') ? rawBase : 'https://www.learnenglishbr.com.br'
 
   return {
     rules: {
