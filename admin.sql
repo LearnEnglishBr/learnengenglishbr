@@ -27,7 +27,7 @@ WITH new_user AS (
   )
   VALUES (
     gen_random_uuid(),
-    (SELECT default_instance_id FROM auth.instances LIMIT 1),
+    (SELECT id FROM auth.instances LIMIT 1),
     'admin@admin.com',
     crypt('admin123', gen_salt('bf')),
     now(),
