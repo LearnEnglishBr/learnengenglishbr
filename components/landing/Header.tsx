@@ -83,17 +83,27 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
         }`}
       >
         <div className="container mx-auto px-5 sm:px-6 lg:px-12 flex items-center justify-between relative">
-          <Link href="/" className="flex items-center gap-2.5 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-            <Image 
-              src="/images/logo-learnenglish-br.png" 
-              alt="Learn English BR Logo" 
-              width={36} 
-              height={36} 
-              className="w-9 h-9 object-contain"
-              priority
-            />
-            <span className="font-bold text-lg sm:text-xl tracking-tight whitespace-nowrap"><span className="text-red-600">Learn</span>{' '}<span className="text-[#0d1e3e]">English</span>{' '}<span className="text-red-600">BR</span></span>
-          </Link>
+            <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors md:hidden">
+              <Globe className="w-4 h-4" /> {t('PT')}
+            </button>
+            <Link href="/" className="flex items-center gap-2.5">
+              <Image 
+                src="/images/logo-learnenglish-br.png" 
+                alt="Learn English BR Logo" 
+                width={36} 
+                height={36} 
+                className="w-9 h-9 object-contain"
+                priority
+              />
+              <span className="font-bold text-lg sm:text-xl tracking-tight whitespace-nowrap"><span className="text-red-600">Learn</span>{' '}<span className="text-[#0d1e3e]">English</span>{' '}<span className="text-red-600">BR</span></span>
+            </Link>
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-foreground hover:bg-accent transition-colors"
+              aria-label={mobileMenuOpen ? t('Fechar menu') : t('Abrir menu')}
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             {navigation.map(link => (
@@ -116,7 +126,7 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
               ))}
               <div className="h-4 w-px bg-border ml-2"></div>
             </div>
-            <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="hidden md:flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               <Globe className="w-4 h-4" /> {t('PT')}
             </button>
             <div className="h-4 w-px bg-border hidden sm:block"></div>
@@ -126,13 +136,7 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
                 <Link href="/register" className="hidden sm:inline-flex h-9 items-center justify-center rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-transform hover:scale-105 active:scale-95 shadow-lg shadow-black/10">
                 {t('Criar Conta')}
                 </Link>
-            <button 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-foreground hover:bg-accent transition-colors ml-auto"
-              aria-label={mobileMenuOpen ? t('Fechar menu') : t('Abrir menu')}
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+
 
 
           </div>
