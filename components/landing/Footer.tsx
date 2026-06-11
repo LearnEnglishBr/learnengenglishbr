@@ -103,7 +103,20 @@ export function Footer({ description, copyright_text, columns, social_links }: F
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
             <span>{t('Desenvolvido com padrão Enterprise')}</span>
             <span className="hidden sm:inline text-muted-foreground/30">|</span>
-            <span>
+            {/* Mobile */}
+            <div className="flex flex-col items-center sm:hidden">
+              <span>{t('Orgulhosamente desenvolvido por')}</span>
+              <a 
+                href="https://www.voltris.com.br" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="font-semibold text-foreground hover:text-primary transition-colors duration-200"
+              >
+                {t('Voltris')}
+              </a>
+            </div>
+            {/* Desktop */}
+            <span className="hidden sm:inline">
               {t('Orgulhosamente desenvolvido por')}{' '}
               <a 
                 href="https://www.voltris.com.br" 
