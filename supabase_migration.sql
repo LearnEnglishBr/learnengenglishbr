@@ -2,14 +2,15 @@
 
 -- Adicionando campos de SEO e Capa
 ALTER TABLE public.blog_posts 
-ADD COLUMN meta_title TEXT,
-ADD COLUMN meta_description TEXT,
-ADD COLUMN focus_keyword TEXT,
-ADD COLUMN seo_score INTEGER DEFAULT 0,
-ADD COLUMN readability_score INTEGER DEFAULT 0,
-ADD COLUMN cover_image_url TEXT,
-ADD COLUMN tags TEXT[] DEFAULT '{}',
-ADD COLUMN categories TEXT[] DEFAULT '{}';
+ADD COLUMN IF NOT EXISTS meta_title TEXT,
+ADD COLUMN IF NOT EXISTS meta_description TEXT,
+ADD COLUMN IF NOT EXISTS focus_keyword TEXT,
+ADD COLUMN IF NOT EXISTS seo_score INTEGER DEFAULT 0,
+ADD COLUMN IF NOT EXISTS readability_score INTEGER DEFAULT 0,
+ADD COLUMN IF NOT EXISTS cover_image_url TEXT,
+ADD COLUMN IF NOT EXISTS published BOOLEAN DEFAULT FALSE,
+ADD COLUMN IF NOT EXISTS tags TEXT[] DEFAULT '{}',
+ADD COLUMN IF NOT EXISTS categories TEXT[] DEFAULT '{}';
 
 -- Comentários para documentação no Supabase
 COMMENT ON COLUMN public.blog_posts.meta_title IS 'Título otimizado para o Google (Meta Tag)';
