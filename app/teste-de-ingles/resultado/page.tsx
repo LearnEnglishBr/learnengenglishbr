@@ -282,17 +282,27 @@ export default function ResultadoPage() {
   const shareText = getShareText(cefrLevel)
 
   async function handleShare() {
+    const text = shareText
     if (typeof navigator !== 'undefined' && navigator.share) {
       try {
-        await navigator.share({ title: 'Meu nível de inglês', text: shareText })
-      } catch {}
-    } else {
-      try {
-        await navigator.clipboard.writeText(shareText)
-        setCopied('link')
-        setTimeout(() => setCopied(null), 2500)
+        await navigator.share({ title: 'Meu nível de inglês', text })
+        return
       } catch {}
     }
+    try {
+      await navigator.clipboard.writeText(text)
+    } catch {
+      const ta = document.createElement('textarea')
+      ta.value = text
+      ta.style.position = 'fixed'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      document.body.removeChild(ta)
+    }
+    setCopied('link')
+    setTimeout(() => setCopied(null), 2500)
   }
 
   return (
