@@ -7,9 +7,15 @@
 -- Enable pgcrypto for bcrypt password hashing
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
--- 1️⃣ Upsert the auth user (email is unique in auth.users)
-WITH upsert_user AS (
+-- 1️⃣ Upsert the auth user (email may NOT have a unique constraint).
+--    We first look for an existing user by email, fetch its id (if any)
+--    and then INSERT using that id (or a fresh UUID).  The conflict
+--    target is the primary‑key column `id`, which always exists.
+WITH existing_user AS (
+  SELECT id FROM auth.users WHERE email = 'admin@admin.com'
+), upsert_user AS (
   INSERT INTO auth.users (
+    id,
     instance_id,
     email,
     encrypted_password,
@@ -19,17 +25,17 @@ WITH upsert_user AS (
     raw_app_meta_data,
     raw_user_meta_data
   )
-  VALUES (
-    (SELECT id FROM auth.instances LIMIT 1),
-    'admin@admin.com',
-    crypt('admin123', gen_salt('bf')),
-    now(),
-    now(),
-    now(),
-    '{"provider":"email","providers":["email"]}'::jsonb,
-    '{"full_name":"Admin"}'::jsonb
-  )
-  ON CONFLICT (email) DO UPDATE SET
+  SELECT
+    COALESCE((SELECT id FROM existing_user), gen_random_uuid()) AS id,
+    (SELECT id FROM auth.instances LIMIT 1)                AS instance_id,
+    'admin@admin.com'                                      AS email,
+    crypt('admin123', gen_salt('bf'))                      AS encrypted_password,
+    now()                                                 AS email_confirmed_at,
+    now()                                                 AS created_at,
+    now()                                                 AS updated_at,
+    '{"provider":"email","providers":["email"]}'::jsonb AS raw_app_meta_data,
+    '{"full_name":"Admin"}'::jsonb                     AS raw_user_meta_data
+  ON CONFLICT (id) DO UPDATE SET
     encrypted_password = EXCLUDED.encrypted_password,
     email_confirmed_at = EXCLUDED.email_confirmed_at,
     updated_at        = now()
