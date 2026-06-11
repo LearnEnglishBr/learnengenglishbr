@@ -10,6 +10,14 @@ export default function RegisterPage() {
   const { t, locale, setLocale } = useLanguage()
   const [state, action, isPending] = useActionState(registerAction, undefined)
 
+  const authErrorKey = (msg: string | undefined): string => {
+    const map: Record<string, string> = {
+      'Invalid login credentials': 'Credenciais de login inválidas',
+      'Email not confirmed': 'E-mail não confirmado',
+    }
+    return map[msg || ''] || msg || ''
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center p-4 bg-muted/30 relative">
       <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="absolute top-4 right-4 flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
@@ -21,13 +29,13 @@ export default function RegisterPage() {
 
         {state?.error && (
           <div className="bg-destructive/15 text-destructive text-sm p-3 rounded-md mb-6">
-            {state.error}
+            {t(authErrorKey(state.error))}
           </div>
         )}
 
         {state?.success && (
           <div className="bg-green-100 text-green-800 text-sm p-3 rounded-md mb-6">
-            {state.success}
+            {t(state.success)}
           </div>
         )}
 

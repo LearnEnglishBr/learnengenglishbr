@@ -179,6 +179,12 @@ const en: Record<string, string> = {
   'Método incrível! Consegui finalmente destravar meu inglês.': 'Amazing method! I finally unlocked my English.',
   'As aulas ao vivo fizeram toda a diferença no meu aprendizado.': 'The live classes made all the difference in my learning.',
   'Professor extremamente capacitado. Recomendo demais!': 'Extremely capable teacher. Highly recommend!',
+  'Credenciais de login inválidas': 'Invalid login credentials',
+  'E-mail não confirmado': 'Email not confirmed',
+  'E-mail inválido': 'Invalid email',
+  'A senha deve ter no mínimo 6 caracteres': 'Password must be at least 6 characters',
+  'Verifique seu e-mail para confirmar o cadastro.': 'Check your email to confirm your registration.',
+  'Link de recuperação enviado para o seu e-mail.': 'Recovery link sent to your email.',
 }
 
 interface LanguageContextType {

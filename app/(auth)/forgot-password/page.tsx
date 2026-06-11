@@ -10,6 +10,14 @@ export default function ForgotPasswordPage() {
   const { t, locale, setLocale } = useLanguage()
   const [state, formAction] = useActionState(forgotPasswordAction, null)
 
+  const authErrorKey = (msg: string | undefined): string => {
+    const map: Record<string, string> = {
+      'Invalid login credentials': 'Credenciais de login inválidas',
+      'Email not confirmed': 'E-mail não confirmado',
+    }
+    return map[msg || ''] || msg || ''
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center p-4 bg-muted/30 relative">
       <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="absolute top-4 right-4 flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
@@ -19,8 +27,8 @@ export default function ForgotPasswordPage() {
         <h1 className="text-2xl font-bold mb-2">{t('Recuperar Senha')}</h1>
         <p className="text-muted-foreground mb-6">{t('Enviaremos um link para redefinir sua senha.')}</p>
 
-        {state?.error && <div className="p-3 bg-red-100 text-red-700 rounded-md mb-4 text-sm">{state.error}</div>}
-        {state?.success && <div className="p-3 bg-green-100 text-green-700 rounded-md mb-4 text-sm">{state.success}</div>}
+        {state?.error && <div className="p-3 bg-red-100 text-red-700 rounded-md mb-4 text-sm">{t(authErrorKey(state.error))}</div>}
+        {state?.success && <div className="p-3 bg-green-100 text-green-700 rounded-md mb-4 text-sm">{t(state.success)}</div>}
 
         <form action={formAction} className="space-y-4">
           <div className="space-y-2">
