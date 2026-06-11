@@ -94,15 +94,8 @@ async function generateWithNvidia({ keyword, topic, audience, tone, wordCount }:
   return JSON.parse(jsonContent)
 }
 
-// Função que resolve o provedor correto baseado na seleção do usuário
-  if (modelChoice === 'anthropic' && process.env.ANTHROPIC_API_KEY) {
-    return anthropic('claude-3-5-sonnet-20240620')
-  } else if (modelChoice === 'google' && (process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY)) {
-    return google('models/gemini-1.5-pro-latest')
-  }
-  // Fallback padrão para OpenAI
-  return openai('gpt-4o')
-}
+// Duplicate getModel block removed
+
 
 export async function generateFullArticleAction(data: any) {
   const { keyword, topic, audience, tone, wordCount, model } = data
@@ -119,43 +112,49 @@ export async function generateFullArticleAction(data: any) {
     if (!profile || profile.role !== 'ADMIN') return { error: 'Sem permissão.' }
     */
 
-    const modelToUse = getModel(model)
-
-    const prompt = `Você é um Especialista em SEO (AEO) e Copywriter de nível global, trabalhando para a escola de inglês premium LearningEnglishBR (Fundada pelo Prof. Vitor Brandino).
-    
-    Tópico Principal: ${topic || keyword}
-    Palavra-chave Foco: ${keyword}
-    Público-alvo: ${audience}
-    Tamanho aproximado: ${wordCount || '1000'} palavras.
-    Tom de voz: ${tone}
-    
-    REQUISITOS:
-    1. A estrutura deve ser impecável, com marcações HTML puras (apenas <h1>, <h2>, <h3>, <p>, <ul>, <li>, <strong>, <blockquote>).
-    2. A palavra-chave "${keyword}" deve aparecer na introdução, distribuída pelo texto (densidade de 1% a 2%) e em pelo menos um <h2>.
-    3. Crie uma seção de FAQ no final otimizada para "People Also Ask" do Google.
-    4. Conclua com um Call to Action forte convidando para os cursos da LearningEnglishBR.`
-
-    const { object } = await generateObject({
-      model: modelToUse,
-      schema: z.object({
-        title: z.string().describe('O título principal do H1'),
-        metaTitle: z.string().describe('Título focado em CTR para a tag <title> do SEO (max 60 chars)'),
-        metaDescription: z.string().describe('Meta description atrativa contendo a palavra-chave (max 160 chars)'),
-        slug: z.string().describe('Slug de URL amigável (kebab-case)'),
-        contentHtml: z.string().describe('O corpo do artigo formatado em HTML começando com o <h1> e finalizando com a conclusão/CTA.'),
-        suggestedCategories: z.array(z.string()).describe('Até 3 categorias do curso (ex: Dicas de Estudo, Mercado de Trabalho)'),
-        suggestedTags: z.array(z.string()).describe('Até 5 tags relevantes')
-      }),
-      prompt: prompt,
-    })
-
-    return { 
-      success: true, 
-      data: {
-        ...object,
-        focusKeyword: keyword
-      } 
+    let object;
+    if (model === 'nvidia') {
+        object = await generateWithNvidia({ keyword, topic, audience, tone, wordCount });
+    } else {
+        const modelToUse = getModel(model);
+        const prompt = `Você é um Especialista em SEO (AEO) e Copywriter de nível global, trabalhando para a escola de inglês premium LearningEnglishBR (Fundada pelo Prof. Vitor Brandino).
+        
+        Tópico Principal: ${topic || keyword}
+        Palavra-chave Foco: ${keyword}
+        Público-alvo: ${audience}
+        Tamanho aproximado: ${wordCount || '1000'} palavras.
+        Tom de voz: ${tone}
+        
+        REQUISITOS:
+        1. A estrutura deve ser impecável, com marcações HTML puras (apenas <h1>, <h2>, <h3>, <p>, <ul>, <li>, <strong>, <blockquote>).
+        2. A palavra-chave "${keyword}" deve aparecer na introdução, distribuída pelo texto (densidade de 1% a 2%) e em pelo menos um <h2>.
+        3. Crie uma seção de FAQ no final otimizada para "People Also Ask" do Google.
+        4. Conclua com um Call to Action forte convidando para os cursos da LearningEnglishBR.`;
+        
+        const { object: generatedObject } = await generateObject({
+            model: modelToUse,
+            schema: z.object({
+                title: z.string().describe('O título principal do H1'),
+                metaTitle: z.string().describe('Título focado em CTR para a tag <title> do SEO (max 60 chars)'),
+                metaDescription: z.string().describe('Meta description atrativa contendo a palavra-chave (max 160 chars)'),
+                slug: z.string().describe('Slug de URL amigável (kebab-case)'),
+                contentHtml: z.string().describe('O corpo do artigo formatado em HTML começando com o <h1> e finalizando com a conclusão/CTA.'),
+                suggestedCategories: z.array(z.string()).describe('Até 3 categorias do curso (ex: Dicas de Estudo, Mercado de Trabalho)'),
+                suggestedTags: z.array(z.string()).describe('Até 5 tags relevantes')
+            }),
+            prompt: prompt,
+        });
+        object = generatedObject;
     }
+
+    return {
+        success: true,
+        data: {
+            ...object,
+            focusKeyword: keyword,
+        },
+    };
+
 
   } catch (error: any) {
     console.error('AI Generation Error:', error)
