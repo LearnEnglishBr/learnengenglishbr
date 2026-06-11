@@ -23,15 +23,27 @@ async function checkAdmin() {
   const cookieStore = await cookies()
   const hasAdminBypass = cookieStore.get('admin_bypass')?.value === 'true'
 
-  if (hasAdminBypass) return adminClient()
+  console.log('[checkAdmin] admin_bypass cookie:', hasAdminBypass)
+
+  if (hasAdminBypass) {
+    console.log('[checkAdmin] Using adminClient (service role)')
+    return adminClient()
+  }
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  console.log('[checkAdmin] Auth user:', user?.id)
   if (!user) throw new Error('Não autenticado')
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-  if (!profile || profile.role !== 'ADMIN') throw new Error('Sem permissão')
+  const { data: profile, error: profileError } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  console.log('[checkAdmin] User profile:', profile)
+  if (profileError) console.error('[checkAdmin] Profile fetch error:', profileError)
+  if (!profile || profile.role !== 'ADMIN') {
+    console.error('[checkAdmin] Permission denied: role is', profile?.role)
+    throw new Error('Sem permissão')
+  }
 
+  console.log('[checkAdmin] Using adminClient after role verification')
   return adminClient()
 }
 
