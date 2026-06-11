@@ -60,7 +60,7 @@ export default async function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background selection:bg-primary/30 selection:text-primary">\n        <LocaleRefresh />
+    <div className="min-h-screen bg-background selection:bg-primary/30 selection:text-primary"><LocaleRefresh />
       <JsonLd data={organizationJsonLd} />
       <JsonLd data={websiteJsonLd} />
       <Header navigation={content.header.navigation} social_links={content.header.social_links} logo_text={content.header.logo_text} />
