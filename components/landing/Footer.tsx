@@ -51,8 +51,8 @@ export function Footer({ description, copyright_text, columns, social_links }: F
     <footer className="bg-background pt-24 pb-12 border-t border-border">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-1 text-center md:text-left">
-            <Link href="/" className="flex items-center justify-center md:justify-start gap-2.5 mb-6">
+          <div className="col-span-1 md:col-span-1 text-center">
+            <Link href="/" className="flex items-center justify-center gap-2.5 mb-6">
               <Image 
                 src="/images/logo-learnenglish-br.png" 
                 alt="Learn English BR Logo" 
@@ -67,11 +67,11 @@ export function Footer({ description, copyright_text, columns, social_links }: F
               </span>
             </Link>
             {description && (
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6 mx-auto md:mx-0 max-w-sm">
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6 mx-auto max-w-sm">
                 {description}
               </p>
             )}
-            <div className="flex items-center justify-center md:justify-start gap-4 text-muted-foreground">
+            <div className="flex items-center justify-center gap-4 text-muted-foreground">
               {social_links.map(social => (
                 <a key={social.platform} href={social.url} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" aria-label={social.platform}>
                   {socialIcons[social.platform] || (
@@ -85,7 +85,7 @@ export function Footer({ description, copyright_text, columns, social_links }: F
           </div>
           
           {columns.map(col => (
-            <div key={col.title}>
+            <div key={col.title} className="text-center">
               <h4 className="font-bold mb-6 text-foreground">{t(col.title)}</h4>
               <ul className="space-y-4 text-sm text-muted-foreground">
                 {col.links.map(link => (
@@ -98,7 +98,7 @@ export function Footer({ description, copyright_text, columns, social_links }: F
           ))}
         </div>
 
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-center gap-4 text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} {t(copyright_text || 'Learn English BR. Todos os direitos reservados.')}</p>
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
             <span>{t('Desenvolvido com padrão Enterprise')}</span>
