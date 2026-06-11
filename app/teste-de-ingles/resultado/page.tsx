@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { getAttemptFromCookie } from '@/actions/assessment'
 import { calculateResult, CEFR_LEVELS, getLevelDisplayName, getCategoryDisplayName } from '@/lib/assessment'
 import { motion } from 'framer-motion'
-import { Award, Trophy, Share2, RotateCcw, BookOpen, CheckCircle2, AlertCircle, Target, BarChart3, Loader2 } from 'lucide-react'
+import { Award, Trophy, Share2, RotateCcw, BookOpen, CheckCircle2, AlertCircle, Target, BarChart3, Loader2, MessageCircle, MessageSquare, FileDown } from 'lucide-react'
 
 type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2'
 
@@ -102,6 +102,26 @@ function getShareText(level: CefrLevel): string {
   return `Acabei de descobrir meu nível de inglês: ${level} (${displayName})! Faça você também o teste gratuito: https://learnenglishbr.com.br/teste-de-ingles`
 }
 
+function getWhatsAppUrl(text: string): string {
+  return `https://wa.me/?text=${encodeURIComponent(text)}`
+}
+
+function getDiscordText(name: string, level: CefrLevel, displayName: string, score: number): string {
+  return [
+    `📊 **Resultado do Teste de Inglês**`,
+    ``,
+    `👤 **Aluno(a):** ${name}`,
+    `🏅 **Nível:** ${level} — ${displayName}`,
+    `🎯 **Pontuação:** ${score}/100`,
+    ``,
+    `👉 Faça você também: https://learnenglishbr.com.br/teste-de-ingles`,
+  ].join('\n')
+}
+
+function handlePrint() {
+  window.print()
+}
+
 export default function ResultadoPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
@@ -109,7 +129,7 @@ export default function ResultadoPage() {
   const [result, setResult] = useState<Awaited<ReturnType<typeof calculateResult>> | null>(null)
   const [leadName, setLeadName] = useState<string>('')
   const [cefrLevel, setCefrLevel] = useState<CefrLevel | null>(null)
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -269,8 +289,8 @@ export default function ResultadoPage() {
     } else {
       try {
         await navigator.clipboard.writeText(shareText)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2500)
+        setCopied('link')
+        setTimeout(() => setCopied(null), 2500)
       } catch {}
     }
   }
@@ -487,10 +507,10 @@ export default function ResultadoPage() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants} id="certificado-print">
           <div className="rounded-2xl border-2 border-dashed p-6 sm:p-8 text-center shadow-sm relative" style={{ borderColor: levelConfig.color + '30' }}>
             <motion.div
-              className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-gradient-to-r from-primary to-blue-500"
+              className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-gradient-to-r from-primary to-blue-500 no-print"
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 1.4 }}
@@ -525,18 +545,50 @@ export default function ResultadoPage() {
               <div className="w-20 h-1 mx-auto rounded-full" style={{ backgroundColor: levelConfig.color }} />
             </div>
 
-            <div className="mt-6 pt-6 border-t border-border">
+            <div className="mt-6 pt-6 border-t border-border no-print">
               <p className="text-sm font-semibold text-muted-foreground mb-4">Compartilhe seu resultado</p>
-              <button
-                onClick={handleShare}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground font-bold px-8 py-3.5 shadow-xl shadow-primary/25 hover:scale-105 active:scale-95 transition-all text-base"
-              >
-                {copied ? (
-                  <>✓ Link Copiado!</>
-                ) : (
-                  <><Share2 className="w-4 h-4" /> Compartilhar Resultado</>
-                )}
-              </button>
+              <div className="flex flex-wrap gap-3 justify-center">
+                <a
+                  href={getWhatsAppUrl(shareText)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] text-white font-semibold px-5 py-2.5 shadow-lg hover:scale-105 active:scale-95 transition-all text-sm"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  WhatsApp
+                </a>
+                <button
+                  onClick={async () => {
+                    const discordText = getDiscordText(leadName, cefrLevel, displayName, result.scorePercent)
+                    try {
+                      await navigator.clipboard.writeText(discordText)
+                      setCopied('discord')
+                      setTimeout(() => setCopied(null), 2500)
+                    } catch {}
+                  }}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5865F2] text-white font-semibold px-5 py-2.5 shadow-lg hover:scale-105 active:scale-95 transition-all text-sm"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  {copied === 'discord' ? '✓ Copiado!' : 'Discord'}
+                </button>
+                <button
+                  onClick={handlePrint}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-card border-2 border-border text-foreground font-semibold px-5 py-2.5 shadow-lg hover:bg-muted/50 active:scale-95 transition-all text-sm"
+                >
+                  <FileDown className="w-4 h-4" />
+                  Salvar PDF
+                </button>
+                <button
+                  onClick={handleShare}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground font-semibold px-5 py-2.5 shadow-xl shadow-primary/25 hover:scale-105 active:scale-95 transition-all text-sm"
+                >
+                  {copied === 'link' ? (
+                    <>✓ Link Copiado!</>
+                  ) : (
+                    <><Share2 className="w-4 h-4" /> Copiar Link</>
+                  )}
+                </button>
+              </div>
               <p className="text-xs text-muted-foreground mt-3 max-w-sm mx-auto leading-relaxed">
                 {shareText}
               </p>

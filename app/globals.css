@@ -128,3 +128,23 @@
     @apply font-sans;
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #certificado-print,
+  #certificado-print * {
+    visibility: visible;
+  }
+  #certificado-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 2rem;
+  }
+  #certificado-print .no-print {
+    display: none !important;
+  }
+}
