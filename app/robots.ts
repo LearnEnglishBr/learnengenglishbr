@@ -19,6 +19,10 @@ export default function robots(): MetadataRoute.Robots {
         '/forgot-password',
       ],
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    // Multiple sitemap entries are accepted by Google and Bing.
+    sitemap: [
+      `${baseUrl}/sitemap.xml`,
+      `${baseUrl}/sitemap-images.xml`,
+    ],
   }
 }
