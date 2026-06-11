@@ -13,6 +13,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname()
   const { t, locale, setLocale } = useLanguage()
   const [checkingProfile, setCheckingProfile] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     async function checkProfile() {
@@ -47,7 +48,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
     )
   }
-  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const sidebarContent = (
     <>
