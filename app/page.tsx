@@ -11,6 +11,10 @@ import { Testimonials } from '@/components/landing/Testimonials'
 import { Methodology } from '@/components/landing/Methodology'
 import { BlogPreview } from '@/components/landing/BlogPreview'
 import { CtaFinal } from '@/components/landing/CtaFinal'
+import { GoalDiscovery } from '@/components/landing/GoalDiscovery'
+import { AIPlanner } from '@/components/landing/AIPlanner'
+import { LevelTestCTA } from '@/components/landing/LevelTestCTA'
+import { InterviewSimulator } from '@/components/landing/InterviewSimulator'
 import { WhyChoose } from '@/components/landing/WhyChoose'
 import { Footer } from '@/components/landing/Footer'
 import { JsonLd } from '@/components/seo/JsonLd'
@@ -78,6 +82,11 @@ export default async function LandingPage() {
            benefits={content.hero.benefits}
          />
         <WhyChoose title={content.why_choose.title} items={content.why_choose.items} />
+        <GoalDiscovery />
+        <AIPlanner />
+        <LevelTestCTA />
+        <InterviewSimulator />
+
         <AboutTeacher
           title={content.about_teacher.title}
           name={content.about_teacher.name}
