@@ -84,7 +84,14 @@ export function Testimonials({ title, subtitle, items }: TestimonialsProps) {
                     </p>
                   </div>
                   <div className="flex items-center gap-4 border-t border-border/50 pt-6">
-                    <img src={testimonial.image_url || "/images/default-avatar.png"} alt={t(testimonial.name)} className="w-14 h-14 rounded-full object-cover border-2 border-background shadow-md" />
+                    <img
+  src={testimonial.image_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&size=128&background=random`}
+  alt={t(testimonial.name)}
+  className="w-14 h-14 rounded-full object-cover border-2 border-background shadow-md"
+  onError={(e) => {
+    e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&size=128&background=random`;
+  }}
+/>
                     <div>
                       <h4 className="font-bold text-foreground">{t(testimonial.name)}</h4>
                       <p className="text-sm text-muted-foreground">{t(testimonial.role)}</p>
