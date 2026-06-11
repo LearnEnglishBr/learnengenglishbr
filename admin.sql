@@ -41,24 +41,11 @@ WITH existing_user AS (
     updated_at        = now()
   RETURNING id
 )
--- 2️⃣ Upsert the profile row with role = 'ADMIN'
-INSERT INTO public.profiles (
-  id,
-  role,
-  full_name,
-  created_at,
-  updated_at
-)
-SELECT
-  id,
-  'ADMIN'::user_role,
-  'Admin' AS full_name,
-  now(),
-  now()
-FROM upsert_user
-ON CONFLICT (id) DO UPDATE SET
-  role       = EXCLUDED.role,
-  full_name  = EXCLUDED.full_name,
-  updated_at = now();
+-- 2️⃣ Atualiza o perfil existente (o trigger handle_new_user já criou a linha) 
+UPDATE public.profiles 
+SET role = 'ADMIN'::user_role,
+    full_name = 'Admin',
+    updated_at = now()
+WHERE id = (SELECT id FROM upsert_user);
 
 -- End of admin.sql
