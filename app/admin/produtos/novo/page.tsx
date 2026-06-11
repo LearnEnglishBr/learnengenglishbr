@@ -69,30 +69,33 @@ export default function NovoProdutoPage() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setSubmitting(true)
-    setError(null)
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+      e.preventDefault()
+      setSubmitting(true)
+      setError(null)
 
-    const formData = new FormData(e.currentTarget)
-    if (isEditing && productId) {
-      formData.set('id', productId)
+      const formData = new FormData(e.currentTarget)
+      if (isEditing && productId) {
+        formData.set('id', productId)
+      }
+
+      // Invoke the appropriate server action and handle any returned error
+      const result = isEditing
+        ? await updateDigitalProductAction(formData)
+        : await createDigitalProductAction(formData)
+
+      if (result?.error) {
+        // Log and alert the error for debugging
+        console.error('[DigitalProductError]', result.error)
+        alert(`Erro ao salvar produto: ${result.error}`)
+        // Display the error in UI as well
+        setError(result.error)
+        setSubmitting(false)
+        return
+      }
+      // Success – navigate back to the products list
+      router.push('/admin/produtos')
     }
-
-    // Invoke the appropriate server action and handle any returned error
-    const result = isEditing
-      ? await updateDigitalProductAction(formData)
-      : await createDigitalProductAction(formData)
-
-    if (result?.error) {
-      // Display the error returned from the server action
-      setError(result.error)
-      setSubmitting(false)
-      return
-    }
-    // Success – navigate back to the products list
-    router.push('/admin/produtos')
-  }
 
   if (loading) {
     return (
