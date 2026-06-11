@@ -100,14 +100,14 @@ export function AboutTeacher({ title, name, bio_paragraph_1, bio_paragraph_2, bi
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     />
                   </AnimatePresence>
                   
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                   <div className="absolute bottom-6 left-0 right-0 flex justify-center items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                    <button onClick={prev} aria-label={t('Foto anterior')} className="p-3 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 transition-colors border border-white/20">
+                    <button onClick={prev} aria-label={t('Foto anterior')} className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/20 text-white hover:bg-primary/40 transition-colors border border-primary/30 shadow-md">
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <div className="flex gap-2">
@@ -120,7 +120,7 @@ export function AboutTeacher({ title, name, bio_paragraph_1, bio_paragraph_2, bi
                         />
                       ))}
                     </div>
-                    <button onClick={next} aria-label={t('Próxima foto')} className="p-3 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 transition-colors border border-white/20">
+                    <button onClick={next} aria-label={t('Próxima foto')} className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/20 text-white hover:bg-primary/40 transition-colors border border-primary/30 shadow-md">
                       <ChevronRight className="w-6 h-6" />
                     </button>
                   </div>
