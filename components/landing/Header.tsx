@@ -82,7 +82,7 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
             : 'py-5 sm:py-8 bg-transparent'
         }`}
       >
-        <div className="container mx-auto px-5 sm:px-6 lg:px-12 grid grid-cols-[1fr_auto_1fr] items-center relative">
+        <div className="container mx-auto px-5 sm:px-6 lg:px-12 grid md:flex grid-cols-[1fr_auto_1fr] items-center md:justify-between relative">
             <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="flex items-center gap-1.5 leading-none text-sm font-medium text-muted-foreground hover:text-foreground transition-colors md:hidden justify-self-start">
               <Globe className="w-4 h-4" /> {t('PT')}
             </button>
