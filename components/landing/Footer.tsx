@@ -54,7 +54,7 @@ export function Footer({ description, copyright_text, columns, social_links }: F
           <div className="col-span-1 md:col-span-1 text-center md:text-left">
             <Link href="/" className="flex items-center justify-center md:justify-start gap-2.5 mb-6">
               <Image 
-                src="/images/logo.png" 
+                src="/images/logo-learnenglish-br.png" 
                 alt="Learneng English BR Logo" 
                 width={36} 
                 height={36} 

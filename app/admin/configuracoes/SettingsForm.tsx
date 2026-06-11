@@ -30,7 +30,7 @@ export function SettingsForm({ settings }: { settings: any }) {
           <div className="space-y-2">
             <label className="text-sm font-medium">Logo URL</label>
             <div className="flex gap-2">
-              <input type="text" name="logo_url" defaultValue={settings?.logo_url || '/images/logo.png'} className="flex-1 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+              <input type="text" name="logo_url" defaultValue={settings?.logo_url || '/images/logo-learnenglish-br.png'} className="flex-1 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
               <UploadButton onUpload={(url) => {
                 const input = document.querySelector('input[name="logo_url"]') as HTMLInputElement
                 if (input) input.value = url

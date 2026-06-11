@@ -244,6 +244,12 @@ const en: Record<string, string> = {
   'Adicionar Questão': 'Add Question',
   'Exportar CSV': 'Export CSV',
   'Teste de Nível de Inglês Gratuito | Descubra seu CEFR | LearningEnglishBR': 'Free English Level Test | Discover Your CEFR Level | LearningEnglishBR',
+  'Como Aprender Inglês Sozinho: Guia Completo para Iniciantes': 'How to Learn English Alone: A Complete Guide for Beginners',
+  'As 50 Frases em Inglês Mais Usadas no Dia a Dia': 'The 50 Most Used English Phrases in Daily Life',
+  'Inglês para Viagem: 50 Palavras e Expressões Essenciais': 'English for Travel: 50 Essential Words and Phrases',
+  'Guia completo com estratégias comprovadas sobre como aprender inglês sozinho. Descubra métodos, recursos gratuitos e um plano de estudos para dominar o idioma.': 'A complete guide with proven strategies on how to learn English alone. Discover methods, free resources, and a study plan to master the language.',
+  'Aprenda as 50 frases em inglês mais usadas no dia a dia. De saudações a emergências, domine as expressões essenciais para se comunicar com confiança.': 'Learn the 50 most used English phrases in daily life. From greetings to emergencies, master the essential expressions to communicate with confidence.',
+  'Domine o inglês para viagem com 50 palavras e expressões essenciais. Do aeroporto ao restaurante, prepare-se para sua próxima viagem internacional.': 'Master English for travel with 50 essential words and phrases. From the airport to the restaurant, get ready for your next international trip.',
 }
 
 interface LanguageContextType {

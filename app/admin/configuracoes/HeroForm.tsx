@@ -65,7 +65,7 @@ export function HeroForm({ content, benefits }: { content: Record<string, any>; 
         <input type="hidden" name="key" value="main_image" />
         <h3 className="font-semibold">Imagem Principal da Hero</h3>
         <div className="flex gap-2">
-          <input id="hero-main-image" type="text" name="value" defaultValue={content.main_image || '/images/principal.jpg'} className="flex-1 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
+          <input id="hero-main-image" type="text" name="value" defaultValue={content.main_image || '/images/hero-aprender-ingles-online.jpg'} className="flex-1 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background" />
           <UploadButton onUpload={(url) => {
             const input = document.getElementById('hero-main-image') as HTMLInputElement
             if (input) input.value = url

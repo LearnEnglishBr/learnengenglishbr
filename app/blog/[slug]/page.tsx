@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useLanguage } from '@/context/LanguageContext'
+import { localeValue } from '@/lib/bilingual'
 import { Header } from '@/components/landing/Header'
 import { Footer } from '@/components/landing/Footer'
 import Link from 'next/link'
@@ -14,6 +15,7 @@ export default function BlogPostPage() {
   const params = useParams()
   const slug = params.slug as string
   const [post, setPost] = useState<any>(null)
+  const [bilingualContent, setBilingualContent] = useState<any>(null)
   const [content, setContent] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
@@ -22,11 +24,19 @@ export default function BlogPostPage() {
     async function fetchData() {
       const supabase = createClient()
       const [postRes, headerRes, footerRes] = await Promise.all([
-        supabase.from('blog_posts').select('*, author:profiles(id, full_name)').eq('slug', slug).single(),
+        supabase.from('blog_posts').select('*').eq('slug', slug).single(),
         supabase.from('site_content').select('value').eq('key', 'header').single(),
         supabase.from('site_content').select('value').eq('key', 'footer').single(),
       ])
       if (!postRes.data) { setNotFound(true); setLoading(false); return }
+
+      // Store bilingual content - could be JSON {"pt":"...","en":"..."} or plain string
+      const raw = postRes.data.content
+      let bilingual: any = raw
+      try { bilingual = JSON.parse(raw) } catch { /* plain string */ }
+      setBilingualContent(bilingual)
+      postRes.data.content = typeof bilingual === 'string' ? bilingual : (bilingual.pt ?? bilingual.en ?? '')
+
       setPost(postRes.data)
       const headerVal = headerRes.data?.value || { logo_text: 'Learneng', navigation: [], social_links: [] }
       const footerVal = footerRes.data?.value || { description: '', copyright_text: '', columns: [], social_links: [] }
@@ -37,8 +47,18 @@ export default function BlogPostPage() {
   }, [slug])
 
   useEffect(() => {
-    if (post) document.title = post.title
+    if (post) document.title = t(post.title)
   }, [post, locale])
+
+  // Re-derive displayed content when locale changes
+  const displayContent = (() => {
+    if (!bilingualContent) return ''
+    if (typeof bilingualContent === 'string') {
+      const translated = t(bilingualContent)
+      return translated !== bilingualContent ? translated : bilingualContent
+    }
+    return localeValue(bilingualContent, locale)
+  })()
 
   if (loading) return <div className="min-h-screen flex items-center justify-center"><p className="text-muted-foreground">{t('Carregando...')}</p></div>
   if (notFound) return <div className="min-h-screen flex items-center justify-center"><p className="text-muted-foreground">{t('Artigo não encontrado')}</p></div>
@@ -89,11 +109,13 @@ export default function BlogPostPage() {
 
           <div 
             className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-h2:mt-12 prose-a:text-primary prose-img:rounded-2xl"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: displayContent }}
           />
 
           <div className="mt-16 p-8 bg-muted/30 rounded-2xl border border-border flex flex-col sm:flex-row items-center sm:items-start gap-6">
-            <div className="w-24 h-24 rounded-full bg-primary/20 flex-shrink-0" />
+            <div className="w-24 h-24 rounded-full bg-primary/20 flex-shrink-0 overflow-hidden">
+              <img src="/images/hero-aprender-ingles-online.jpg" alt="Vitor Brandino" className="w-full h-full object-cover" />
+            </div>
             <div className="text-center sm:text-left">
               <h3 className="font-bold text-xl mb-2">{t('Escrito por Vitor Brandino')}</h3>
               <p className="text-muted-foreground mb-4">

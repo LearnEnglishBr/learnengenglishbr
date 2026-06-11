@@ -10,7 +10,7 @@ export async function GET() {
     description: 'Aprenda Inglês de Verdade com o Professor Vitor Brandino.',
     feed_url: `${baseUrl}/feed.xml`,
     site_url: baseUrl,
-    image_url: `${baseUrl}/images/logo.png`,
+    image_url: `${baseUrl}/images/logo-learnenglish-br.png`,
     managingEditor: 'vitor@learnenglishbr.com.br (Vitor Brandino)',
     webMaster: 'vitor@learnenglishbr.com.br (Vitor Brandino)',
     copyright: `${new Date().getFullYear()} LearningEnglishBR`,

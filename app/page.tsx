@@ -29,13 +29,6 @@ export default async function LandingPage() {
     .eq('status', 'PUBLISHED')
     .order('created_at', { ascending: false })
 
-  const { data: blogPosts } = await supabase
-    .from('blog_posts')
-    .select('id, title, slug, excerpt, created_at, cover_image_url')
-    .eq('published', true)
-    .order('created_at', { ascending: false })
-    .limit(3)
-
   const organizationJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'EducationalOrganization',
@@ -111,7 +104,7 @@ export default async function LandingPage() {
         <Results stats={content.results.stats} />
         <Testimonials title={content.testimonials.title} subtitle={content.testimonials.subtitle} items={content.testimonials.items} />
         <Methodology title={content.methodology.title} section_subtitle={content.methodology.section_subtitle} paragraph_1={content.methodology.paragraph_1} paragraph_2={content.methodology.paragraph_2} paragraph_3={content.methodology.paragraph_3} steps={content.methodology.steps} />
-        <BlogPreview title={content.blog_preview.title} subtitle={content.blog_preview.subtitle} view_all_text={content.blog_preview.view_all_text} view_all_href={content.blog_preview.view_all_href} posts={blogPosts || []} />
+        <BlogPreview title={content.blog_preview.title} subtitle={content.blog_preview.subtitle} view_all_text={content.blog_preview.view_all_text} view_all_href={content.blog_preview.view_all_href} />
         <SocialProof paragraph_1={content.social_proof.paragraph_1} paragraph_2={content.social_proof.paragraph_2} />
         <CtaFinal title={content.cta.title} subtitle={content.cta.subtitle} button_text={content.cta.button_text} button_href={content.cta.button_href} />
       </main>

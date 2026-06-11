@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import { localeValue } from './bilingual'
 
 export interface SiteContent {
@@ -118,7 +118,7 @@ export interface SiteContent {
 }
 
 export async function getSiteContent(locale: 'pt' | 'en' = 'pt'): Promise<SiteContent> {
-  const supabase = await createClient()
+  const supabase = await createAdminClient()
 
   // Fetch all data in parallel
   const [
@@ -179,16 +179,16 @@ export async function getSiteContent(locale: 'pt' | 'en' = 'pt'): Promise<SiteCo
     { id: 'default-4', label: 'Avaliação Média', value_prefix: '', value_suffix: '/5', value_type: 'decimal', sort_order: 4 },
   ]
   const steps = stepsRes.data?.length ? stepsRes.data : [
-    { id: 'default-1', step_number: '01', title: 'Learn', description: 'High-quality straight-to-the-point theoretical lessons focused on real life.', icon_name: 'BookOpen', icon_color: 'text-primary', sort_order: 1 },
-    { id: 'default-2', step_number: '02', title: 'Practice', description: 'Focused gamified exercises for extreme retention and long-term memory.', icon_name: 'Target', icon_color: 'text-blue-500', sort_order: 2 },
-    { id: 'default-3', step_number: '03', title: 'Speak', description: 'Sessões de conversação ao vivo para destravar o seu speaking.', icon_name: 'MessagesSquare', icon_color: 'text-emerald-500', sort_order: 3 },
-    { id: 'default-4', step_number: '04', title: 'Fluency', description: 'Domínio avançado do inglês, reconhecido globalmente.', icon_name: 'Award', icon_color: 'text-amber-500', sort_order: 4 },
+    { id: 'default-1', step_number: '01', title: 'Aprender', description: 'Aulas teóricas de alta qualidade direto ao ponto, com foco na vida real.', icon_name: 'BookOpen', icon_color: 'text-primary', sort_order: 1 },
+    { id: 'default-2', step_number: '02', title: 'Praticar', description: 'Exercícios focados e gamificados para retenção extrema e memória de longo prazo.', icon_name: 'Target', icon_color: 'text-blue-500', sort_order: 2 },
+    { id: 'default-3', step_number: '03', title: 'Falar', description: 'Sessões de conversação ao vivo para destravar o seu speaking.', icon_name: 'MessagesSquare', icon_color: 'text-emerald-500', sort_order: 3 },
+    { id: 'default-4', step_number: '04', title: 'Fluência', description: 'Domínio avançado do inglês, reconhecido globalmente.', icon_name: 'Award', icon_color: 'text-amber-500', sort_order: 4 },
   ]
   const benefits = benefitsRes.data?.length ? benefitsRes.data : [
-    { id: 'default-1', text: 'Live classes', sort_order: 1 },
-    { id: 'default-2', text: 'One-on-one support', sort_order: 2 },
-    { id: 'default-3', text: 'Progress tracking', sort_order: 3 },
-    { id: 'default-4', text: 'Lifetime access', sort_order: 4 },
+    { id: 'default-1', text: 'Aulas ao vivo', sort_order: 1 },
+    { id: 'default-2', text: 'Suporte individual', sort_order: 2 },
+    { id: 'default-3', text: 'Acompanhamento de progresso', sort_order: 3 },
+    { id: 'default-4', text: 'Acesso vitalício', sort_order: 4 },
   ]
   const testimonials = testimonialsRes.data?.length ? testimonialsRes.data : [
     { id: 'default-1', name: 'Maria Silva', role: 'Aluna', content: 'Método incrível! Consegui finalmente destravar meu inglês.', image_url: '', rating: 5, is_active: true, sort_order: 1 },
@@ -252,18 +252,18 @@ export async function getSiteContent(locale: 'pt' | 'en' = 'pt'): Promise<SiteCo
   const wc = contentMap.why_choose || {}
 
   const galleryImages: string[] = a.gallery_images || [
-    '/images/1b633f1d-8a11-46fa-bb35-67a57ceb0820.jpg',
-    '/images/1deed1b3-7c7f-412b-9b53-8c351abf6f78.jpg',
-    '/images/70a978a5-8190-48a7-9e7f-01b66d726989.jpg',
-    '/images/7580baee-1eae-4df3-a457-f6b4360ac460.jpg',
-    '/images/77b455ab-4a7f-4cb7-b9aa-430ffd6fa1b2.jpg',
-    '/images/997057a3-9025-4574-9fdc-ae64d89e0e2f.jpg',
-    '/images/c2ad8f45-e651-40e8-aef8-b52cb6d9e9e8.jpg',
-    '/images/d6ba8d73-2dc4-4466-96ee-711918c3695e.jpg',
-    '/images/e9652d56-4de1-4684-b654-01a3cf8b3392.jpg',
-    '/images/ed1f1591-ba81-4efb-bc0b-40d422a7d54a.jpg',
-    '/images/f292fdac-d500-4e74-82ae-8f8229ba9238.jpg',
-    '/images/f8b641e7-afaf-40d1-9543-80902e2fd3a8.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-01.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-02.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-03.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-04.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-05.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-06.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-07.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-08.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-09.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-10.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-11.jpg',
+    '/images/professor-vitor-brandino-aula-ingles-12.jpg',
   ]
 
   return {
@@ -276,7 +276,7 @@ export async function getSiteContent(locale: 'pt' | 'en' = 'pt'): Promise<SiteCo
       cta_secondary_text: localeValue(h.cta_secondary_text, locale) || (locale === 'en' ? 'Test my English' : 'Testar meu Inglês'),
       cta_secondary_href: h.cta_secondary_href || '/teste-de-ingles',
       social_proof_text: localeValue(h.social_proof_text, locale) || (locale === 'en' ? '+2,500 satisfied students' : '+2.500 alunos satisfeitos'),
-      main_image: h.main_image || '/images/principal.jpg',
+      main_image: h.main_image || '/images/hero-aprender-ingles-online.jpg',
       benefits: benefits.map(b => ({ text: b.text })),
     },
     methodology: {
@@ -304,7 +304,7 @@ export async function getSiteContent(locale: 'pt' | 'en' = 'pt'): Promise<SiteCo
     },
     testimonials: {
       title: localeValue(t.title, locale) || (locale === 'en' ? 'What Our Students Say' : 'O Que Nossos Alunos Dizem'),
-      subtitle: localeValue(t.subtitle, locale) || '',
+      subtitle: localeValue(t.subtitle, locale) || (locale === 'en' ? '' : 'Depoimentos reais de alunos que transformaram suas vidas com nosso método.'),
       items: testimonials.map(tm => ({
         id: tm.id,
         name: tm.name,
@@ -350,7 +350,7 @@ export async function getSiteContent(locale: 'pt' | 'en' = 'pt'): Promise<SiteCo
         value_prefix: s.value_prefix,
         value_suffix: s.value_suffix,
         value_type: s.value_type,
-        value: s.value_type === 'decimal' ? 4.9 : parseInt(String(Math.random() * 2500)) || 0,
+        value: s.value_type === 'decimal' ? 4.9 : 2500,
       })),
     },
     header: {

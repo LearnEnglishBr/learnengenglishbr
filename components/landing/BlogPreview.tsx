@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import { FadeIn } from './FadeIn'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
@@ -10,16 +12,29 @@ interface BlogPreviewProps {
   subtitle: string
   view_all_text: string
   view_all_href: string
-  posts?: Array<{ id: string; title: string; slug: string; excerpt?: string | null; created_at: string; cover_image_url?: string | null }>
 }
 
-export function BlogPreview({ title, subtitle, view_all_text, view_all_href, posts = [] }: BlogPreviewProps) {
+export function BlogPreview({ title, subtitle, view_all_text, view_all_href }: BlogPreviewProps) {
   const { t, locale } = useLanguage()
-  const displayPosts = posts.length > 0 ? posts.slice(0, 3) : [
-    { id: '1', title: 'Como acelerar seu Listening', slug: 'acelerar-listening', created_at: new Date().toISOString() },
-    { id: '2', title: 'Vocabulário para Entrevistas', slug: 'vocabulario-entrevistas', created_at: new Date().toISOString() },
-    { id: '3', title: 'Erros comuns de brasileiros', slug: 'erros-comuns-brasileiros', created_at: new Date().toISOString() },
-  ]
+  const [posts, setPosts] = useState<Array<{ id: string; title: string; slug: string; excerpt?: string | null; created_at: string; cover_image_url?: string | null }>>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchPosts() {
+      const supabase = createClient()
+      const { data } = await supabase
+        .from('blog_posts')
+        .select('id, title, slug, excerpt, created_at, cover_image_url')
+        .eq('published', true)
+        .order('created_at', { ascending: false })
+        .limit(3)
+      if (data) setPosts(data)
+      setLoading(false)
+    }
+    fetchPosts()
+  }, [])
+
+  if (loading || posts.length === 0) return null
 
   return (
     <section id="blog" className="py-24 bg-muted/20 border-t border-border">
@@ -35,7 +50,7 @@ export function BlogPreview({ title, subtitle, view_all_text, view_all_href, pos
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {displayPosts.map((post, idx) => (
+          {posts.map((post, idx) => (
             <FadeIn key={post.id} delay={idx * 0.1}>
               <Link href={`/blog/${post.slug}`} className="group block rounded-2xl bg-card border border-border overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1">
                 <div className="aspect-video bg-muted relative overflow-hidden">

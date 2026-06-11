@@ -85,7 +85,7 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
         <div className="container mx-auto px-5 sm:px-6 lg:px-12 flex items-center justify-between relative">
           <Link href="/" className="flex items-center gap-2.5 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <Image 
-              src="/images/logo.png" 
+              src="/images/logo-learnenglish-br.png" 
               alt="Learneng English BR Logo" 
               width={36} 
               height={36} 

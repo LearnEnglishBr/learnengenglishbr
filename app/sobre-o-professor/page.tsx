@@ -16,7 +16,7 @@ export default function SobreOProfessorPage() {
     name: 'Vitor Brandino',
     jobTitle: 'Professor de Inglês Especialista',
     url: `${process.env.NEXT_PUBLIC_APP_URL}/sobre-o-professor`,
-    image: `${process.env.NEXT_PUBLIC_APP_URL}/images/professor.jpg`,
+    image: `${process.env.NEXT_PUBLIC_APP_URL}/images/professor-vitor-brandino-retrato.jpg`,
     sameAs: [
       'https://www.instagram.com/prof_vitor1',
       'https://youtube.com/@teachervitor-learnenglishbr',
@@ -40,9 +40,9 @@ export default function SobreOProfessorPage() {
           
           <div className="flex flex-col md:flex-row items-center gap-12 mt-8">
             <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-background shadow-xl flex-shrink-0 bg-accent relative">
-              {/* O usuário deve enviar uma foto para /public/images/professor.jpg depois */}
+              {/* O usuário deve enviar uma foto para /public/images/professor-vitor-brandino-retrato.jpg depois */}
               <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-medium text-sm text-center px-4">
-                [Adicionar imagem em /public/images/professor.jpg]
+                [Adicionar imagem em /public/images/professor-vitor-brandino-retrato.jpg]
               </div>
             </div>
             
