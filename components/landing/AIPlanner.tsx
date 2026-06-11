@@ -75,7 +75,7 @@ export const AIPlanner = () => {
               <button
                 onClick={generatePlan}
                 disabled={loading}
-                className="self-end px-5 py-2 bg-primary text-white rounded-full hover:bg-primary/90 disabled:opacity-50 transition"
+                className="self-center md:self-end px-5 py-2 bg-primary text-white rounded-full hover:bg-primary/90 disabled:opacity-50 transition"
               >
                 {loading ? t('Gerando…') : t('Criar Meu Plano Gratuito')}
               </button>

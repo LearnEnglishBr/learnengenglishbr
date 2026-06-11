@@ -69,7 +69,7 @@ export const InterviewSimulator = () => {
               value={answer}
               onChange={e => setAnswer(e.target.value)}
             />
-            <div className="flex justify-end mt-3">
+            <div className="flex justify-center md:justify-end mt-3">
               <motion.button
                 onClick={submitAnswer}
                 className="px-5 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition"
