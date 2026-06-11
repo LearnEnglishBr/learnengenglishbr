@@ -15,6 +15,9 @@ GRANT SELECT ON blog_posts TO anon;
 -- SEED: 3 Artigos de Blog
 -- ============================================
 
+-- Remove duplicatas caso já existam (rerun-safe)
+DELETE FROM blog_posts WHERE slug IN ('como-aprender-ingles-sozinho', 'frases-em-ingles-mais-usadas', 'ingles-para-viagem');
+
 -- ARTIGO 1: Como Aprender Inglês Sozinho
 INSERT INTO blog_posts (author_id, title, slug, content, excerpt, cover_image_url, status, published, published_at, meta_title, meta_description, focus_keyword, seo_score, categories, tags)
 SELECT
