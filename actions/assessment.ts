@@ -236,34 +236,27 @@ export async function getAssessmentQuestionsAction(testId: string) {
 
 export async function getTestAction() {
   try {
-    console.log('[DEBUG getTestAction] Starting...')
     const supabase = await createClient()
 
-    console.log('[DEBUG getTestAction] Querying english_tests with anon key...')
     let { data, error } = await supabase
       .from('english_tests')
       .select('id, title, description, question_count, time_estimate_minutes')
       .eq('is_active', true)
       .single()
 
-    console.log('[DEBUG getTestAction] Anon query result:', { data, error })
-
     if (error || !data) {
-      console.log('[DEBUG getTestAction] Anon query failed, trying admin client...')
       const admin = await createAdminClient()
-      const { data: newTest, error: insertError } = await admin.from('english_tests').insert({
+      const { data: newTest } = await admin.from('english_tests').insert({
         title: 'Teste de Nível de Inglês',
         description: 'Avaliação completa de proficiência em inglês.',
         is_active: true,
         question_count: 40,
         time_estimate_minutes: 25,
       }).select('id, title, description, question_count, time_estimate_minutes').single()
-      console.log('[DEBUG getTestAction] Admin insert result:', { newTest, insertError })
       if (!newTest) return { error: 'Nenhum teste ativo encontrado' }
       data = newTest
     }
 
-    console.log('[DEBUG getTestAction] Success:', data.id)
     return {
       success: true,
       id: data.id,
@@ -273,7 +266,6 @@ export async function getTestAction() {
       timeEstimateMinutes: data.time_estimate_minutes,
     }
   } catch (e: any) {
-    console.error('[DEBUG getTestAction] Exception:', e.message)
     return { error: e.message }
   }
 }
