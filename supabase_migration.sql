@@ -19,3 +19,6 @@ COMMENT ON COLUMN public.blog_posts.focus_keyword IS 'Palavra-chave principal (T
 COMMENT ON COLUMN public.blog_posts.seo_score IS 'Pontuação calculada pela IA ou pelo Sidebar (0 a 100)';
 COMMENT ON COLUMN public.blog_posts.tags IS 'Tags do artigo';
 COMMENT ON COLUMN public.blog_posts.categories IS 'Categorias do artigo';
+
+-- Grants para o role anon (público)
+GRANT SELECT ON blog_posts TO anon;

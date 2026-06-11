@@ -10,7 +10,7 @@ interface BlogPreviewProps {
   subtitle: string
   view_all_text: string
   view_all_href: string
-  posts?: Array<{ id: string; title: string; slug: string; excerpt?: string | null; created_at: string }>
+  posts?: Array<{ id: string; title: string; slug: string; excerpt?: string | null; created_at: string; cover_image_url?: string | null }>
 }
 
 export function BlogPreview({ title, subtitle, view_all_text, view_all_href, posts = [] }: BlogPreviewProps) {
@@ -39,7 +39,7 @@ export function BlogPreview({ title, subtitle, view_all_text, view_all_href, pos
             <FadeIn key={post.id} delay={idx * 0.1}>
               <Link href={`/blog/${post.slug}`} className="group block rounded-2xl bg-card border border-border overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1">
                 <div className="aspect-video bg-muted relative overflow-hidden">
-                   <img src={`https://images.unsplash.com/photo-1513258496099-481620d4ce8d?auto=format&fit=crop&q=80&w=800&sig=${idx}`} alt="" className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+                   <img src={post.cover_image_url || `https://images.unsplash.com/photo-1513258496099-481620d4ce8d?auto=format&fit=crop&q=80&w=800&sig=${idx}`} alt="" className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">

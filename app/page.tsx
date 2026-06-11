@@ -31,7 +31,7 @@ export default async function LandingPage() {
 
   const { data: blogPosts } = await supabase
     .from('blog_posts')
-    .select('id, title, slug, excerpt, created_at')
+    .select('id, title, slug, excerpt, created_at, cover_image_url')
     .eq('published', true)
     .order('created_at', { ascending: false })
     .limit(3)

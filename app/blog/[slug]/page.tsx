@@ -56,6 +56,12 @@ export default function BlogPostPage() {
             </Link>
           </div>
 
+          {post.cover_image_url && (
+            <div className="aspect-video rounded-2xl overflow-hidden mb-10">
+              <img src={post.cover_image_url} alt={post.title} className="object-cover w-full h-full" />
+            </div>
+          )}
+
           <header className="mb-12 border-b border-border pb-8">
             <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">{t(post.title)}</h1>
             

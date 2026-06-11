@@ -17,7 +17,7 @@ export default function BlogPage() {
     async function fetchData() {
       const supabase = createClient()
       const [postsRes, headerRes, footerRes] = await Promise.all([
-        supabase.from('blog_posts').select('id, title, slug, excerpt, created_at').eq('published', true).order('created_at', { ascending: false }),
+        supabase.from('blog_posts').select('id, title, slug, excerpt, created_at, cover_image_url').eq('published', true).order('created_at', { ascending: false }),
         supabase.from('site_content').select('value').eq('key', 'header').single(),
         supabase.from('site_content').select('value').eq('key', 'footer').single(),
       ])
@@ -53,12 +53,15 @@ export default function BlogPage() {
               <p className="text-muted-foreground">{t('Em breve novos artigos serão publicados.')}</p>
             ) : (
               posts.map((post) => (
-                <Link key={post.id} href={`/blog/${post.slug}`} className="group relative rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50 flex flex-col">
-                  <div className="flex-1 space-y-4">
+                <Link key={post.id} href={`/blog/${post.slug}`} className="group relative rounded-2xl border border-border bg-card shadow-sm transition-all hover:shadow-md hover:border-primary/50 flex flex-col overflow-hidden">
+                  <div className="aspect-video bg-muted overflow-hidden">
+                    <img src={post.cover_image_url || `https://images.unsplash.com/photo-1513258496099-481620d4ce8d?auto=format&fit=crop&q=80&w=800`} alt={post.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  <div className="p-6 flex-1 space-y-4">
                     <h3 className="text-xl font-bold leading-tight group-hover:text-primary transition-colors">{t(post.title)}</h3>
                     <p className="text-sm text-muted-foreground line-clamp-3">{post.excerpt ? t(post.excerpt) : ''}</p>
                   </div>
-                  <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-sm text-muted-foreground">
+                  <div className="px-6 pb-6 pt-0 flex items-center justify-between text-sm text-muted-foreground">
                     <span>{new Date(post.created_at).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-BR')}</span>
                     <span className="font-medium text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
                       {t('Ler mais')} &rarr;
