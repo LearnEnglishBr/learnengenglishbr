@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Check, X, Loader2, AlertCircle, RefreshCw, ArrowLeft } from 'lucide-react'
+import { Check, X, Loader2, AlertCircle, RefreshCw, ArrowLeft, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
   getTestAction,
@@ -231,11 +231,21 @@ export default function AvaliacaoPage() {
               <span className="text-sm text-muted-foreground font-medium">
                 Pergunta {currentIndex + 1} de {totalQuestions}
               </span>
-              {currentQuestion.category && (
-                <span className="rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-medium px-3 py-1">
-                  {currentQuestion.category}
-                </span>
-              )}
+              <div className="flex items-center gap-3">
+                {currentQuestion.category && (
+                  <span className="rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-medium px-3 py-1">
+                    {currentQuestion.category}
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={() => router.replace('/')}
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-destructive transition-colors"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  Desistir
+                </button>
+              </div>
             </div>
 
             <AnimatePresence mode="wait">

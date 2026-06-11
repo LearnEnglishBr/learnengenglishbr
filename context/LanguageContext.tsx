@@ -228,6 +228,7 @@ const en: Record<string, string> = {
   'Carregando questões...': 'Loading questions...',
   'Pergunta': 'Question',
   'Finalizando...': 'Finalizing...',
+  'Desistir': 'Give up',
   'Nenhum teste ativo encontrado': 'No active test found',
   'Nenhuma resposta encontrada': 'No answers found',
   'Tentativa não encontrada': 'Attempt not found',
