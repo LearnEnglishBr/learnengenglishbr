@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { TiptapEditor } from '@/components/admin/TiptapEditor'
 import { SEOSidebar } from '@/components/admin/SEOSidebar'
 import { generateFullArticleAction, saveBlogPostAction, aiAssistAction } from '@/actions/ai'
+import { uploadFileAction } from '@/actions/upload'
 import { Sparkles, Save, ArrowLeft, Loader2, PenTool, Wand2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -36,6 +37,7 @@ export default function NewBlogPostPage() {
   // Loading States
   const [isGenerating, setIsGenerating] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [coverUploading, setCoverUploading] = useState(false)
 
   const handleGenerateAI = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -291,12 +293,44 @@ export default function NewBlogPostPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1.5">URL da Imagem de Capa</label>
+                  <label className="block text-sm font-medium mb-1.5">Imagem de Capa</label>
+                  {/* Visualiza a imagem se houver URL */}
+                  {coverImageUrl && (
+                    <img src={coverImageUrl} alt="Capa" className="mb-2 w-full max-h-48 object-cover rounded" />
+                  )}
                   <input 
                     type="text" value={coverImageUrl} onChange={e => setCoverImageUrl(e.target.value)}
-                    placeholder="https://..."
+                    placeholder="https://... (ou deixe vazio para upload)"
                     className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   />
+                  <div className="mt-2 flex items-center gap-2">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="coverUpload"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0]
+                        if (!file) return
+                        setCoverUploading(true)
+                        const formData = new FormData()
+                        formData.set('file', file)
+                        formData.set('folder', '/blog_covers')
+                        const res = await uploadFileAction(formData)
+                        setCoverUploading(false)
+                        if (res?.success) {
+                          setCoverImageUrl(res.url)
+                        } else {
+                          alert(res?.error || 'Erro ao fazer upload da imagem')
+                        }
+                        // Reset file input
+                        e.target.value = ''
+                      }}
+                    />
+                    <label htmlFor="coverUpload" className={`cursor-pointer inline-flex items-center px-3 py-1.5 border border-input rounded-md text-sm ${coverUploading ? 'opacity-50 cursor-wait' : ''}`}>
+                      {coverUploading ? 'Enviando...' : 'Upload da Imagem'}
+                    </label>
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
