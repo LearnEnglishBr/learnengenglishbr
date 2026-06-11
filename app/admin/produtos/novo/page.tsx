@@ -79,17 +79,19 @@ export default function NovoProdutoPage() {
       formData.set('id', productId)
     }
 
-    try {
-      if (isEditing) {
-        await updateDigitalProductAction(formData)
-      } else {
-        await createDigitalProductAction(formData)
-      }
-      router.push('/admin/produtos')
-    } catch (err: any) {
-      setError(err.message || 'Erro ao salvar produto.')
+    // Invoke the appropriate server action and handle any returned error
+    const result = isEditing
+      ? await updateDigitalProductAction(formData)
+      : await createDigitalProductAction(formData)
+
+    if (result?.error) {
+      // Display the error returned from the server action
+      setError(result.error)
       setSubmitting(false)
+      return
     }
+    // Success – navigate back to the products list
+    router.push('/admin/produtos')
   }
 
   if (loading) {

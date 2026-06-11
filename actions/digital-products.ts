@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
+
 import { cookies } from 'next/headers'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 
@@ -40,11 +40,21 @@ export async function createDigitalProductAction(formData: FormData) {
   const show_on_homepage = formData.get('show_on_homepage') === 'on'
 
   const { error } = await supabase.from('digital_products').insert({
-    title, description, file_url, cover_image, price, show_on_homepage,
+    title,
+    description,
+    file_url,
+    cover_image,
+    price,
+    show_on_homepage,
   })
-  if (error) throw error
+  if (error) {
+    // Return error instead of throwing to avoid 500 response
+    return { error: error.message }
+  }
+  // Invalidate ISR cache for the products list page
   revalidatePath('/admin/produtos')
-  redirect('/admin/produtos')
+  // Successful creation; caller can handle navigation
+  return { success: true }
 }
 
 export async function updateDigitalProductAction(formData: FormData) {
@@ -58,18 +68,30 @@ export async function updateDigitalProductAction(formData: FormData) {
   const show_on_homepage = formData.get('show_on_homepage') === 'on'
 
   const { error } = await supabase
-    .from('digital_products').update({ title, description, file_url, cover_image, price, show_on_homepage }).eq('id', id)
-  if (error) throw error
+    .from('digital_products')
+    .update({ title, description, file_url, cover_image, price, show_on_homepage })
+    .eq('id', id)
+
+  if (error) {
+    // Return error information instead of throwing
+    return { error: error.message }
+  }
   revalidatePath('/admin/produtos')
-  redirect('/admin/produtos')
+  // Caller will handle navigation after successful update
+  return { success: true }
 }
 
 export async function deleteDigitalProductAction(formData: FormData) {
   const supabase = await checkAdmin()
   const id = formData.get('id') as string
   const { error } = await supabase.from('digital_products').delete().eq('id', id)
-  if (error) throw error
+
+  if (error) {
+    // Return error instead of throwing to avoid 500 errors
+    return { error: error.message }
+  }
   revalidatePath('/admin/produtos')
+  return { success: true }
 }
 
 export async function uploadProductFileAction(formData: FormData) {

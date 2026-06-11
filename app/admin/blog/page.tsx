@@ -1,15 +1,29 @@
-import { createClient } from '@/lib/supabase/server'
-import { FileText, Plus, BarChart2 } from 'lucide-react'
-import Link from 'next/link'
+"use client";
 
-export default async function AdminBlogPage() {
-  const supabase = await createClient()
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { FileText, Plus, BarChart2 } from "lucide-react";
+import Link from "next/link";
 
-  // Buscar posts com os novos campos de SEO
-  const { data: posts } = await supabase
-    .from('blog_posts')
-    .select('id, title, slug, created_at, published, seo_score, focus_keyword, categories')
-    .order('created_at', { ascending: false })
+export default function AdminBlogPage() {
+  const supabase = createClient();
+  const [posts, setPosts] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .select("id, title, slug, created_at, published, seo_score, focus_keyword, categories")
+        .order("created_at", { ascending: false });
+      if (error) {
+        console.error("Error loading posts:", error);
+        setPosts([]);
+      } else {
+        setPosts(data ?? []);
+      }
+    }
+    fetchPosts();
+  }, [supabase]);
 
   return (
     <div className="max-w-[1400px] mx-auto p-6">
@@ -18,7 +32,7 @@ export default async function AdminBlogPage() {
           <h1 className="text-3xl font-bold mb-2">Painel do Blog</h1>
           <p className="text-muted-foreground">Gerencie seus artigos e acompanhe a otimização SEO.</p>
         </div>
-        <Link 
+        <Link
           href="/admin/blog/novo"
           className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 whitespace-nowrap"
         >
@@ -40,7 +54,7 @@ export default async function AdminBlogPage() {
               </tr>
             </thead>
             <tbody className="[&_tr:last-child]:border-0">
-              {!posts || posts.length === 0 ? (
+              {posts.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="p-8 text-center text-muted-foreground">
                     <div className="flex flex-col items-center gap-2">
@@ -70,26 +84,23 @@ export default async function AdminBlogPage() {
                       {post.categories && post.categories.length > 0 ? post.categories.join(', ') : '-'}
                     </td>
                     <td className="p-4 align-middle text-center">
-                      {post.seo_score !== null && post.seo_score !== undefined ? (
+                      {post.seo_score != null ? (
                         <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold ${
-                          post.seo_score >= 80 ? 'bg-green-100 text-green-800' : 
-                          post.seo_score >= 50 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'
-                        }`}>
-                          {post.seo_score}
-                        </span>
+                          post.seo_score >= 80 ? 'bg-green-100 text-green-800' :
+                          post.seo_score >= 50 ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-red-100 text-red-800'
+                        }`}> {post.seo_score} </span>
                       ) : (
                         <span className="text-muted-foreground/50">-</span>
                       )}
                     </td>
                     <td className="p-4 align-middle">
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${post.published ? 'bg-green-100 text-green-800' : 'bg-secondary text-secondary-foreground'}`}>
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${post.published ? 'bg-green-100 text-green-800' : 'bg-secondary text-secondary-foreground'}`}> 
                         {post.published ? 'Publicado' : 'Rascunho'}
                       </span>
                     </td>
                     <td className="p-4 align-middle">
-                      <Link href={`/admin/blog/editar/${post.id}`} className="text-primary hover:underline text-sm font-medium">
-                        Editar
-                      </Link>
+                      <Link href={`/admin/blog/editar/${post.id}`} className="text-primary hover:underline text-sm font-medium">Editar</Link>
                     </td>
                   </tr>
                 ))
@@ -99,5 +110,5 @@ export default async function AdminBlogPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
