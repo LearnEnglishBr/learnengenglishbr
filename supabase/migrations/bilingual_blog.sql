@@ -6,6 +6,9 @@
 GRANT ALL ON profiles TO service_role;
 -- Grant authenticated SELECT on profiles (needed for dashboard profile check)
 GRANT SELECT ON profiles TO authenticated;
+-- Grant SELECT on purchases (needed for dashboard "meus cursos" query)
+GRANT SELECT ON purchases TO authenticated;
+GRANT SELECT ON purchases TO service_role;
 
 -- Update approach: set content as JSON with both PT and EN versions
 -- DO NOT use jsonb type for the column, just store JSON as text to avoid schema change

@@ -1,25 +1,41 @@
-import { createClient } from '@/lib/supabase/server'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import { Loader2 } from 'lucide-react'
 
-export default async function DashboardPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export default function DashboardPage() {
+  const [purchases, setPurchases] = useState<any[] | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  // Buscar os cursos comprados
-  const { data: purchases } = await supabase
-    .from('purchases')
-    .select(`
-      id,
-      course:courses (
-        id,
-        title,
-        description,
-        thumbnail,
-        slug
-      )
-    `)
-    .eq('user_id', user?.id)
-    .eq('status', 'COMPLETED')
+  useEffect(() => {
+    async function fetchData() {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) { setLoading(false); return }
+
+      const { data } = await supabase
+        .from('purchases')
+        .select(`
+          id,
+          course:courses (
+            id,
+            title,
+            description,
+            thumbnail,
+            slug
+          )
+        `)
+        .eq('user_id', user.id)
+        .eq('status', 'COMPLETED')
+      setPurchases(data || [])
+      setLoading(false)
+    }
+    fetchData()
+  }, [])
+
+  if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
 
   return (
     <div>
@@ -38,7 +54,6 @@ export default async function DashboardPage() {
           {purchases.map((purchase: any) => (
             <div key={purchase.id} className="group relative rounded-xl border border-border bg-card overflow-hidden hover:shadow-md transition-all">
               <div className="aspect-video bg-muted/50 w-full relative">
-                {/* Fallback image if thumbnail is null */}
                 {purchase.course.thumbnail ? (
                    <img src={purchase.course.thumbnail} alt={purchase.course.title} className="object-cover w-full h-full" />
                 ) : (

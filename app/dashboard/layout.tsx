@@ -11,6 +11,7 @@ import { useLanguage } from '@/context/LanguageContext'
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
+  const { t, locale, setLocale } = useLanguage()
   const [checkingProfile, setCheckingProfile] = useState(true)
 
   useEffect(() => {
@@ -46,7 +47,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
     )
   }
-  const { t, locale, setLocale } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const sidebarContent = (
