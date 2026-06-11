@@ -4,6 +4,8 @@
 
 -- Grant service_role full access to profiles (needed for onboarding upsert)
 GRANT ALL ON profiles TO service_role;
+-- Grant authenticated SELECT on profiles (needed for dashboard profile check)
+GRANT SELECT ON profiles TO authenticated;
 
 -- Update approach: set content as JSON with both PT and EN versions
 -- DO NOT use jsonb type for the column, just store JSON as text to avoid schema change
