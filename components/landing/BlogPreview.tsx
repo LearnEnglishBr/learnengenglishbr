@@ -34,7 +34,12 @@ export function BlogPreview({ title, subtitle, view_all_text, view_all_href }: B
     fetchPosts()
   }, [])
 
-  if (loading || posts.length === 0) return null
+  if (loading) {
+  return <div className="text-center py-8 text-muted-foreground">{t('Carregando...')}</div>;
+}
+if (posts.length === 0) {
+  return <div className="text-center py-8 text-muted-foreground">{t('Em breve novos artigos serão publicados.')}</div>;
+}
 
   return (
     <section id="blog" className="py-24 bg-muted/20 border-t border-border">
