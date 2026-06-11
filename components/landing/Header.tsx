@@ -116,7 +116,7 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
               ))}
               <div className="h-4 w-px bg-border ml-2"></div>
             </div>
-            <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <button onClick={() => setLocale(locale === 'pt' ? 'en' : 'pt')} className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               <Globe className="w-4 h-4" /> {t('PT')}
             </button>
             <div className="h-4 w-px bg-border hidden sm:block"></div>
@@ -172,6 +172,18 @@ export function Header({ navigation, social_links, logo_text }: HeaderProps) {
               ))}
 
               <div className="flex flex-col gap-3 mt-6 w-full max-w-xs">
+                {/* Mobile social links */}
+                <div className="flex gap-4 mb-4 justify-center">
+                  {social_links.map(social => (
+                    <a key={social.platform} href={social.url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label={social.platform}>
+                      {socialIcons[social.platform] || (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+                          <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                      )}
+                    </a>
+                  ))}
+                </div>
                 <Link 
                   href="/login" 
                   onClick={() => setMobileMenuOpen(false)}

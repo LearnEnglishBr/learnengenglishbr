@@ -69,7 +69,7 @@ export default async function AdminProdutosPage() {
                       }).format(product.price)}
                     </td>
                     <td className="p-4 align-middle">
-                      <form action={updateDigitalProductAction}>
+                      <form action={updateDigitalProductAction as any}>
                         <input type="hidden" name="id" value={product.id} />
                         <input type="hidden" name="title" value={product.title} />
                         <input type="hidden" name="description" value={product.description || ''} />
@@ -97,7 +97,7 @@ export default async function AdminProdutosPage() {
                         >
                           <Pencil className="w-4 h-4" />
                         </Link>
-                        <form action={deleteDigitalProductAction}>
+                        <form action={deleteDigitalProductAction as any}>
                           <input type="hidden" name="id" value={product.id} />
                           <button
                             type="submit"
